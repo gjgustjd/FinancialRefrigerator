@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FinancialRefrigerator"
-        android:name=".GlobalApplication">
+        android:name=".common.GlobalApplication">
         <activity android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

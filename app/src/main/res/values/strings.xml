@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">FinancialRefrigerator</string>
+    <string name="home">홈</string>
+    <string name="cook_plan">요리 계획</string>
+    <string name="refrigerator">냉장고</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

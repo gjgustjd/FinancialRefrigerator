@@ -1,8 +1,7 @@
-package com.study.financialrefrigerator
+package com.study.financialrefrigerator.presentation
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.databinding.DataBindingUtil
+import com.study.financialrefrigerator.R
 import com.study.financialrefrigerator.base.BaseActivity
 import com.study.financialrefrigerator.databinding.ActivityMainBinding
 

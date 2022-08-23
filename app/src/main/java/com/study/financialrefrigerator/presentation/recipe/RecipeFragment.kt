@@ -9,6 +9,10 @@ import com.study.financialrefrigerator.databinding.FragmentRecipeBinding
 
 class RecipeFragment : BaseFragment<FragmentRecipeBinding>() {
 
+    companion object {
+        const val TAG = "RECIPE_FRAGMENT"
+    }
+
     override val layoutId: Int
         get() = R.layout.fragment_recipe
 

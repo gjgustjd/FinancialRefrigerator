@@ -8,6 +8,10 @@ import com.study.financialrefrigerator.databinding.FragmentHomeBinding
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
+    companion object {
+        const val TAG = "HOME_FRAGMENT"
+    }
+
     override val layoutId: Int
         get() = R.layout.fragment_home
 

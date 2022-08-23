@@ -7,6 +7,11 @@ import com.study.financialrefrigerator.base.BaseFragment
 import com.study.financialrefrigerator.databinding.FragmentRefrigeratorBinding
 
 class RefrigeratorFragment : BaseFragment<FragmentRefrigeratorBinding>() {
+
+    companion object {
+        const val TAG = "REFRIGERATOR_FRAGMENT"
+    }
+
     override val layoutId: Int
         get() = R.layout.fragment_refrigerator
 

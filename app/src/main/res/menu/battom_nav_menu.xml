@@ -7,6 +7,6 @@
         android:id="@+id/recipe_menu"
         android:title="@string/cook_plan"
         />
-    <item android:id="@+id/refrigerator"
+    <item android:id="@+id/refrigerator_menu"
         android:title="@string/refrigerator"/>
 </menu>

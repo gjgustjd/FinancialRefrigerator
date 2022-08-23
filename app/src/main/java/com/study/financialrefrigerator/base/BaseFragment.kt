@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 
 abstract class BaseFragment<Binding : ViewDataBinding> : Fragment() {
     private var _binding: Binding? = null
-    open val binding = _binding!!
+    open val binding get() = _binding!!
 
     abstract val layoutId: Int
 

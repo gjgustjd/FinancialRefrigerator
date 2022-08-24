@@ -18,6 +18,6 @@ interface IngredientsDAO {
     @Delete
     fun delete(item: IngredientItem)
 
-    @Query("SELECT * FROM ingredients WHERE name LIKE :word")
-    suspend fun getIngredient(word: String): List<IngredientItem>
+    @Query("SELECT * FROM ingredients")
+    suspend fun getAllIngredient(): List<IngredientItem>
 }

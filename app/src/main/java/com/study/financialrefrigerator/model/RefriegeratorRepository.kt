@@ -6,12 +6,11 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class RefriegeratorRepository {
+class RefriegeratorRepository @Inject constructor(
+    var ingredientsDatabase: IngredientsDatabase
+) {
 
-    @Inject
-    lateinit var ingredientsDatabase: IngredientsDatabase
-
-    fun insertIngredients(item:IngredientItem)=
+    fun insertIngredients(item: IngredientItem) =
         ingredientsDatabase.ingredientsDao().insert(item)
 
     fun deleteIngredients(item:IngredientItem)=

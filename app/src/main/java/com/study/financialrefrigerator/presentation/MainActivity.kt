@@ -14,9 +14,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     override val layoutId: Int
         get() = R.layout.activity_main
 
-    private val homeFragment by lazy { HomeFragment() }
-    private val recipeFragment by lazy { RecipeFragment() }
-    private val refrigeratorFragment by lazy { RefrigeratorFragment() }
+    private val homeFragment by lazy { HomeFragment.newInstance() }
+    private val recipeFragment by lazy { RecipeFragment.newInstance() }
+    private val refrigeratorFragment by lazy { RefrigeratorFragment.newInstance() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

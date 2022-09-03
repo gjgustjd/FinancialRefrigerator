@@ -1,25 +1,35 @@
 package com.study.financialrefrigerator.model
 
-import android.content.Context
 import com.study.financialrefrigerator.model.ingredient.IngredientItem
-import com.study.financialrefrigerator.model.ingredient.IngredientsDatabase
+import com.study.financialrefrigerator.model.recipe.RecipeItem
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class RefriegeratorRepository @Inject constructor(
-    var ingredientsDatabase: IngredientsDatabase
+    var refrigeratorDatabase: RefrigeratorDatabase
 ) {
-
     fun insertIngredients(item: IngredientItem) =
-        ingredientsDatabase.ingredientsDao().insert(item)
+        refrigeratorDatabase.ingredientsDao().insert(item)
 
     fun deleteIngredients(item:IngredientItem)=
-        ingredientsDatabase.ingredientsDao().delete(item)
+        refrigeratorDatabase.ingredientsDao().delete(item)
 
     fun updateIngredients(item:IngredientItem)=
-        ingredientsDatabase.ingredientsDao().update(item)
+        refrigeratorDatabase.ingredientsDao().update(item)
 
     suspend fun getAllIngredient(): List<IngredientItem> =
-        ingredientsDatabase.ingredientsDao().getAllIngredient()
+        refrigeratorDatabase.ingredientsDao().getAllIngredient()
+
+    fun insertRecipe(item: RecipeItem) =
+        refrigeratorDatabase.recipesDao().insert(item)
+
+    fun deleteRecipe(item:RecipeItem)=
+        refrigeratorDatabase.recipesDao().delete(item)
+
+    fun updateRecipe(item:RecipeItem)=
+        refrigeratorDatabase.recipesDao().update(item)
+
+    suspend fun getRecipe(word:String): List<RecipeItem> =
+        refrigeratorDatabase.recipesDao().getRecipe(word)
 }

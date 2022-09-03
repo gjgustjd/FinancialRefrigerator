@@ -2,7 +2,6 @@ package com.study.financialrefrigerator.model
 
 import android.content.Context
 import androidx.room.Room
-import com.study.financialrefrigerator.model.ingredient.IngredientsDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,8 +14,8 @@ import javax.inject.Singleton
 class CommonHiltModule {
     @Provides
     @Singleton
-    fun getDatabase(@ApplicationContext context: Context): IngredientsDatabase =
-        Room.databaseBuilder(context, IngredientsDatabase::class.java, "refrigerator")
+    fun getDataBase(@ApplicationContext context: Context): RefrigeratorDatabase =
+        Room.databaseBuilder(context, RefrigeratorDatabase::class.java, "refrigerator")
             .createFromAsset("databases/refrigerator.db")
             .fallbackToDestructiveMigration()
             .build()

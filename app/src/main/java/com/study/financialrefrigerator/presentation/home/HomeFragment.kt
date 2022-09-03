@@ -41,5 +41,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 Log.i("ingredientsAdater",it.toString())
             }
         }
+        binding.titleBar.txtHomeTitle.text = "요리 검색"
     }
 }

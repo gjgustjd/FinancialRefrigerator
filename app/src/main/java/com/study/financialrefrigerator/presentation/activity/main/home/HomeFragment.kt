@@ -1,13 +1,18 @@
 package com.study.financialrefrigerator.presentation.activity.main.home
 
+import android.content.Intent
 import android.os.Bundle
+import android.text.method.KeyListener
 import android.util.Log
+import android.view.KeyEvent
 import android.view.View
+import android.view.View.OnKeyListener
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.study.financialrefrigerator.R
 import com.study.financialrefrigerator.base.BaseFragment
 import com.study.financialrefrigerator.databinding.FragmentHomeBinding
+import com.study.financialrefrigerator.presentation.activity.search.SearchRecipesActivity
 import javax.inject.Inject
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
@@ -35,9 +40,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             viewModel.homeIngredients.observe(it)
             {
                 ingredientsAdapter.setItems(it)
-                Log.i("ingredientsAdater",it.toString())
             }
         }
         binding.titleBar.txtHomeTitle.text = "요리 검색"
+        binding.edtHomeSearchRecipe.setOnKeyListener { _, keyCode, _ ->
+            if (keyCode == KeyEvent.KEYCODE_ENTER)
+                startActivity(
+                    Intent(activity, SearchRecipesActivity::class.java)
+                        .putExtra("ingredient_name", binding.edtHomeSearchRecipe.text.toString())
+                )
+
+            true
+        }
     }
 }

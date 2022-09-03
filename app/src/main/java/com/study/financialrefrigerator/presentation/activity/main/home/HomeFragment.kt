@@ -1,4 +1,4 @@
-package com.study.financialrefrigerator.presentation.home
+package com.study.financialrefrigerator.presentation.activity.main.home
 
 import android.os.Bundle
 import android.util.Log
@@ -8,14 +8,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.study.financialrefrigerator.R
 import com.study.financialrefrigerator.base.BaseFragment
 import com.study.financialrefrigerator.databinding.FragmentHomeBinding
+import javax.inject.Inject
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private val viewModel: HomeViewModel by activityViewModels()
-    private val ingredientsAdapter by lazy {
-        HomeIngredientsAdapter(
-            viewModel.homeIngredients.value ?: listOf()
-        )
-    }
+    private val ingredientsAdapter by lazy{HomeIngredientsAdapter(requireActivity(), listOf())}
 
     companion object {
         const val TAG = "HOME_FRAGMENT"

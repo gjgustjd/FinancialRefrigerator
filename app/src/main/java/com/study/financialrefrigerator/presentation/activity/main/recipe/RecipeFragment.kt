@@ -1,23 +1,23 @@
-package com.study.financialrefrigerator.presentation.refrigerator
+package com.study.financialrefrigerator.presentation.activity.main.recipe
 
 import android.os.Bundle
 import android.view.View
 import com.study.financialrefrigerator.R
 import com.study.financialrefrigerator.base.BaseFragment
-import com.study.financialrefrigerator.databinding.FragmentRefrigeratorBinding
+import com.study.financialrefrigerator.databinding.FragmentRecipeBinding
 
-class RefrigeratorFragment : BaseFragment<FragmentRefrigeratorBinding>() {
+
+class RecipeFragment : BaseFragment<FragmentRecipeBinding>() {
 
     companion object {
-        const val TAG = "REFRIGERATOR_FRAGMENT"
+        const val TAG = "RECIPE_FRAGMENT"
     }
 
     override val layoutId: Int
-        get() = R.layout.fragment_refrigerator
+        get() = R.layout.fragment_recipe
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
     }
-
 }

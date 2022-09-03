@@ -1,4 +1,4 @@
-package com.study.financialrefrigerator.presentation
+package com.study.financialrefrigerator.presentation.activity.main
 
 import android.os.Bundle
 import androidx.activity.viewModels
@@ -6,10 +6,10 @@ import androidx.fragment.app.Fragment
 import com.study.financialrefrigerator.R
 import com.study.financialrefrigerator.base.BaseActivity
 import com.study.financialrefrigerator.databinding.ActivityMainBinding
-import com.study.financialrefrigerator.presentation.home.HomeFragment
-import com.study.financialrefrigerator.presentation.home.HomeViewModel
-import com.study.financialrefrigerator.presentation.recipe.RecipeFragment
-import com.study.financialrefrigerator.presentation.refrigerator.RefrigeratorFragment
+import com.study.financialrefrigerator.presentation.activity.main.home.HomeFragment
+import com.study.financialrefrigerator.presentation.activity.main.home.HomeViewModel
+import com.study.financialrefrigerator.presentation.activity.main.recipe.RecipeFragment
+import com.study.financialrefrigerator.presentation.activity.main.refrigerator.RefrigeratorFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -22,12 +22,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     private val recipeFragment by lazy { RecipeFragment() }
     private val refrigeratorFragment by lazy { RefrigeratorFragment() }
 
-    private val viewModel:HomeViewModel by viewModels()
+    private val viewModel: HomeViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initBottomNav()
-        showFragment(homeFragment,HomeFragment.TAG)
+        showFragment(homeFragment, HomeFragment.TAG)
     }
 
     private fun initBottomNav() {
@@ -43,7 +43,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                         true
                     }
                     R.id.refrigerator_menu -> {
-                        showFragment(refrigeratorFragment,RefrigeratorFragment.TAG)
+                        showFragment(refrigeratorFragment, RefrigeratorFragment.TAG)
                         true
                     }
                     else -> {

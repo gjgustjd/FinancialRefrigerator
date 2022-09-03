@@ -31,7 +31,7 @@ class SearchRecipesActivity : BaseActivity<ActivitySearchRecipesBinding>() {
         binding.recyclerSearchRecipes.adapter = recipesAdapter
         binding.recyclerSearchRecipes.layoutManager = LinearLayoutManager(baseContext)
         val ingredientsName = intent.getStringExtra("ingredient_name") ?: ""
-        binding.titleBar.txtHomeTitle.text = """'$ingredientsName' 검색 결과"""
+        binding.titleBar.txtHomeTitle.text = "'$ingredientsName' 검색 결과"
         viewModel.setupRecipesData(ingredientsName)
         viewModel.recipes.observe(this) {
             Log.i("recipesAdapter", it.toString())

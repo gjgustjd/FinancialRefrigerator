@@ -1,4 +1,4 @@
-package com.study.financialrefrigerator.presentation.home
+package com.study.financialrefrigerator.presentation.activity.main.home
 
 import android.content.Context
 import android.util.Log

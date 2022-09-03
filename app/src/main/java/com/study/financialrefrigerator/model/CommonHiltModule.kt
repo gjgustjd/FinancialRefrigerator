@@ -17,5 +17,7 @@ class CommonHiltModule {
     @Singleton
     fun getDatabase(@ApplicationContext context: Context): IngredientsDatabase =
         Room.databaseBuilder(context, IngredientsDatabase::class.java, "refrigerator")
-            .fallbackToDestructiveMigration().build()
+            .createFromAsset("databases/refrigerator.db")
+            .fallbackToDestructiveMigration()
+            .build()
 }

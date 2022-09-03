@@ -1,14 +1,21 @@
 package com.study.financialrefrigerator.presentation.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.study.financialrefrigerator.R
 import com.study.financialrefrigerator.base.BaseFragment
 import com.study.financialrefrigerator.databinding.FragmentHomeBinding
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private val viewModel: HomeViewModel by activityViewModels()
+    private val ingredientsAdapter by lazy {
+        HomeIngredientsAdapter(
+            viewModel.homeIngredients.value ?: listOf()
+        )
+    }
 
     companion object {
         const val TAG = "HOME_FRAGMENT"
@@ -20,6 +27,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.setupIngrediestsData()
+        initViews()
     }
 
+    private fun initViews()
+    {
+        binding.recyclerHomeIngredients.adapter = ingredientsAdapter
+        binding.recyclerHomeIngredients.layoutManager = LinearLayoutManager(context)
+        activity?.let {
+            viewModel.homeIngredients.observe(it)
+            {
+                ingredientsAdapter.setItems(it)
+                Log.i("ingredientsAdater",it.toString())
+            }
+        }
+    }
 }

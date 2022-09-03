@@ -18,7 +18,7 @@
             android:id="@+id/txt_ingredient_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="{@ingredient.name}"
+            android:text="@{ingredient.name}"
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

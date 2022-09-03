@@ -8,11 +8,13 @@
             name="ingredient"
             type="com.study.financialrefrigerator.model.ingredient.IngredientItem" />
     </data>
-    <androidx.constraintlayout.widget.ConstraintLayout 
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/item"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@drawable/item_stroke_sky">
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/list_round_gray">
 
         <TextView
             android:id="@+id/txt_ingredient_name"

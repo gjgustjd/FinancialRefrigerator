@@ -12,6 +12,4 @@ sealed class RecipeState {
 
     object Delete : RecipeState()
     object Error : RecipeState()
-
-
 }

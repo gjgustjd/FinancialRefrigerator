@@ -1,7 +1,5 @@
 package com.study.financialrefrigerator.presentation.activity.main.home
 
-import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -20,8 +18,8 @@ class HomeViewModel @Inject constructor(private val repository: RefriegeratorRep
     val homeIngredients:LiveData<List<IngredientItem>> =  _homeIngredients
 
     fun setupIngrediestsData() {
-        viewModelScope.launch {
-            _homeIngredients.value = repository.getAllIngredient()
+        viewModelScope.launch(Dispatchers.IO) {
+            _homeIngredients.postValue(repository.getAllIngredient())
         }
     }
 

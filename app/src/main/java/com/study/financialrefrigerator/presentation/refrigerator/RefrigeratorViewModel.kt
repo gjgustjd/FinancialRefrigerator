@@ -11,7 +11,8 @@ class RefrigeratorViewModel: ViewModel() {
 
     fun fetchData(){
         _refrigeratorLiveData.postValue(RefrigeratorState.Loading)
-        _refrigeratorLiveData.postValue(RefrigeratorState.Success(listOf()))
+        _refrigeratorLiveData.postValue(RefrigeratorState.Success(listOf(RefrigeratorEntity("다짐육","300g",26),
+            RefrigeratorEntity("대파","20g",10),RefrigeratorEntity("당근","1개",5),RefrigeratorEntity("피망","200g",15))))
     }
 
 }

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.study.financialrefrigerator.R
 import com.study.financialrefrigerator.base.BaseFragment
 import com.study.financialrefrigerator.databinding.FragmentRecipeBinding
@@ -24,11 +25,21 @@ class RecipeFragment : BaseFragment<FragmentRecipeBinding>() {
     override val layoutId: Int
         get() = R.layout.fragment_recipe
 
-    private val viewModel: RecipeViewModel by requireActivity().viewModels()
+    private val viewModel: RecipeViewModel = RecipeViewModel()
+    private val recipeRecyclerViewAdapter by lazy {
+        RecipeRecyclerViewAdapter()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeData()
+        initRecyclerView()
+        viewModel.fetchData()
+    }
+
+    private fun initRecyclerView() {
+        binding.recipeRecyclerView.adapter = recipeRecyclerViewAdapter
+        binding.recipeRecyclerView.layoutManager = LinearLayoutManager(requireContext())
     }
 
     private fun observeData() {
@@ -58,7 +69,7 @@ class RecipeFragment : BaseFragment<FragmentRecipeBinding>() {
     }
 
     private fun handleSuccessState(recipeState: RecipeState.Success) {
-        recipeState.recipeList // 받아온 리스트값
+        recipeRecyclerViewAdapter.submitList(recipeState.recipeList)
     }
 
 }

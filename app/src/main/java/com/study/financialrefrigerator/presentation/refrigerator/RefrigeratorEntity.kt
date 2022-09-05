@@ -1,6 +1,8 @@
 package com.study.financialrefrigerator.presentation.refrigerator
 
-class RefrigeratorEntity {
-    //임시 파일
-
-}
+//임시 파일
+data class RefrigeratorEntity(
+    val name:String,
+    val amount:String,
+    val day:Int
+)

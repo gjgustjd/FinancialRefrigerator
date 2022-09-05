@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.study.financialrefrigerator.R
 import com.study.financialrefrigerator.databinding.RecipeItemBinding
 
 class RecipeRecyclerViewAdapter :
@@ -26,7 +27,10 @@ class RecipeRecyclerViewAdapter :
     inner class RecipeRecyclerViewHolder(private val binding: RecipeItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
             fun bindView(data:RecipeEntity) = with(binding){
-                //todo 불러온 데이터 값을 뷰에 로딩시켜주기
+                recipeName.text = data.name
+                recipeIngredients.text = data.subName
+                recipeTime.text = data.Time
+                recipeImageView.setImageResource(R.drawable.ic_launcher_background)
             }
         }
 

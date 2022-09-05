@@ -1,7 +1,7 @@
 package com.study.financialrefrigerator.presentation.recipe
-
-class RecipeEntity {
-
-    //임시 파일
-
-}
+//임시 파일
+data class RecipeEntity(
+    val name:String,
+    val subName:String,
+    val Time:String
+)

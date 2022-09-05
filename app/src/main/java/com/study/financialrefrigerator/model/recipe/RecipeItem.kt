@@ -9,5 +9,6 @@ data class RecipeItem(
     val name:String,
     val imageUrl:String,
     val ingredients:String,
-    val instruction:String
+    val instruction:String,
+    val time:Int
 )

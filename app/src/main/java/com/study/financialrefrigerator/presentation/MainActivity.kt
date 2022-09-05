@@ -1,14 +1,18 @@
 package com.study.financialrefrigerator.presentation
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import com.study.financialrefrigerator.R
 import com.study.financialrefrigerator.base.BaseActivity
 import com.study.financialrefrigerator.databinding.ActivityMainBinding
 import com.study.financialrefrigerator.presentation.home.HomeFragment
+import com.study.financialrefrigerator.presentation.home.HomeViewModel
 import com.study.financialrefrigerator.presentation.recipe.RecipeFragment
 import com.study.financialrefrigerator.presentation.refrigerator.RefrigeratorFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     override val layoutId: Int
@@ -17,6 +21,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     private val homeFragment by lazy { HomeFragment() }
     private val recipeFragment by lazy { RecipeFragment() }
     private val refrigeratorFragment by lazy { RefrigeratorFragment() }
+
+    private val viewModel:HomeViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

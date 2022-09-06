@@ -1,4 +1,4 @@
-package com.study.financialrefrigerator.presentation.recipe
+package com.study.financialrefrigerator.presentation.activity.main.recipe
 
 import android.os.Bundle
 import android.view.View

@@ -1,7 +1,8 @@
-package com.study.financialrefrigerator.model
+package com.study.financialrefrigerator.common.di
 
 import android.content.Context
 import androidx.room.Room
+import com.study.financialrefrigerator.model.RefrigeratorDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -1,5 +1,7 @@
-package com.study.financialrefrigerator.presentation.home
+package com.study.financialrefrigerator.presentation.activity.main.home
 
+import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,9 +9,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.study.financialrefrigerator.R
 import com.study.financialrefrigerator.databinding.ItemIngredientHomeBinding
 import com.study.financialrefrigerator.model.ingredient.IngredientItem
+import com.study.financialrefrigerator.presentation.activity.search.SearchRecipesActivity
 
 class HomeIngredientsAdapter constructor(
-    private var items: List<IngredientItem>
+    private val context: Context,
+    private var items: List<IngredientItem> = listOf()
 ) : RecyclerView.Adapter<HomeIngredientsAdapter.Holder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val view =
@@ -30,11 +34,17 @@ class HomeIngredientsAdapter constructor(
 
     override fun getItemCount() = items.count()
 
-    class Holder(val itemBinding: ItemIngredientHomeBinding) :
+    inner class Holder(val itemBinding: ItemIngredientHomeBinding) :
         RecyclerView.ViewHolder(itemBinding.root) {
         var name: String = ""
         fun bind(item: IngredientItem) {
             itemBinding.ingredient = item
+            itemBinding.item.setOnClickListener{
+                context.startActivity(
+                    Intent(context,SearchRecipesActivity::class.java)
+                        .putExtra("ingredient_name",item.name)
+                )
+            }
         }
     }
 }

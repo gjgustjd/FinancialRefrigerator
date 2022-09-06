@@ -1,4 +1,4 @@
-package com.study.financialrefrigerator.presentation.refrigerator
+package com.study.financialrefrigerator.presentation.activity.main.refrigerator
 
 import android.os.Bundle
 import android.view.View

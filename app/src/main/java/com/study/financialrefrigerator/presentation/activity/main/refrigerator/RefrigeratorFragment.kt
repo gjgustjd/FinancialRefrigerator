@@ -3,14 +3,13 @@ package com.study.financialrefrigerator.presentation.activity.main.refrigerator
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.study.financialrefrigerator.R
 import com.study.financialrefrigerator.base.BaseFragment
 import com.study.financialrefrigerator.databinding.FragmentRefrigeratorBinding
-import com.study.financialrefrigerator.presentation.recipe.RecipeFragment
-import com.study.financialrefrigerator.presentation.recipe.RecipeState
-import kotlinx.android.synthetic.main.fragment_refrigerator.*
+import com.study.financialrefrigerator.presentation.refrigerator.RefrigeratorRecyclerViewAdapter
+import com.study.financialrefrigerator.presentation.refrigerator.RefrigeratorState
+import com.study.financialrefrigerator.presentation.refrigerator.RefrigeratorViewModel
 
 class RefrigeratorFragment : BaseFragment<FragmentRefrigeratorBinding>() {
 

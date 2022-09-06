@@ -8,6 +8,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.study.financialrefrigerator.R
 import com.study.financialrefrigerator.base.BaseFragment
 import com.study.financialrefrigerator.databinding.FragmentRecipeBinding
+import com.study.financialrefrigerator.presentation.recipe.RecipeRecyclerViewAdapter
+import com.study.financialrefrigerator.presentation.recipe.RecipeState
+import com.study.financialrefrigerator.presentation.recipe.RecipeViewModel
 
 
 class RecipeFragment : BaseFragment<FragmentRecipeBinding>() {

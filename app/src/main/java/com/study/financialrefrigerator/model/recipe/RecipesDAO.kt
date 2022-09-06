@@ -17,6 +17,6 @@ interface RecipesDAO {
     @Delete
     fun delete(item: RecipeItem)
 
-    @Query("SELECT * FROM recipes WHERE ingredients LIKE :word")
+    @Query("SELECT * FROM recipes WHERE name LIKE :word")
     suspend fun getRecipe(word: String): List<RecipeItem>
 }

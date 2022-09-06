@@ -19,6 +19,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     companion object {
         const val TAG = "HOME_FRAGMENT"
+        fun newInstance():HomeFragment  {
+            val args = Bundle()
+            val fragment = HomeFragment()
+            fragment.arguments = args
+            return fragment
+        }
     }
 
     override val layoutId: Int

@@ -30,6 +30,9 @@ class RefriegeratorRepository @Inject constructor(
     fun updateRecipe(item:RecipeItem)=
         refrigeratorDatabase.recipesDao().update(item)
 
-    suspend fun getRecipe(word:String): List<RecipeItem> =
-        refrigeratorDatabase.recipesDao().getRecipe(word)
+    suspend fun getRecipeByName(word:String): List<RecipeItem> =
+        refrigeratorDatabase.recipesDao().getRecipeByName(word)
+
+    suspend fun getRecipeByIngredients(word:String): List<RecipeItem> =
+        refrigeratorDatabase.recipesDao().getRecipeByIngredients(word)
 }

@@ -42,7 +42,8 @@ class HomeIngredientsAdapter constructor(
             itemBinding.item.setOnClickListener{
                 context.startActivity(
                     Intent(context,SearchRecipesActivity::class.java)
-                        .putExtra("ingredient_name",item.name)
+                        .putExtra("type","ingredient")
+                        .putExtra("keyword",item.name)
                 )
             }
         }

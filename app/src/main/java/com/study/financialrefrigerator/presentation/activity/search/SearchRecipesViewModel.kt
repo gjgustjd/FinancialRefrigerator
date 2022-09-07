@@ -17,9 +17,15 @@ class SearchRecipesViewModel @Inject constructor(private val repository: Refrieg
     private val _recipes = MutableLiveData<List<RecipeItem>>()
     val recipes:LiveData<List<RecipeItem>> = _recipes
 
-    fun setupRecipesData(word:String) {
+    fun setupRecipesDataByName(word:String) {
         viewModelScope.launch(Dispatchers.IO){
-            _recipes.postValue(repository.getRecipe(word))
+            _recipes.postValue(repository.getRecipeByName(word))
+        }
+    }
+
+    fun setupRecipesDataByIngredient(word:String) {
+        viewModelScope.launch(Dispatchers.IO){
+            _recipes.postValue(repository.getRecipeByIngredients(word))
         }
     }
 }

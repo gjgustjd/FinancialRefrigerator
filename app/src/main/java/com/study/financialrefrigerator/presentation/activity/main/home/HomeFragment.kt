@@ -53,7 +53,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             if (keyCode == KeyEvent.KEYCODE_ENTER)
                 startActivity(
                     Intent(activity, SearchRecipesActivity::class.java)
-                        .putExtra("ingredient_name", binding.edtHomeSearchRecipe.text.toString())
+                        .putExtra("type","recipe")
+                        .putExtra("keyword", binding.edtHomeSearchRecipe.text.toString())
                 )
 
             true

@@ -50,14 +50,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         }
         binding.titleBar.txtHomeTitle.text = "요리 검색"
         binding.edtHomeSearchRecipe.setOnKeyListener { _, keyCode, _ ->
-            if (keyCode == KeyEvent.KEYCODE_ENTER)
+            if (keyCode == KeyEvent.KEYCODE_ENTER) {
                 startActivity(
                     Intent(activity, SearchRecipesActivity::class.java)
-                        .putExtra("type","recipe")
+                        .putExtra("type", "recipe")
                         .putExtra("keyword", binding.edtHomeSearchRecipe.text.toString())
                 )
 
-            true
+                true
+            }
+
+            false
         }
     }
 }

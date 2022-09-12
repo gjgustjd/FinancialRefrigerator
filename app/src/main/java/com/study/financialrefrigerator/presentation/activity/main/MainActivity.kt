@@ -22,8 +22,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     private val recipeFragment by lazy { RecipeFragment.newInstance() }
     private val refrigeratorFragment by lazy { RefrigeratorFragment.newInstance() }
 
-    private val viewModel: HomeViewModel by viewModels()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initBottomNav()

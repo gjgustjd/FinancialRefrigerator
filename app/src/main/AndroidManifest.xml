@@ -15,6 +15,9 @@
             android:name=".presentation.activity.search.SearchRecipesActivity"
             android:exported="false" />
         <activity
+            android:name=".presentation.activity.recipeDetail.RecipeDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.activity.main.MainActivity"
             android:exported="true">
             <intent-filter>

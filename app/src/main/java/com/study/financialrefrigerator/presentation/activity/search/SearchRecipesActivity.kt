@@ -19,6 +19,7 @@ class SearchRecipesActivity : BaseActivity<ActivitySearchRecipesBinding>() {
     private val viewModel: SearchRecipesViewModel by viewModels()
     private val recipesAdapter by lazy {
         SearchRecipesAdapter(
+            this,
             viewModel.recipes.value ?: listOf()
         )
     }

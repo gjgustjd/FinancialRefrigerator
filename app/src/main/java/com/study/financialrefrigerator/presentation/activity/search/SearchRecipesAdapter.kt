@@ -1,5 +1,8 @@
 package com.study.financialrefrigerator.presentation.activity.search
 
+import android.content.Context
+import android.content.Intent
+import android.os.Parcelable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,8 +10,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.study.financialrefrigerator.R
 import com.study.financialrefrigerator.databinding.ItemRecipeSearchBinding
 import com.study.financialrefrigerator.model.recipe.RecipeItem
+import com.study.financialrefrigerator.presentation.activity.recipeDetail.RecipeDetailActivity
 
 class SearchRecipesAdapter constructor(
+    private val context: Context,
     private var items: List<RecipeItem>
 ) : RecyclerView.Adapter<SearchRecipesAdapter.Holder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
@@ -30,11 +35,17 @@ class SearchRecipesAdapter constructor(
 
     override fun getItemCount() = items.count()
 
-    class Holder(val itemBinding: ItemRecipeSearchBinding) :
+    inner class Holder(val itemBinding: ItemRecipeSearchBinding) :
         RecyclerView.ViewHolder(itemBinding.root) {
         var name: String = ""
         fun bind(item: RecipeItem) {
             itemBinding.recipe = item
+            itemBinding.item.setOnClickListener{
+                context.startActivity(
+                    Intent(context,RecipeDetailActivity::class.java)
+                        .putExtra("recipe_id",item.id))
+
+            }
         }
     }
 }

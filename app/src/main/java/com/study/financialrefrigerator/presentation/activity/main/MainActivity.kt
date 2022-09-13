@@ -6,10 +6,10 @@ import androidx.fragment.app.Fragment
 import com.study.financialrefrigerator.R
 import com.study.financialrefrigerator.base.BaseActivity
 import com.study.financialrefrigerator.databinding.ActivityMainBinding
-import com.study.financialrefrigerator.presentation.activity.main.home.HomeFragment
-import com.study.financialrefrigerator.presentation.activity.main.home.HomeViewModel
-import com.study.financialrefrigerator.presentation.activity.main.recipe.RecipeFragment
-import com.study.financialrefrigerator.presentation.activity.main.refrigerator.RefrigeratorFragment
+import com.study.financialrefrigerator.presentation.home.HomeFragment
+import com.study.financialrefrigerator.presentation.home.HomeViewModel
+import com.study.financialrefrigerator.presentation.recipe.RecipeFragment
+import com.study.financialrefrigerator.presentation.refrigerator.RefrigeratorFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -12,4 +12,9 @@
     <string name="my_cook_plan">나의 요리 계획</string>
     <string name="delete_success">성공적으로 삭제되었습니다.</string>
     <string name="error">에러가 발생했습니다.</string>
+    <string name="ingredients_description">식재료 설명</string>
+    <string name="ingredients_description_add_please">식재료에 대한 설명을 입력하세요.</string>
+    <string name="shelfLife">유통기한</string>
+    <string name="ingredients_amount">식재료량</string>
+    <string name="save">저장</string>
 </resources>

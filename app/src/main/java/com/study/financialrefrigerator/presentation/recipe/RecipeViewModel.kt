@@ -22,7 +22,7 @@ class RecipeViewModel: ViewModel() {
                     RecipeEntity("미역국", "미역, 소고기, 다진마늘, 국간장", "30분")
                 )
             )
-        ) // todo repository 에서 요리 계획 리스트를 반환하는 함수를 삽
+        ) // todo repository 에서 요리 계획 리스트를 반환하는 함수를 삽입
     }
 
     //delete 하는 아이템의 포지션을 받아 온 후 해당 포지션에 해당하는 db값을 지우는 로직 삽입

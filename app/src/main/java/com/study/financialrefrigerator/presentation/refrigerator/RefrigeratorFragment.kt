@@ -1,15 +1,18 @@
-package com.study.financialrefrigerator.presentation.activity.main.refrigerator
+package com.study.financialrefrigerator.presentation.refrigerator
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
+import com.study.financialrefrigerator.Companion.INGREDIENTS_AMOUNT
+import com.study.financialrefrigerator.Companion.INGREDIENTS_DAY
+import com.study.financialrefrigerator.Companion.INGREDIENTS_NAME
 import com.study.financialrefrigerator.R
 import com.study.financialrefrigerator.base.BaseFragment
 import com.study.financialrefrigerator.databinding.FragmentRefrigeratorBinding
-import com.study.financialrefrigerator.presentation.refrigerator.RefrigeratorRecyclerViewAdapter
-import com.study.financialrefrigerator.presentation.refrigerator.RefrigeratorState
-import com.study.financialrefrigerator.presentation.refrigerator.RefrigeratorViewModel
+import com.study.financialrefrigerator.presentation.refrigerator.ingredients.IngredientsActivity
 
 class RefrigeratorFragment : BaseFragment<FragmentRefrigeratorBinding>() {
 
@@ -23,9 +26,17 @@ class RefrigeratorFragment : BaseFragment<FragmentRefrigeratorBinding>() {
         }
     }
 
-    private val viewModel:RefrigeratorViewModel = RefrigeratorViewModel()
+    private val viewModel: RefrigeratorViewModel by viewModels()
     private val refrigeratorRecyclerViewAdapter by lazy {
-        RefrigeratorRecyclerViewAdapter()
+        RefrigeratorRecyclerViewAdapter(itemOnClicked = { ingredients ->
+            val intent = activity?.let{Intent(it, IngredientsActivity::class.java)}
+            intent?.apply {
+                putExtra(INGREDIENTS_NAME,ingredients.name) // 식별값만 intent로 넘겨서 해당 액티비티에서 식별값을 통해 판단.
+                startActivity(this)
+            }
+        }, deleteOnClicked = {
+
+        })
     }
 
     override val layoutId: Int
@@ -64,7 +75,4 @@ class RefrigeratorFragment : BaseFragment<FragmentRefrigeratorBinding>() {
             }
         }
     }
-
-
-
 }

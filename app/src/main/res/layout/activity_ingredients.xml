@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".presentation.refrigerator.ingredients.IngredientsActivity">
+
+        <TextView
+            android:id="@+id/ingredientsName"
+            android:layout_width="100dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/round_layout_blue"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:textColor="@color/black"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="피망" />
+
+        <TextView
+            android:id="@+id/descriptionTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:text="@string/ingredients_description"
+            android:textColor="@color/title_sky"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/ingredientsName"
+            app:layout_constraintTop_toBottomOf="@+id/ingredientsName" />
+
+        <EditText
+            android:id="@+id/ingredientsDescription"
+            android:layout_width="0dp"
+            android:layout_height="160dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/round_layout_blue"
+            android:gravity="start"
+            android:hint="@string/ingredients_description_add_please"
+            android:padding="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/ingredientsName"
+            app:layout_constraintTop_toBottomOf="@+id/descriptionTitle" />
+
+
+        <TextView
+            android:id="@+id/shelfLife"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text="@string/shelfLife"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/ingredientsName"
+            app:layout_constraintTop_toBottomOf="@+id/ingredientsDescription" />
+
+        <Button
+            android:id="@+id/calendarButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:text="딜력"
+            app:layout_constraintBottom_toBottomOf="@id/shelfLife"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/shelfLife" />
+
+        <TextView
+            android:id="@+id/ingredientsAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="@string/ingredients_amount"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/ingredientsName"
+            app:layout_constraintTop_toBottomOf="@+id/shelfLife" />
+
+        <EditText
+            android:id="@+id/etIngredientsAmount"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:autofillHints="식재료량"
+            android:inputType="number"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/ingredientsAmount"
+            app:layout_constraintEnd_toStartOf="@id/amountSpinner"
+            app:layout_constraintTop_toTopOf="@+id/ingredientsAmount" />
+
+        <Spinner
+            android:id="@+id/amountSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/ingredientsAmount"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/ingredientsAmount" />
+
+
+        <Button
+            android:id="@+id/saveButton"
+            android:text="@string/save"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:textSize="20sp"
+            android:backgroundTint="@color/title_sky"
+            android:layout_marginHorizontal="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

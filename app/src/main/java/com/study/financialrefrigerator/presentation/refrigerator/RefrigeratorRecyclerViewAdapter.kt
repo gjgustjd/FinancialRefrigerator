@@ -7,8 +7,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.study.financialrefrigerator.databinding.RecipeItemBinding
 import com.study.financialrefrigerator.databinding.RefrigeratorItemBinding
+import com.study.financialrefrigerator.presentation.recipe.RecipeEntity
 
-class RefrigeratorRecyclerViewAdapter :
+class RefrigeratorRecyclerViewAdapter(private val itemOnClicked: (RefrigeratorEntity) -> Unit, private val deleteOnClicked: (RefrigeratorEntity) -> Unit) :
     ListAdapter<RefrigeratorEntity, RefrigeratorRecyclerViewAdapter.RefrigeratorRecyclerViewHolder>(diffUtil) {
 
     companion object {
@@ -30,6 +31,16 @@ class RefrigeratorRecyclerViewAdapter :
                 name.text = data.name
                 amount.text = data.amount
                 day.text = "${data.day}일"
+
+                itemView.setOnClickListener {
+                    itemOnClicked(data)
+                }
+
+                deleteButton.setOnClickListener {
+                    deleteOnClicked(data)
+                }
+
+
             }
         }
 

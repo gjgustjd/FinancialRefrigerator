@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.study.financialrefrigerator.R
 import com.study.financialrefrigerator.databinding.RecipeItemBinding
 
-class RecipeRecyclerViewAdapter :
+class RecipeRecyclerViewAdapter(private val itemOnClicked: (RecipeEntity) -> Unit) :
     ListAdapter<RecipeEntity, RecipeRecyclerViewAdapter.RecipeRecyclerViewHolder>(diffUtil) {
 
     companion object {
@@ -31,6 +31,12 @@ class RecipeRecyclerViewAdapter :
                 recipeIngredients.text = data.subName
                 recipeTime.text = data.Time
                 recipeImageView.setImageResource(R.drawable.ic_launcher_background)
+
+
+                itemView.setOnClickListener{
+                    itemOnClicked
+                }
+
             }
         }
 

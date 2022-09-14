@@ -22,4 +22,11 @@ class RecipeDetailViewModel @Inject constructor(private val repository: Refriege
             _recipe.postValue(repository.getRecipeById(id))
         }
     }
+
+    fun addRecipe(recipeId:Int)
+    {
+       viewModelScope.launch(Dispatchers.IO){
+           repository.insertMeal(recipeId)
+       }
+    }
 }

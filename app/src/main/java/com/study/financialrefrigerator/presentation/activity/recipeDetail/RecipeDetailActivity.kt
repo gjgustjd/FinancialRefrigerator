@@ -33,6 +33,12 @@ class RecipeDetailActivity : BaseActivity<ActivityRecipeDetailBinding>() {
             recipeItem = it
             binding.titleBar.txtHomeTitle.text = recipeItem.name
             binding.recipe = recipeItem
+            binding.btnAddRecipe.setOnClickListener{
+                viewModel.addRecipe(recipeItem.id)
+                onBackPressed()
+                Toast.makeText(this,"할 요리에 추가되었습니다.",Toast.LENGTH_SHORT).show()
+            }
         }
+
     }
 }

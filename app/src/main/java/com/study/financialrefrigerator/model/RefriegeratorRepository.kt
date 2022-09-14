@@ -1,6 +1,7 @@
 package com.study.financialrefrigerator.model
 
 import com.study.financialrefrigerator.model.ingredient.IngredientItem
+import com.study.financialrefrigerator.model.meal.MealItem
 import com.study.financialrefrigerator.model.recipe.RecipeItem
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -38,4 +39,10 @@ class RefriegeratorRepository @Inject constructor(
 
     suspend fun getRecipeByIngredients(word:String): List<RecipeItem> =
         refrigeratorDatabase.recipesDao().getRecipeByIngredients(word)
+
+    suspend fun getAllMeals(): List<MealItem> =
+        refrigeratorDatabase.mealsDao().getAllMeals()
+
+    suspend fun insertMeal(id:Int) =
+        refrigeratorDatabase.mealsDao().insert(MealItem(recipeKey = id))
 }

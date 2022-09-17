@@ -9,7 +9,7 @@ data class RecipeItem(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val name:String="",
     val imageUrl:String="",
-    val ingredients:String="",
-    val instruction:String="",
+    var ingredients:String="",
+    var instruction:String="",
     val time:Int=0
 )

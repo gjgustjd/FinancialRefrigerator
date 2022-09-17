@@ -33,6 +33,7 @@ class RecipeDetailActivity : BaseActivity<ActivityRecipeDetailBinding>() {
         viewModel.recipe.observe(this){
             recipeItem = it
             binding.titleBar.txtHomeTitle.text = recipeItem.name
+            recipeItem.instruction = recipeItem.instruction.replace("\\n",System.lineSeparator())
             binding.recipe = recipeItem
             binding.btnAddRecipe.setOnClickListener{
                 viewModel.addRecipe(recipeItem.id)

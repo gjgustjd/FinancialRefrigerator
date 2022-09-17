@@ -6,6 +6,7 @@ import android.text.method.KeyListener
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
+import android.view.View.GONE
 import android.view.View.OnKeyListener
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -40,6 +41,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     private fun initViews()
     {
+        binding.titleBar.imgbtnBack.visibility= GONE
         binding.recyclerHomeIngredients.adapter = ingredientsAdapter
         binding.recyclerHomeIngredients.layoutManager = LinearLayoutManager(context)
         activity?.let {

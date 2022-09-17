@@ -28,6 +28,7 @@ class RecipeDetailActivity : BaseActivity<ActivityRecipeDetailBinding>() {
     }
 
     private fun initViews() {
+        binding.titleBar.activity = this
         viewModel.setupRecipesDataById(intent.getIntExtra("recipe_id",0))
         viewModel.recipe.observe(this){
             recipeItem = it

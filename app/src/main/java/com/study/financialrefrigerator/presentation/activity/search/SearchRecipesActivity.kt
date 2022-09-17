@@ -30,6 +30,7 @@ class SearchRecipesActivity : BaseActivity<ActivitySearchRecipesBinding>() {
     }
 
     private fun initViews() {
+        binding.titleBar.activity = this
         val type = intent.getStringExtra("type") ?: ""
         val keyword = intent.getStringExtra("keyword") ?: ""
 

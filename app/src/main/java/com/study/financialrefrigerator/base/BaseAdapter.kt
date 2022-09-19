@@ -1,12 +1,13 @@
 package com.study.financialrefrigerator.base
 
 import android.content.Context
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
 
-abstract class BaseAdapter<ItemVO:Any,holder:RecyclerView.ViewHolder> constructor(
+abstract class BaseAdapter<ItemVO:Any,holder:BaseViewHolder<ItemVO>> constructor(
     protected val context: Context,
     open var itemList: List<ItemVO>,
     diffUtil: DiffUtil.ItemCallback<ItemVO> = object : DiffUtil.ItemCallback<ItemVO>() {
@@ -21,4 +22,10 @@ abstract class BaseAdapter<ItemVO:Any,holder:RecyclerView.ViewHolder> constructo
         asyncDiffUtil.submitList(itemList)
     }
     override fun getItemCount() = itemList.count()
+
+    override fun onBindViewHolder(holder: holder, position: Int) {
+        holder.bind(itemList[position])
+    }
+
+
 }

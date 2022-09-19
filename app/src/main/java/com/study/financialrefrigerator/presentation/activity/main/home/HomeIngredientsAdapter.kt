@@ -4,9 +4,9 @@ import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
 import com.study.financialrefrigerator.R
 import com.study.financialrefrigerator.base.BaseAdapter
+import com.study.financialrefrigerator.base.BaseViewHolder
 import com.study.financialrefrigerator.databinding.ItemIngredientHomeBinding
 import com.study.financialrefrigerator.model.ingredient.IngredientItem
 import com.study.financialrefrigerator.presentation.activity.search.SearchRecipesActivity
@@ -22,14 +22,10 @@ class HomeIngredientsAdapter constructor(
         return Holder(ItemIngredientHomeBinding.bind(view))
     }
 
-    override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.bind(itemList[position])
-    }
-
     inner class Holder(private val itemBinding: ItemIngredientHomeBinding) :
-        RecyclerView.ViewHolder(itemBinding.root) {
+        BaseViewHolder<IngredientItem>(itemBinding) {
         var name: String = ""
-        fun bind(item: IngredientItem) {
+        override fun bind(item: IngredientItem) {
             itemBinding.ingredient = item
             itemBinding.item.setOnClickListener{
                 context.startActivity(

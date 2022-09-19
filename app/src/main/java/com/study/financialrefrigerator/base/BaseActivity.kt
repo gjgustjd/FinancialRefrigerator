@@ -17,8 +17,13 @@ abstract class BaseActivity<Binding: ViewDataBinding, VM:BaseViewModel>: AppComp
         binding = DataBindingUtil.setContentView(this, layoutId)
         super.onCreate(savedInstanceState)
 
+        initViewModel()
         fetchJob = viewModel.fetchData()
         observeData()
+    }
+
+    open fun initViewModel() {
+
     }
 
     abstract fun observeData()

@@ -62,7 +62,5 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
         }
     }
 
-    override fun observeData() {
-        TODO("Not yet implemented")
-    }
+    override fun observeData() {}
 }

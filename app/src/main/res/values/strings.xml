@@ -12,4 +12,5 @@
     <string name="my_cook_plan">나의 요리 계획</string>
     <string name="delete_success">성공적으로 삭제되었습니다.</string>
     <string name="error">에러가 발생했습니다.</string>
+    <string name="search_result">\'%s\' 검색결과</string>
 </resources>

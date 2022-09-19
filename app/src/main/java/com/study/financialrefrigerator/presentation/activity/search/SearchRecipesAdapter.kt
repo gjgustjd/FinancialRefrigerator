@@ -2,20 +2,19 @@ package com.study.financialrefrigerator.presentation.activity.search
 
 import android.content.Context
 import android.content.Intent
-import android.os.Parcelable
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.study.financialrefrigerator.R
+import com.study.financialrefrigerator.base.BaseAdapter
 import com.study.financialrefrigerator.databinding.ItemRecipeSearchBinding
 import com.study.financialrefrigerator.model.recipe.RecipeItem
 import com.study.financialrefrigerator.presentation.activity.recipeDetail.RecipeDetailActivity
 
 class SearchRecipesAdapter constructor(
-    private val context: Context,
-    private var items: List<RecipeItem>
-) : RecyclerView.Adapter<SearchRecipesAdapter.Holder>() {
+    context: Context,
+    items: List<RecipeItem>
+) :BaseAdapter<RecipeItem,SearchRecipesAdapter.Holder>(context,items) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val view =
             LayoutInflater.from(parent.context)
@@ -23,19 +22,13 @@ class SearchRecipesAdapter constructor(
         return Holder(ItemRecipeSearchBinding.bind(view))
     }
 
-    fun setItems(updatedItems: List<RecipeItem>) {
-        items = updatedItems
-        notifyDataSetChanged()
-    }
-
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.bind(items[position])
-        Log.i("ingredientsAdapter",items[position].name)
+        holder.bind(itemList[position])
     }
 
-    override fun getItemCount() = items.count()
+    override fun getItemCount() = itemList.count()
 
-    inner class Holder(val itemBinding: ItemRecipeSearchBinding) :
+    inner class Holder(private val itemBinding: ItemRecipeSearchBinding) :
         RecyclerView.ViewHolder(itemBinding.root) {
         var name: String = ""
         fun bind(item: RecipeItem) {

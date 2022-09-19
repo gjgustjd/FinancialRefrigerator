@@ -46,7 +46,6 @@ class SearchRecipesActivity : BaseActivity<ActivitySearchRecipesBinding>() {
             Toast.makeText(this,"오류가 발생했습니다.",Toast.LENGTH_SHORT).show()
 
         viewModel.recipes.observe(this) {
-            Log.i("recipesAdapter", it.toString())
             recipesAdapter.setItems(it)
         }
     }

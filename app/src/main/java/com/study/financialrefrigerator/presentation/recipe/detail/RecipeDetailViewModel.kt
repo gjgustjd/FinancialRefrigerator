@@ -1,4 +1,4 @@
-package com.study.financialrefrigerator.presentation.activity.recipeDetail
+package com.study.financialrefrigerator.presentation.recipe.detail
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

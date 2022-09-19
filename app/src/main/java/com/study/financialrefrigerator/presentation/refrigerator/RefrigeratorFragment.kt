@@ -1,15 +1,13 @@
-package com.study.financialrefrigerator.presentation.activity.main.refrigerator
+package com.study.financialrefrigerator.presentation.refrigerator
 
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.study.financialrefrigerator.R
 import com.study.financialrefrigerator.base.BaseFragment
 import com.study.financialrefrigerator.databinding.FragmentRefrigeratorBinding
-import com.study.financialrefrigerator.presentation.refrigerator.RefrigeratorRecyclerViewAdapter
-import com.study.financialrefrigerator.presentation.refrigerator.RefrigeratorState
-import com.study.financialrefrigerator.presentation.refrigerator.RefrigeratorViewModel
 
 class RefrigeratorFragment : BaseFragment<FragmentRefrigeratorBinding>() {
 
@@ -23,7 +21,7 @@ class RefrigeratorFragment : BaseFragment<FragmentRefrigeratorBinding>() {
         }
     }
 
-    private val viewModel:RefrigeratorViewModel = RefrigeratorViewModel()
+    private val viewModel:RefrigeratorViewModel by viewModels()
     private val refrigeratorRecyclerViewAdapter by lazy {
         RefrigeratorRecyclerViewAdapter()
     }

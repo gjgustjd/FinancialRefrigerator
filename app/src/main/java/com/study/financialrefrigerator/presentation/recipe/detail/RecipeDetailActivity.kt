@@ -1,14 +1,11 @@
-package com.study.financialrefrigerator.presentation.activity.recipeDetail
+package com.study.financialrefrigerator.presentation.recipe.detail
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.study.financialrefrigerator.R
 import com.study.financialrefrigerator.base.BaseActivity
 import com.study.financialrefrigerator.databinding.ActivityRecipeDetailBinding
-import com.study.financialrefrigerator.databinding.ActivitySearchRecipesBinding
 import com.study.financialrefrigerator.model.recipe.RecipeItem
 import dagger.hilt.android.AndroidEntryPoint
 

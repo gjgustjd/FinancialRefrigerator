@@ -3,16 +3,31 @@ package com.study.financialrefrigerator.presentation.refrigerator
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.study.financialrefrigerator.model.RefriegeratorRepository
+import com.study.financialrefrigerator.model.ingredient.IngredientItem
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class RefrigeratorViewModel: ViewModel() {
+class RefrigeratorViewModel @Inject constructor(private val repository: RefriegeratorRepository) : ViewModel() {
 
     private val _refrigeratorLiveData = MutableLiveData<RefrigeratorState>(RefrigeratorState.UnInitialize)
-    val refrigeratorLiveData:LiveData<RefrigeratorState> get() = _refrigeratorLiveData
+    val refrigeratorLiveData: LiveData<RefrigeratorState> get() = _refrigeratorLiveData
 
-    fun fetchData(){
+    fun fetchData() {
         _refrigeratorLiveData.postValue(RefrigeratorState.Loading)
-        _refrigeratorLiveData.postValue(RefrigeratorState.Success(listOf(RefrigeratorEntity("다짐육","300g",26),
-            RefrigeratorEntity("대파","20g",10),RefrigeratorEntity("당근","1개",5),RefrigeratorEntity("피망","200g",15))))
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                _refrigeratorLiveData.postValue(RefrigeratorState.Success(repository.getAllIngredient()))
+            }
+        }
+    }
+
+    fun delete(item: IngredientItem) {
+        repository.deleteIngredients(item)
+        _refrigeratorLiveData.postValue(RefrigeratorState.Delete)
     }
 
 }

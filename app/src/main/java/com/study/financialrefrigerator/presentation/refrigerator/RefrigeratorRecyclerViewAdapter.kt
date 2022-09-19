@@ -7,17 +7,18 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.study.financialrefrigerator.databinding.RecipeItemBinding
 import com.study.financialrefrigerator.databinding.RefrigeratorItemBinding
+import com.study.financialrefrigerator.model.ingredient.IngredientItem
 
 class RefrigeratorRecyclerViewAdapter :
-    ListAdapter<RefrigeratorEntity, RefrigeratorRecyclerViewAdapter.RefrigeratorRecyclerViewHolder>(diffUtil) {
+    ListAdapter<IngredientItem, RefrigeratorRecyclerViewAdapter.RefrigeratorRecyclerViewHolder>(diffUtil) {
 
     companion object {
-        private val diffUtil = object : DiffUtil.ItemCallback<RefrigeratorEntity>() {
-            override fun areItemsTheSame(oldItem: RefrigeratorEntity, newItem: RefrigeratorEntity): Boolean {
+        private val diffUtil = object : DiffUtil.ItemCallback<IngredientItem>() {
+            override fun areItemsTheSame(oldItem: IngredientItem, newItem: IngredientItem): Boolean {
                 return false
             }
 
-            override fun areContentsTheSame(oldItem: RefrigeratorEntity, newItem: RefrigeratorEntity): Boolean {
+            override fun areContentsTheSame(oldItem: IngredientItem, newItem: IngredientItem): Boolean {
                 return false
             }
 
@@ -26,10 +27,10 @@ class RefrigeratorRecyclerViewAdapter :
 
     inner class RefrigeratorRecyclerViewHolder(private val binding: RefrigeratorItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-            fun bindView(data:RefrigeratorEntity) = with(binding){
+            fun bindView(data:IngredientItem) = with(binding){
                 name.text = data.name
-                amount.text = data.amount
-                day.text = "${data.day}일"
+                amount.text = data.quantity.toString()
+                day.text = "${data.shelf_life}일"
             }
         }
 

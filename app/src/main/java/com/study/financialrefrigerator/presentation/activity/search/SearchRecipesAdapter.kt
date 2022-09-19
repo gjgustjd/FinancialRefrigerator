@@ -2,7 +2,6 @@ package com.study.financialrefrigerator.presentation.activity.search
 
 import android.content.Context
 import android.content.Intent
-import android.os.Parcelable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -10,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.study.financialrefrigerator.R
 import com.study.financialrefrigerator.databinding.ItemRecipeSearchBinding
 import com.study.financialrefrigerator.model.recipe.RecipeItem
-import com.study.financialrefrigerator.presentation.activity.recipeDetail.RecipeDetailActivity
+import com.study.financialrefrigerator.presentation.recipe.detail.RecipeDetailActivity
 
 class SearchRecipesAdapter constructor(
     private val context: Context,

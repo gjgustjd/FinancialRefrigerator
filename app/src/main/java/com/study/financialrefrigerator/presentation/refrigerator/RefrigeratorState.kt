@@ -1,7 +1,6 @@
 package com.study.financialrefrigerator.presentation.refrigerator
 
-import com.study.financialrefrigerator.presentation.recipe.RecipeEntity
-import com.study.financialrefrigerator.presentation.recipe.RecipeState
+import com.study.financialrefrigerator.model.ingredient.IngredientItem
 
 sealed class RefrigeratorState {
     object UnInitialize :RefrigeratorState()
@@ -9,7 +8,7 @@ sealed class RefrigeratorState {
     object Loading : RefrigeratorState()
 
     data class Success(
-        val recipeList: List<RefrigeratorEntity>
+        val recipeList: List<IngredientItem>
     ) : RefrigeratorState()
 
     object Delete : RefrigeratorState()

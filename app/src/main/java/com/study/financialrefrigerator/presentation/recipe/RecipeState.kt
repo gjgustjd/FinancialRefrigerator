@@ -1,5 +1,7 @@
 package com.study.financialrefrigerator.presentation.recipe
 
+import com.study.financialrefrigerator.model.recipe.RecipeItem
+
 sealed class RecipeState {
 
     object UnInitialize : RecipeState()
@@ -7,7 +9,7 @@ sealed class RecipeState {
     object Loading : RecipeState()
 
     data class Success(
-        val recipeList: List<RecipeEntity>
+        val recipeList: List<RecipeItem>
     ) : RecipeState()
 
     object Delete : RecipeState()

@@ -11,12 +11,14 @@ import com.study.financialrefrigerator.databinding.ActivitySearchRecipesBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SearchRecipesActivity : BaseActivity<ActivitySearchRecipesBinding>() {
+class SearchRecipesActivity : BaseActivity<ActivitySearchRecipesBinding, SearchRecipesViewModel>() {
 
     override val layoutId: Int
         get() = R.layout.activity_search_recipes
 
-    private val viewModel: SearchRecipesViewModel by viewModels()
+    override val viewModel: SearchRecipesViewModel by viewModels()
+
+
     private val recipesAdapter by lazy {
         SearchRecipesAdapter(
             this,
@@ -49,5 +51,10 @@ class SearchRecipesActivity : BaseActivity<ActivitySearchRecipesBinding>() {
             Log.i("recipesAdapter", it.toString())
             recipesAdapter.setItems(it)
         }
+    }
+
+
+    override fun observeData() {
+        TODO("Not yet implemented")
     }
 }

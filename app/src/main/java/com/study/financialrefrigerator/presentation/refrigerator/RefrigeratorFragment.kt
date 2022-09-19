@@ -9,7 +9,7 @@ import com.study.financialrefrigerator.R
 import com.study.financialrefrigerator.base.BaseFragment
 import com.study.financialrefrigerator.databinding.FragmentRefrigeratorBinding
 
-class RefrigeratorFragment : BaseFragment<FragmentRefrigeratorBinding>() {
+class RefrigeratorFragment : BaseFragment<FragmentRefrigeratorBinding, RefrigeratorViewModel>() {
 
     companion object {
         const val TAG = "REFRIGERATOR_FRAGMENT"
@@ -21,7 +21,7 @@ class RefrigeratorFragment : BaseFragment<FragmentRefrigeratorBinding>() {
         }
     }
 
-    private val viewModel:RefrigeratorViewModel by viewModels()
+    override val viewModel:RefrigeratorViewModel by viewModels()
     private val refrigeratorRecyclerViewAdapter by lazy {
         RefrigeratorRecyclerViewAdapter()
     }
@@ -36,13 +36,8 @@ class RefrigeratorFragment : BaseFragment<FragmentRefrigeratorBinding>() {
         viewModel.fetchData()
     }
 
-    private fun initRecyclerView() {
-        binding.refrigeratorRecyclerView.adapter = refrigeratorRecyclerViewAdapter
-        binding.refrigeratorRecyclerView.layoutManager = GridLayoutManager(requireContext(),2)
-    }
-
     //베이스로 뺄 예정
-    fun observeData(){
+    override fun observeData(){
         viewModel.refrigeratorLiveData.observe(viewLifecycleOwner){ refrigeratorState ->
             when (refrigeratorState) {
                 is RefrigeratorState.UnInitialize -> {
@@ -63,6 +58,10 @@ class RefrigeratorFragment : BaseFragment<FragmentRefrigeratorBinding>() {
         }
     }
 
+    private fun initRecyclerView() {
+        binding.refrigeratorRecyclerView.adapter = refrigeratorRecyclerViewAdapter
+        binding.refrigeratorRecyclerView.layoutManager = GridLayoutManager(requireContext(),2)
+    }
 
 
 }

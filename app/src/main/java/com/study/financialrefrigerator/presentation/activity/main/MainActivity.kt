@@ -1,6 +1,7 @@
 package com.study.financialrefrigerator.presentation.activity.main
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import com.study.financialrefrigerator.R
 import com.study.financialrefrigerator.base.BaseActivity
@@ -11,10 +12,12 @@ import com.study.financialrefrigerator.presentation.refrigerator.RefrigeratorFra
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : BaseActivity<ActivityMainBinding>() {
+class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
 
     override val layoutId: Int
         get() = R.layout.activity_main
+
+    override val viewModel: MainViewModel by viewModels()
 
     private val homeFragment by lazy { HomeFragment.newInstance() }
     private val recipeFragment by lazy { RecipeFragment.newInstance() }
@@ -63,5 +66,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 .commitAllowingStateLoss()
         }
 
+    }
+
+
+
+    override fun observeData() {
+        TODO("Not yet implemented")
     }
 }

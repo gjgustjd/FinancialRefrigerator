@@ -4,21 +4,25 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.study.financialrefrigerator.base.BaseViewModel
 import com.study.financialrefrigerator.model.RefriegeratorRepository
 import com.study.financialrefrigerator.model.recipe.RecipeItem
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class RecipeViewModel @Inject constructor(private val repository: RefriegeratorRepository) : ViewModel() {
+class RecipeViewModel @Inject constructor(private val repository: RefriegeratorRepository) : BaseViewModel() {
 
     private var _recipeLiveData = MutableLiveData<RecipeState>(RecipeState.UnInitialize)
     val recipeLiveData: LiveData<RecipeState> get() = _recipeLiveData
 
-    fun fetchData() {
+    override fun fetchData(): Job  = viewModelScope.launch {
         _recipeLiveData.postValue(RecipeState.Loading)
-        viewModelScope.launch {
+        withContext(Dispatchers.IO) {
             _recipeLiveData.postValue(
                 RecipeState.Success(repository.getAllRecipe())
             )

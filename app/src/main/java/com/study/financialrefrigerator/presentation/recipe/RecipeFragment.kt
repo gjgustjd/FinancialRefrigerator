@@ -10,7 +10,7 @@ import com.study.financialrefrigerator.base.BaseFragment
 import com.study.financialrefrigerator.databinding.FragmentRecipeBinding
 
 
-class RecipeFragment : BaseFragment<FragmentRecipeBinding>() {
+class RecipeFragment : BaseFragment<FragmentRecipeBinding, RecipeViewModel>() {
 
     companion object {
         const val TAG = "RECIPE_FRAGMENT"
@@ -25,7 +25,8 @@ class RecipeFragment : BaseFragment<FragmentRecipeBinding>() {
     override val layoutId: Int
         get() = R.layout.fragment_recipe
 
-    private val viewModel: RecipeViewModel by viewModels()
+    override val viewModel: RecipeViewModel by viewModels()
+
     private val recipeRecyclerViewAdapter by lazy {
         RecipeRecyclerViewAdapter()
     }
@@ -42,7 +43,7 @@ class RecipeFragment : BaseFragment<FragmentRecipeBinding>() {
         binding.recipeRecyclerView.layoutManager = LinearLayoutManager(requireContext())
     }
 
-    private fun observeData() {
+    override fun observeData() {
         viewModel.recipeLiveData.observe(viewLifecycleOwner) { recipeState ->
             when (recipeState) {
                 is RecipeState.UnInitialize -> {

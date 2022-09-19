@@ -12,8 +12,8 @@ import com.study.financialrefrigerator.base.BaseFragment
 import com.study.financialrefrigerator.databinding.FragmentHomeBinding
 import com.study.financialrefrigerator.presentation.activity.search.SearchRecipesActivity
 
-class HomeFragment : BaseFragment<FragmentHomeBinding>() {
-    private val viewModel: HomeViewModel by activityViewModels()
+class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
+    override val viewModel: HomeViewModel by activityViewModels()
     private val ingredientsAdapter by lazy{ HomeIngredientsAdapter(requireActivity(), listOf()) }
 
     companion object {
@@ -60,5 +60,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
             false
         }
+    }
+
+    override fun observeData() {
+        TODO("Not yet implemented")
     }
 }

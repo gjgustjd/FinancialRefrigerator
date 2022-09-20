@@ -7,22 +7,21 @@ import com.study.financialrefrigerator.R
 import com.study.financialrefrigerator.base.BaseActivity
 import com.study.financialrefrigerator.databinding.ActivityMainBinding
 import com.study.financialrefrigerator.presentation.home.HomeFragment
-import com.study.financialrefrigerator.presentation.home.HomeViewModel
 import com.study.financialrefrigerator.presentation.recipe.RecipeFragment
 import com.study.financialrefrigerator.presentation.refrigerator.RefrigeratorFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : BaseActivity<ActivityMainBinding>() {
+class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
 
     override val layoutId: Int
         get() = R.layout.activity_main
 
+    override val viewModel: MainViewModel by viewModels()
+
     private val homeFragment by lazy { HomeFragment.newInstance() }
     private val recipeFragment by lazy { RecipeFragment.newInstance() }
     private val refrigeratorFragment by lazy { RefrigeratorFragment.newInstance() }
-
-    private val viewModel: HomeViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,5 +66,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 .commitAllowingStateLoss()
         }
 
+    }
+
+
+
+    override fun observeData() {
     }
 }

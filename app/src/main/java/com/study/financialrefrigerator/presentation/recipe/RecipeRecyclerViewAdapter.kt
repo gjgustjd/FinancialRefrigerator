@@ -7,17 +7,18 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.study.financialrefrigerator.R
 import com.study.financialrefrigerator.databinding.RecipeItemBinding
+import com.study.financialrefrigerator.model.recipe.RecipeItem
 
 class RecipeRecyclerViewAdapter(private val itemOnClicked: (RecipeEntity) -> Unit) :
     ListAdapter<RecipeEntity, RecipeRecyclerViewAdapter.RecipeRecyclerViewHolder>(diffUtil) {
 
     companion object {
-        private val diffUtil = object : DiffUtil.ItemCallback<RecipeEntity>() {
-            override fun areItemsTheSame(oldItem: RecipeEntity, newItem: RecipeEntity): Boolean {
+        private val diffUtil = object : DiffUtil.ItemCallback<RecipeItem>() {
+            override fun areItemsTheSame(oldItem: RecipeItem, newItem: RecipeItem): Boolean {
                 return false
             }
 
-            override fun areContentsTheSame(oldItem: RecipeEntity, newItem: RecipeEntity): Boolean {
+            override fun areContentsTheSame(oldItem: RecipeItem, newItem: RecipeItem): Boolean {
                 return false
             }
 
@@ -26,17 +27,11 @@ class RecipeRecyclerViewAdapter(private val itemOnClicked: (RecipeEntity) -> Uni
 
     inner class RecipeRecyclerViewHolder(private val binding: RecipeItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-            fun bindView(data:RecipeEntity) = with(binding){
+            fun bindView(data: RecipeItem) = with(binding){
                 recipeName.text = data.name
-                recipeIngredients.text = data.subName
-                recipeTime.text = data.Time
-                recipeImageView.setImageResource(R.drawable.ic_launcher_background)
-
-
-                itemView.setOnClickListener{
-                    itemOnClicked
-                }
-
+                recipeIngredients.text = data.ingredients
+                recipeTime.text = data.time.toString()
+                recipeImageView.setImageResource(R.drawable.ic_launcher_background) // Glide로 이미지 URL 로딩으로 변경
             }
         }
 

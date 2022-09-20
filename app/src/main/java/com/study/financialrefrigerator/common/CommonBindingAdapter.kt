@@ -10,11 +10,15 @@ object CommonBindingAdapter {
 
     @BindingAdapter("app:imageUrl")
     @JvmStatic
-    fun loadImage(imageView: ImageView, url: String) {
-        Glide.with(imageView.context)
-            .load(url)
-            .diskCacheStrategy(DiskCacheStrategy.NONE)
-            .apply(RequestOptions().fitCenter())
-            .into(imageView)
+    fun loadImage(imageView: ImageView, url: String?) {
+        url?.let{
+            if(it.isNotBlank()) {
+                Glide.with(imageView.context)
+                    .load(url)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .apply(RequestOptions().fitCenter())
+                    .into(imageView)
+            }
+        }
     }
 }

@@ -19,6 +19,9 @@
             android:name=".presentation.activity.search.SearchRecipesActivity"
             android:exported="false" />
         <activity
+            android:name="com.study.financialrefrigerator.presentation.recipe.detail.RecipeDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.activity.main.MainActivity"
             android:exported="true">
             <intent-filter>

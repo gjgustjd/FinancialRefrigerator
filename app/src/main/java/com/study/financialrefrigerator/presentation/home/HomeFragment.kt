@@ -4,16 +4,19 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
-import androidx.fragment.app.activityViewModels
+import android.view.View.GONE
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.study.financialrefrigerator.R
 import com.study.financialrefrigerator.base.BaseFragment
 import com.study.financialrefrigerator.databinding.FragmentHomeBinding
 import com.study.financialrefrigerator.presentation.activity.search.SearchRecipesActivity
+import dagger.hilt.android.AndroidEntryPoint
 
-class HomeFragment : BaseFragment<FragmentHomeBinding>() {
-    private val viewModel: HomeViewModel by activityViewModels()
-    private val ingredientsAdapter by lazy{ HomeIngredientsAdapter(requireActivity(), listOf()) }
+@AndroidEntryPoint
+class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
+    override val viewModel: HomeViewModel by viewModels()
+    private val ingredientsAdapter by lazy { HomeIngredientsAdapter(requireActivity(), listOf()) }
 
     companion object {
         const val TAG = "HOME_FRAGMENT"
@@ -34,8 +37,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         initViews()
     }
 
-    private fun initViews()
-    {
+    private fun initViews() {
+        binding.titleBar.imgbtnBack.visibility= GONE
         binding.recyclerHomeIngredients.adapter = ingredientsAdapter
         binding.recyclerHomeIngredients.layoutManager = LinearLayoutManager(context)
         activity?.let {
@@ -46,13 +49,18 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         }
         binding.titleBar.txtHomeTitle.text = "요리 검색"
         binding.edtHomeSearchRecipe.setOnKeyListener { _, keyCode, _ ->
-            if (keyCode == KeyEvent.KEYCODE_ENTER)
+            if (keyCode == KeyEvent.KEYCODE_ENTER) {
                 startActivity(
                     Intent(activity, SearchRecipesActivity::class.java)
-                        .putExtra("ingredient_name", binding.edtHomeSearchRecipe.text.toString())
+                        .putExtra("type", "recipe")
+                        .putExtra("keyword", binding.edtHomeSearchRecipe.text.toString())
                 )
+                true
+            }
 
-            true
+            false
         }
     }
+
+    override fun observeData() {}
 }

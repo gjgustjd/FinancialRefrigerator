@@ -2,6 +2,7 @@ package com.study.financialrefrigerator.presentation.activity.search
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.study.financialrefrigerator.R
@@ -10,14 +11,17 @@ import com.study.financialrefrigerator.databinding.ActivitySearchRecipesBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SearchRecipesActivity : BaseActivity<ActivitySearchRecipesBinding>() {
+class SearchRecipesActivity : BaseActivity<ActivitySearchRecipesBinding, SearchRecipesViewModel>() {
 
     override val layoutId: Int
         get() = R.layout.activity_search_recipes
 
-    private val viewModel: SearchRecipesViewModel by viewModels()
+    override val viewModel: SearchRecipesViewModel by viewModels()
+
+
     private val recipesAdapter by lazy {
         SearchRecipesAdapter(
+            this,
             viewModel.recipes.value ?: listOf()
         )
     }
@@ -28,14 +32,28 @@ class SearchRecipesActivity : BaseActivity<ActivitySearchRecipesBinding>() {
     }
 
     private fun initViews() {
+        binding.titleBar.activity = this
+        val type = intent.getStringExtra("type") ?: ""
+        val keyword = intent.getStringExtra("keyword") ?: ""
+
         binding.recyclerSearchRecipes.adapter = recipesAdapter
         binding.recyclerSearchRecipes.layoutManager = LinearLayoutManager(baseContext)
-        val ingredientsName = intent.getStringExtra("ingredient_name") ?: ""
-        binding.titleBar.txtHomeTitle.text = "'$ingredientsName' 검색 결과"
-        viewModel.setupRecipesData(ingredientsName)
+        binding.titleBar.txtHomeTitle.text = "'$keyword' 검색 결과"
+
+        if (type == "ingredient")
+            viewModel.setupRecipesDataByIngredient(keyword)
+        else if(type=="recipe")
+            viewModel.setupRecipesDataByName(keyword)
+        else
+            Toast.makeText(this,"오류가 발생했습니다.",Toast.LENGTH_SHORT).show()
+
         viewModel.recipes.observe(this) {
             Log.i("recipesAdapter", it.toString())
             recipesAdapter.setItems(it)
         }
+    }
+
+
+    override fun observeData() {
     }
 }

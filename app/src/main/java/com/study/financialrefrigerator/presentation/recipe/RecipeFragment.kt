@@ -1,7 +1,6 @@
 package com.study.financialrefrigerator.presentation.recipe
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.viewModels
@@ -9,10 +8,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.study.financialrefrigerator.R
 import com.study.financialrefrigerator.base.BaseFragment
 import com.study.financialrefrigerator.databinding.FragmentRecipeBinding
-import com.study.financialrefrigerator.presentation.view.ItemDecorate
+import dagger.hilt.android.AndroidEntryPoint
 
-
-class RecipeFragment : BaseFragment<FragmentRecipeBinding>() {
+@AndroidEntryPoint
+class RecipeFragment : BaseFragment<FragmentRecipeBinding, RecipeViewModel>() {
 
     companion object {
         const val TAG = "RECIPE_FRAGMENT"
@@ -27,12 +26,10 @@ class RecipeFragment : BaseFragment<FragmentRecipeBinding>() {
     override val layoutId: Int
         get() = R.layout.fragment_recipe
 
-    private val viewModel: RecipeViewModel by viewModels()
+    override val viewModel: RecipeViewModel by viewModels()
+
     private val recipeRecyclerViewAdapter by lazy {
-        RecipeRecyclerViewAdapter {
-
-        }
-
+        RecipeRecyclerViewAdapter()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -45,10 +42,9 @@ class RecipeFragment : BaseFragment<FragmentRecipeBinding>() {
     private fun initRecyclerView() {
         binding.recipeRecyclerView.adapter = recipeRecyclerViewAdapter
         binding.recipeRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-        binding.recipeRecyclerView.addItemDecoration(ItemDecorate())
     }
 
-    private fun observeData() {
+    override fun observeData() {
         viewModel.recipeLiveData.observe(viewLifecycleOwner) { recipeState ->
             when (recipeState) {
                 is RecipeState.UnInitialize -> {
@@ -61,14 +57,11 @@ class RecipeFragment : BaseFragment<FragmentRecipeBinding>() {
                     handleSuccessState(recipeState)
                 }
                 is RecipeState.Delete -> {
-                    context?.let {
-                        Toast.makeText(it, getString(R.string.delete_success), Toast.LENGTH_SHORT).show()
-                    } ?: Log.d("RecipeFragment", "context null")
+                    viewModel.fetchData()
+                    Toast.makeText(requireContext(), getString(R.string.delete_success), Toast.LENGTH_SHORT).show()
                 }
                 is RecipeState.Error -> {
-                    context?.let {
-                        Toast.makeText(it, getString(R.string.error), Toast.LENGTH_SHORT).show()
-                    } ?: Log.d("RecipeFragment", "context null")
+                    Toast.makeText(requireContext(), getString(R.string.error), Toast.LENGTH_SHORT).show()
                 }
             }
         }

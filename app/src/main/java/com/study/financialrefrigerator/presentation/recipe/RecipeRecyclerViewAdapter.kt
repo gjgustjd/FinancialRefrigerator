@@ -1,16 +1,19 @@
 package com.study.financialrefrigerator.presentation.recipe
 
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.study.financialrefrigerator.R
 import com.study.financialrefrigerator.databinding.RecipeItemBinding
 import com.study.financialrefrigerator.model.recipe.RecipeItem
+import java.net.URI
 
-class RecipeRecyclerViewAdapter(private val itemOnClicked: (RecipeEntity) -> Unit) :
-    ListAdapter<RecipeEntity, RecipeRecyclerViewAdapter.RecipeRecyclerViewHolder>(diffUtil) {
+class RecipeRecyclerViewAdapter(private val itemOnClicked: (RecipeItem) -> Unit) :
+    ListAdapter<RecipeItem, RecipeRecyclerViewAdapter.RecipeRecyclerViewHolder>(diffUtil) {
 
     companion object {
         private val diffUtil = object : DiffUtil.ItemCallback<RecipeItem>() {
@@ -31,7 +34,7 @@ class RecipeRecyclerViewAdapter(private val itemOnClicked: (RecipeEntity) -> Uni
                 recipeName.text = data.name
                 recipeIngredients.text = data.ingredients
                 recipeTime.text = data.time.toString()
-                recipeImageView.setImageResource(R.drawable.ic_launcher_background) // Glide로 이미지 URL 로딩으로 변경
+                recipeImageView.setImageURI(Uri.parse(data.imageUrl)) // Glide로 이미지 URL 로딩으로 변경
             }
         }
 

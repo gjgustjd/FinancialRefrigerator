@@ -7,9 +7,10 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.study.financialrefrigerator.databinding.RecipeItemBinding
 import com.study.financialrefrigerator.databinding.RefrigeratorItemBinding
+import com.study.financialrefrigerator.model.ingredient.IngredientItem
 
-class RefrigeratorRecyclerViewAdapter(private val itemOnClicked: (RefrigeratorEntity) -> Unit, private val deleteOnClicked: (RefrigeratorEntity) -> Unit) :
-    ListAdapter<RefrigeratorEntity, RefrigeratorRecyclerViewAdapter.RefrigeratorRecyclerViewHolder>(diffUtil) {
+class RefrigeratorRecyclerViewAdapter(private val itemOnClicked: (IngredientItem) -> Unit, private val deleteOnClicked: (IngredientItem) -> Unit) :
+    ListAdapter<IngredientItem, RefrigeratorRecyclerViewAdapter.RefrigeratorRecyclerViewHolder>(diffUtil) {
 
     companion object {
         private val diffUtil = object : DiffUtil.ItemCallback<IngredientItem>() {

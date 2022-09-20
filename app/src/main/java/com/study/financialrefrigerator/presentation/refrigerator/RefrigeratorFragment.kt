@@ -25,7 +25,12 @@ class RefrigeratorFragment : BaseFragment<FragmentRefrigeratorBinding, Refrigera
 
     override val viewModel:RefrigeratorViewModel by viewModels()
     private val refrigeratorRecyclerViewAdapter by lazy {
-        RefrigeratorRecyclerViewAdapter()
+        RefrigeratorRecyclerViewAdapter(itemOnClicked = {
+
+        }
+        , deleteOnClicked = {
+
+            })
     }
 
     override val layoutId: Int

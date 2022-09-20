@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.study.financialrefrigerator.R
 import com.study.financialrefrigerator.base.BaseFragment
 import com.study.financialrefrigerator.databinding.FragmentRefrigeratorBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RefrigeratorFragment : BaseFragment<FragmentRefrigeratorBinding, RefrigeratorViewModel>() {
 
     companion object {

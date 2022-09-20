@@ -8,8 +8,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.study.financialrefrigerator.R
 import com.study.financialrefrigerator.base.BaseFragment
 import com.study.financialrefrigerator.databinding.FragmentRecipeBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class RecipeFragment : BaseFragment<FragmentRecipeBinding, RecipeViewModel>() {
 
     companion object {

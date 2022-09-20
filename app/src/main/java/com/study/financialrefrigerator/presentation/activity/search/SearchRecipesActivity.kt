@@ -55,6 +55,5 @@ class SearchRecipesActivity : BaseActivity<ActivitySearchRecipesBinding, SearchR
 
 
     override fun observeData() {
-        TODO("Not yet implemented")
     }
 }

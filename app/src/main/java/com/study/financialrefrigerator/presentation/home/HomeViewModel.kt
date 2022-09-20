@@ -2,7 +2,6 @@ package com.study.financialrefrigerator.presentation.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.study.financialrefrigerator.base.BaseViewModel
 import com.study.financialrefrigerator.model.RefriegeratorRepository
@@ -25,8 +24,7 @@ class HomeViewModel @Inject constructor(private val repository: RefriegeratorRep
         }
     }
 
-    override fun fetchData(): Job {
-        TODO("Not yet implemented")
+    override fun fetchData(): Job = viewModelScope.launch {
     }
 
 }

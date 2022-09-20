@@ -5,16 +5,18 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
 import android.view.View.GONE
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.study.financialrefrigerator.R
 import com.study.financialrefrigerator.base.BaseFragment
 import com.study.financialrefrigerator.databinding.FragmentHomeBinding
 import com.study.financialrefrigerator.presentation.activity.search.SearchRecipesActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
-    override val viewModel: HomeViewModel by activityViewModels()
-    private val ingredientsAdapter by lazy{ HomeIngredientsAdapter(requireActivity(), listOf()) }
+    override val viewModel: HomeViewModel by viewModels()
+    private val ingredientsAdapter by lazy { HomeIngredientsAdapter(requireActivity(), listOf()) }
 
     companion object {
         const val TAG = "HOME_FRAGMENT"
@@ -35,8 +37,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
         initViews()
     }
 
-    private fun initViews()
-    {
+    private fun initViews() {
         binding.titleBar.imgbtnBack.visibility= GONE
         binding.recyclerHomeIngredients.adapter = ingredientsAdapter
         binding.recyclerHomeIngredients.layoutManager = LinearLayoutManager(context)
@@ -54,7 +55,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
                         .putExtra("type", "recipe")
                         .putExtra("keyword", binding.edtHomeSearchRecipe.text.toString())
                 )
-
                 true
             }
 

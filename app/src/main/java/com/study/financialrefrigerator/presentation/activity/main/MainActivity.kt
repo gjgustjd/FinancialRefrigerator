@@ -71,6 +71,5 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
 
 
     override fun observeData() {
-        TODO("Not yet implemented")
     }
 }

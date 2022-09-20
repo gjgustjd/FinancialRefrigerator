@@ -108,7 +108,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </ScrollView>
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_add_recipe"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
@@ -116,7 +116,8 @@
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/button_more_round_sky"
-                android:text="할 요리에 추가"
+                android:text="@string/add_to_cook"
+                android:textColor="@color/white"
                 android:textSize="20dp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"

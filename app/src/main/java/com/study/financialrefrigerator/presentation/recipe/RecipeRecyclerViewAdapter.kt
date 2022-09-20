@@ -7,6 +7,7 @@ import androidx.core.net.toUri
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.study.financialrefrigerator.R
 import com.study.financialrefrigerator.databinding.RecipeItemBinding
 import com.study.financialrefrigerator.model.recipe.RecipeItem
@@ -34,7 +35,12 @@ class RecipeRecyclerViewAdapter(private val itemOnClicked: (RecipeItem) -> Unit)
                 recipeName.text = data.name
                 recipeIngredients.text = data.ingredients
                 recipeTime.text = data.time.toString()
-                recipeImageView.setImageURI(Uri.parse(data.imageUrl)) // Glide로 이미지 URL 로딩으로 변경
+                Glide.with(itemView).load(Uri.parse(data.imageUrl)).into(recipeImageView)
+//                recipeImageView.setImageURI(Uri.parse(data.imageUrl)) // Glide로 이미지 URL 로딩으로 변경
+
+                itemView.setOnClickListener {
+                    itemOnClicked(data)
+                }
             }
         }
 

@@ -28,7 +28,7 @@ class HomeIngredientsAdapter constructor(
         override fun bind(item: IngredientItem) {
             itemBinding.ingredient = item
             itemBinding.item.setOnClickListener{
-                context.startActivity(
+                context?.startActivity(
                     Intent(context,SearchRecipesActivity::class.java)
                         .putExtra(SearchRecipesActivity.SEARCH_TYPE,SearchRecipesActivity.TYPE_INGREDIENT)
                         .putExtra(SearchRecipesActivity.SEARCH_KEYWORD,item.name)

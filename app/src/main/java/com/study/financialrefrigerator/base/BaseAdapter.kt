@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 
 abstract class BaseAdapter<ItemVO:Any,holder:BaseViewHolder<ItemVO>> constructor(
-    protected val context: Context,
+    protected val context: Context?=null,
     open var itemList: List<ItemVO>,
     diffUtil: DiffUtil.ItemCallback<ItemVO> = object : DiffUtil.ItemCallback<ItemVO>() {
         override fun areItemsTheSame(oldItem: ItemVO, newItem: ItemVO) = oldItem == newItem

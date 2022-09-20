@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.study.financialrefrigerator.databinding.RecipeItemBinding
 import com.study.financialrefrigerator.databinding.RefrigeratorItemBinding
 import com.study.financialrefrigerator.model.ingredient.IngredientItem
 

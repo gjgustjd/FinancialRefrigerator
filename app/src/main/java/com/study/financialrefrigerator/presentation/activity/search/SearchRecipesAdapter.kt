@@ -33,7 +33,7 @@ class SearchRecipesAdapter constructor(
         override fun bind(item: RecipeItem) {
             itemBinding.recipe = item
             itemBinding.item.setOnClickListener {
-                context.startActivity(
+                context?.startActivity(
                     Intent(context,RecipeDetailActivity::class.java)
                         .putExtra("recipe_id",item.id))
 

@@ -37,28 +37,33 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
         initViews()
     }
 
-    private fun initViews() {
-        binding.titleBar.imgbtnBack.visibility= GONE
-        binding.recyclerHomeIngredients.adapter = ingredientsAdapter
-        binding.recyclerHomeIngredients.layoutManager = LinearLayoutManager(context)
-        activity?.let {
-            viewModel.homeIngredients.observe(it)
-            {
-                ingredientsAdapter.setItems(it)
+    private fun initViews()
+    {
+        binding.run{
+            recyclerHomeIngredients.run{
+                adapter = ingredientsAdapter
+                layoutManager = LinearLayoutManager(context)
             }
-        }
-        binding.titleBar.txtHomeTitle.text = "요리 검색"
-        binding.edtHomeSearchRecipe.setOnKeyListener { _, keyCode, _ ->
-            if (keyCode == KeyEvent.KEYCODE_ENTER) {
-                startActivity(
-                    Intent(activity, SearchRecipesActivity::class.java)
-                        .putExtra("type", "recipe")
-                        .putExtra("keyword", binding.edtHomeSearchRecipe.text.toString())
-                )
-                true
+            activity?.let {
+                viewModel.homeIngredients.observe(it)
+                {
+                    ingredientsAdapter.setItems(it)
+                }
             }
-
-            false
+            titleBar.run{
+                imgbtnBack.visibility= GONE
+                txtHomeTitle.text = "요리 검색"
+            }
+            edtHomeSearchRecipe.setOnKeyListener { _, keyCode, _ ->
+                if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                    startActivity(
+                        Intent(activity, SearchRecipesActivity::class.java)
+                            .putExtra("type", "recipe")
+                            .putExtra("keyword", binding.edtHomeSearchRecipe.text.toString())
+                    )
+                }
+                false
+            }
         }
     }
 

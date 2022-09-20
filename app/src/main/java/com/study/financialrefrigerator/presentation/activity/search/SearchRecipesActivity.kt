@@ -1,7 +1,6 @@
 package com.study.financialrefrigerator.presentation.activity.search
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -11,7 +10,13 @@ import com.study.financialrefrigerator.databinding.ActivitySearchRecipesBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SearchRecipesActivity : BaseActivity<ActivitySearchRecipesBinding, SearchRecipesViewModel>() {
+class SearchRecipesActivity : BaseActivity<ActivitySearchRecipesBinding,SearchRecipesViewModel>() {
+    companion object IntentKey{
+       const val SEARCH_TYPE="type"
+        const val SEARCH_KEYWORD="keyword"
+        const val TYPE_INGREDIENT="ingredient"
+        const val TYPE_RECIPE="recipe"
+    }
 
     override val layoutId: Int
         get() = R.layout.activity_search_recipes
@@ -32,23 +37,30 @@ class SearchRecipesActivity : BaseActivity<ActivitySearchRecipesBinding, SearchR
     }
 
     private fun initViews() {
-        binding.titleBar.activity = this
-        val type = intent.getStringExtra("type") ?: ""
-        val keyword = intent.getStringExtra("keyword") ?: ""
+        binding.run{
+            val type = intent.getStringExtra(SEARCH_TYPE) ?: ""
+            val keyword = intent.getStringExtra(SEARCH_KEYWORD) ?: ""
 
-        binding.recyclerSearchRecipes.adapter = recipesAdapter
-        binding.recyclerSearchRecipes.layoutManager = LinearLayoutManager(baseContext)
-        binding.titleBar.txtHomeTitle.text = "'$keyword' 검색 결과"
+            recyclerSearchRecipes.run{
+                adapter = recipesAdapter
+                layoutManager = LinearLayoutManager(baseContext)
+            }
+            titleBar.run{
+                activity = this@SearchRecipesActivity
+                txtHomeTitle.text = getString(R.string.search_result,keyword)
+            }
 
-        if (type == "ingredient")
-            viewModel.setupRecipesDataByIngredient(keyword)
-        else if(type=="recipe")
-            viewModel.setupRecipesDataByName(keyword)
-        else
-            Toast.makeText(this,"오류가 발생했습니다.",Toast.LENGTH_SHORT).show()
+            when (type) {
+                TYPE_INGREDIENT ->
+                    viewModel.setupRecipesDataByIngredient(keyword)
+                TYPE_RECIPE ->
+                    viewModel.setupRecipesDataByName(keyword)
+                else ->
+                    Toast.makeText(this@SearchRecipesActivity, getString(R.string.error), Toast.LENGTH_SHORT).show()
+            }
+        }
 
         viewModel.recipes.observe(this) {
-            Log.i("recipesAdapter", it.toString())
             recipesAdapter.setItems(it)
         }
     }

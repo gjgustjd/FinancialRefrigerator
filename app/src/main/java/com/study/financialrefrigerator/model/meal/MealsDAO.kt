@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
+import com.study.financialrefrigerator.model.recipe.RecipeItem
 
 
 @Dao
@@ -20,4 +21,7 @@ interface MealsDAO {
 
     @Query("SELECT * FROM meals")
     suspend fun getAllMeals(): List<MealItem>
+
+    @Query("SELECT * FROM meals JOIN recipes ON meals.recipeKey = recipes.id")
+    suspend fun getAllMealsWithRecipe(): Map<MealItem, List<RecipeItem>>
 }

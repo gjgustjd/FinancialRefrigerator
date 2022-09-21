@@ -29,9 +29,7 @@ class RecipeFragment : BaseFragment<FragmentRecipeBinding, RecipeViewModel>() {
     override val viewModel: RecipeViewModel by viewModels()
 
     private val recipeRecyclerViewAdapter by lazy {
-        RecipeRecyclerViewAdapter{
-
-        }
+        RecipeRecyclerViewAdapter()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -74,7 +72,7 @@ class RecipeFragment : BaseFragment<FragmentRecipeBinding, RecipeViewModel>() {
     }
 
     private fun handleSuccessState(recipeState: RecipeState.Success) {
-        recipeRecyclerViewAdapter.submitList(recipeState.recipeList)
+        recipeRecyclerViewAdapter.setItems(recipeState.recipeList)
     }
 
 }

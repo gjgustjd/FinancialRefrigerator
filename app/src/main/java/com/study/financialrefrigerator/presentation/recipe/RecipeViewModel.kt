@@ -24,7 +24,7 @@ class RecipeViewModel @Inject constructor(private val repository: RefriegeratorR
         _recipeLiveData.postValue(RecipeState.Loading)
         withContext(Dispatchers.IO) {
             _recipeLiveData.postValue(
-                RecipeState.Success(repository.getAllRecipe())
+                RecipeState.Success(repository.getAllMealsWithRecipe())
             )
         }
     }

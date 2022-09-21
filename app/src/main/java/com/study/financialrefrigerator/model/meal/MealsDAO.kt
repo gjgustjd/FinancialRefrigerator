@@ -22,6 +22,6 @@ interface MealsDAO {
     @Query("SELECT * FROM meals")
     suspend fun getAllMeals(): List<MealItem>
 
-    @Query("SELECT * FROM meals JOIN recipes ON meals.recipeKey = recipes.id")
-    suspend fun getAllMealsWithRecipe(): Map<MealItem, List<RecipeItem>>
+    @Query("SELECT * FROM meals")
+    suspend fun getAllMealsWithRecipe(): List<MealAndRecipeItem>
 }

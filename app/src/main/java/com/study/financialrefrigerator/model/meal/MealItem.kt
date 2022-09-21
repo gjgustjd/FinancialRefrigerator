@@ -6,10 +6,7 @@ import androidx.room.PrimaryKey
 import com.study.financialrefrigerator.model.recipe.RecipeItem
 
 @Entity(tableName = "meals")
-data class MealItem @Ignore constructor(
+data class MealItem (
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
-    val recipeKey:Int,
-    @Ignore val recipeItem: RecipeItem?=null
-) {
-    constructor(id: Int = 0, recipeKey: Int) : this(id, recipeKey, null)
-}
+    val recipeKey:Int
+)

@@ -5,6 +5,7 @@
     <string name="refrigerator">냉장고</string>
 
     <string name="title_home">냉장고를 부탁해</string>
+    <string name="title_meals">내가 할 요리</string>
     <string name="text_cancel">취소</string>
     <string name="text_remove">삭제</string>
     <string name="text_label_search">오늘의 요리 검색</string>

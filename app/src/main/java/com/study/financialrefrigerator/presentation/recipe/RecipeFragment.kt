@@ -35,6 +35,7 @@ class RecipeFragment : BaseFragment<FragmentRecipeBinding, RecipeViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeData()
+        initTitleView()
         initRecyclerView()
         viewModel.fetchData()
     }
@@ -42,6 +43,12 @@ class RecipeFragment : BaseFragment<FragmentRecipeBinding, RecipeViewModel>() {
     private fun initRecyclerView() {
         binding.recipeRecyclerView.adapter = recipeRecyclerViewAdapter
         binding.recipeRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+    }
+
+    private fun initTitleView() = with(binding)
+    {
+        titleBar.txtHomeTitle.text = getString(R.string.title_meals)
+        titleBar.imgbtnBack.visibility = View.GONE
     }
 
     override fun observeData() {

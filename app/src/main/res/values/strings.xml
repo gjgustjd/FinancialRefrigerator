@@ -6,6 +6,7 @@
 
     <string name="title_home">냉장고를 부탁해</string>
     <string name="title_meals">내가 할 요리</string>
+    <string name="text_confirm">확인</string>
     <string name="text_cancel">취소</string>
     <string name="text_remove">삭제</string>
     <string name="text_label_search">오늘의 요리 검색</string>
@@ -13,6 +14,7 @@
     <string name="my_cook_plan">나의 요리 계획</string>
     <string name="delete_success">성공적으로 삭제되었습니다.</string>
     <string name="error">에러가 발생했습니다.</string>
+    <string name="remove_recipe_item_dialog_content">해당 항목을 삭제하시겠습니까?</string>
     <string name="ingredients_description">식재료 설명</string>
     <string name="ingredients_description_add_please">식재료에 대한 설명을 입력하세요.</string>
     <string name="shelfLife">유통기한</string>

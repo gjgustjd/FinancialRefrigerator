@@ -1,6 +1,7 @@
 package com.study.financialrefrigerator.model
 
 import com.study.financialrefrigerator.model.ingredient.IngredientItem
+import com.study.financialrefrigerator.model.meal.MealAndRecipeItem
 import com.study.financialrefrigerator.model.meal.MealItem
 import com.study.financialrefrigerator.model.recipe.RecipeItem
 import javax.inject.Inject
@@ -51,4 +52,6 @@ class RefriegeratorRepository @Inject constructor(
 
     suspend fun insertMeal(id:Int) =
         refrigeratorDatabase.mealsDao().insert(MealItem(recipeKey = id))
+    suspend fun deleteMeal(item:MealItem) =
+        refrigeratorDatabase.mealsDao().delete(item)
 }

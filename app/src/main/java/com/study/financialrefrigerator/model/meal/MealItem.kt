@@ -1,6 +1,7 @@
 package com.study.financialrefrigerator.model.meal
 
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.study.financialrefrigerator.model.recipe.RecipeItem

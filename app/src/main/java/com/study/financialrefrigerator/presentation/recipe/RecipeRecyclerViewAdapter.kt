@@ -1,19 +1,27 @@
 package com.study.financialrefrigerator.presentation.recipe
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.study.financialrefrigerator.R
 import com.study.financialrefrigerator.base.BaseAdapter
 import com.study.financialrefrigerator.base.BaseViewHolder
+import com.study.financialrefrigerator.common.DialogUtil
 import com.study.financialrefrigerator.databinding.ItemRecipeSearchBinding
 import com.study.financialrefrigerator.model.meal.MealAndRecipeItem
+import com.study.financialrefrigerator.model.recipe.RecipeItem
 
-class RecipeRecyclerViewAdapter(itemList:List<MealAndRecipeItem> = listOf()) :
-    BaseAdapter<MealAndRecipeItem, BaseViewHolder<MealAndRecipeItem>>(itemList = itemList) {
+class RecipeRecyclerViewAdapter(
+    context: Context,
+    itemList: List<MealAndRecipeItem> = listOf(),
+    val viewModel: RecipeViewModel
+) :
+    BaseAdapter<MealAndRecipeItem, BaseViewHolder<MealAndRecipeItem>>(
+        context = context,
+        itemList = itemList
+    ) {
     var isDeleting = false
-        set(value) {
-            field = value
-        }
 
     inner class RecipeRecyclerViewHolder(private val binding: ItemRecipeSearchBinding) :
         BaseViewHolder<MealAndRecipeItem>(binding) {
@@ -24,6 +32,9 @@ class RecipeRecyclerViewAdapter(itemList:List<MealAndRecipeItem> = listOf()) :
                     View.VISIBLE
                 else
                     View.GONE
+            btnDelete.setOnClickListener{
+                showDeleteDialog(item)
+            }
         }
     }
 
@@ -33,8 +44,23 @@ class RecipeRecyclerViewAdapter(itemList:List<MealAndRecipeItem> = listOf()) :
         setItems(listOf())
         setItems(tempList.toList())
     }
+
     override fun getItemViewType(position: Int): Int {
         return position
+    }
+
+    fun showDeleteDialog(item: MealAndRecipeItem)
+    {
+        context?.run{
+            DialogUtil(context).showTwoBtn(
+                title = context.getString(R.string.text_remove),
+                content = context.getString(R.string.remove_recipe_item_dialog_content),
+                confirmClickListener = {
+                    viewModel.delete(item)
+                    viewModel.fetchData()
+                }
+            )
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<MealAndRecipeItem> {

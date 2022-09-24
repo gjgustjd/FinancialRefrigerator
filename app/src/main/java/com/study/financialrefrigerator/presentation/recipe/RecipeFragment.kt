@@ -45,10 +45,25 @@ class RecipeFragment : BaseFragment<FragmentRecipeBinding, RecipeViewModel>() {
         binding.recipeRecyclerView.layoutManager = LinearLayoutManager(requireContext())
     }
 
-    private fun initTitleView() = with(binding)
+    private fun initTitleView() = with(binding.titleBar)
     {
-        titleBar.txtHomeTitle.text = getString(R.string.title_meals)
-        titleBar.imgbtnBack.visibility = View.GONE
+        txtHomeTitle.text = getString(R.string.title_meals)
+        imgbtnBack.visibility = View.GONE
+        btnAction.visibility = View.VISIBLE
+        btnAction.setOnClickListener {
+            if(recipeRecyclerViewAdapter.isDeleting)
+            {
+                btnAction.text = getString(R.string.text_remove)
+                recipeRecyclerViewAdapter.isDeleting = false
+            }
+            else
+            {
+                btnAction.text = getString(R.string.text_cancel)
+                recipeRecyclerViewAdapter.isDeleting = true
+            }
+
+            recipeRecyclerViewAdapter.refreshData()
+        }
     }
 
     override fun observeData() {

@@ -18,6 +18,14 @@ class RecipeDetailActivity : BaseActivity<ActivityRecipeDetailBinding, RecipeDet
     private lateinit var recipeItem: RecipeItem
 
     override val viewModel: RecipeDetailViewModel by viewModels()
+    lateinit var call_from:String
+
+    companion object{
+        const val KEY_CALL_FROM = "key_call_from"
+        const val KEY_RECIPE_ID = "key_recipe_id"
+        const val FROM_MEALS="from meals"
+        const val FROM_HOME="from home"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,11 +33,23 @@ class RecipeDetailActivity : BaseActivity<ActivityRecipeDetailBinding, RecipeDet
     }
 
     override fun initViewModel() {
-        viewModel.id = intent.getIntExtra("recipe_id", -1)
+        viewModel.id = intent.getIntExtra(KEY_RECIPE_ID, -1)
     }
 
     private fun initViews() {
         binding.titleBar.activity = this
+        call_from = intent.getStringExtra(KEY_CALL_FROM)?:throw IllegalStateException()
+
+        binding.btnAddRecipe.text =
+            when (call_from) {
+                FROM_HOME -> {
+                    getString(R.string.add_to_cook)
+                }
+                FROM_MEALS -> {
+                    getString(R.string.complete_cook)
+                }
+                else -> throw IllegalStateException()
+            }
     }
 
     override fun observeData() {
@@ -61,9 +81,22 @@ class RecipeDetailActivity : BaseActivity<ActivityRecipeDetailBinding, RecipeDet
         recipeItem.instruction = recipeItem.instruction.replace("\\n", System.lineSeparator())
         binding.recipe = recipeItem
         binding.btnAddRecipe.setOnClickListener {
-            viewModel.addRecipe(recipeItem.id)
+            val recipeId = recipeItem.id
+            val toastTextResource =
+                when (call_from) {
+                    FROM_HOME -> {
+                        viewModel.addRecipe(recipeId)
+                        R.string.toast_added_meal
+                    }
+                    FROM_MEALS -> {
+                        viewModel.deleteMealWithRecipeId(recipeId)
+                        R.string.delete_success
+                    }
+                    else -> throw IllegalStateException()
+                }
+
             onBackPressed()
-            Toast.makeText(this, "할 요리에 추가되었습니다.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(toastTextResource), Toast.LENGTH_SHORT).show()
         }
 
     }

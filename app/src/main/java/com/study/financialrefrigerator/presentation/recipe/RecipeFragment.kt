@@ -39,6 +39,10 @@ class RecipeFragment : BaseFragment<FragmentRecipeBinding, RecipeViewModel>() {
         observeData()
         initTitleView()
         initRecyclerView()
+    }
+
+    override fun onResume() {
+        super.onResume()
         viewModel.fetchData()
     }
 

@@ -30,6 +30,11 @@ class RecipeDetailViewModel @Inject constructor(private val repository: Refriege
         }
     }
 
-
+    fun deleteMealWithRecipeId(recipeId: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteMealWithId(recipeId)
+            _detailRecipe.postValue(RecipeDetailState.Loading)
+        }
+    }
 
 }

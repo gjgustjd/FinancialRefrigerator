@@ -19,6 +19,9 @@ interface MealsDAO {
     @Delete
     fun delete(item: MealItem)
 
+    @Query("DELETE FROM meals WHERE recipeKey = :recipeId")
+    fun deleteWithId(recipeId:Int)
+
     @Query("SELECT * FROM meals")
     suspend fun getAllMeals(): List<MealItem>
 

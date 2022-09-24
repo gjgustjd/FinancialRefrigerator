@@ -1,6 +1,7 @@
 package com.study.financialrefrigerator.presentation.recipe
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import com.study.financialrefrigerator.common.DialogUtil
 import com.study.financialrefrigerator.databinding.ItemRecipeSearchBinding
 import com.study.financialrefrigerator.model.meal.MealAndRecipeItem
 import com.study.financialrefrigerator.model.recipe.RecipeItem
+import com.study.financialrefrigerator.presentation.recipe.detail.RecipeDetailActivity
 
 class RecipeRecyclerViewAdapter(
     context: Context,
@@ -34,6 +36,12 @@ class RecipeRecyclerViewAdapter(
                     View.GONE
             btnDelete.setOnClickListener{
                 showDeleteDialog(item)
+            }
+            root.setOnClickListener{
+                context?.startActivity(
+                    Intent(context, RecipeDetailActivity::class.java)
+                        .putExtra(RecipeDetailActivity.KEY_CALL_FROM,RecipeDetailActivity.FROM_MEALS)
+                        .putExtra(RecipeDetailActivity.KEY_RECIPE_ID,item.recipe.id))
             }
         }
     }

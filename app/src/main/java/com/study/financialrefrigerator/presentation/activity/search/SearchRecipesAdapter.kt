@@ -35,7 +35,8 @@ class SearchRecipesAdapter constructor(
             itemBinding.item.setOnClickListener {
                 context?.startActivity(
                     Intent(context,RecipeDetailActivity::class.java)
-                        .putExtra("recipe_id",item.id))
+                        .putExtra(RecipeDetailActivity.KEY_CALL_FROM,RecipeDetailActivity.FROM_HOME)
+                        .putExtra(RecipeDetailActivity.KEY_RECIPE_ID,item.id))
 
             }
         }

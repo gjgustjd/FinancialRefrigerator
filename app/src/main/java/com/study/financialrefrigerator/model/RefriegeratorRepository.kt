@@ -54,4 +54,6 @@ class RefriegeratorRepository @Inject constructor(
         refrigeratorDatabase.mealsDao().insert(MealItem(recipeKey = id))
     suspend fun deleteMeal(item:MealItem) =
         refrigeratorDatabase.mealsDao().delete(item)
+    suspend fun deleteMealWithId(recipeId:Int) =
+        refrigeratorDatabase.mealsDao().deleteWithId(recipeId)
 }

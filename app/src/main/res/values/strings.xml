@@ -13,6 +13,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="my_cook_plan">나의 요리 계획</string>
     <string name="delete_success">성공적으로 삭제되었습니다.</string>
+    <string name="toast_added_meal">할 요리에 추가되었습니다.</string>
     <string name="error">에러가 발생했습니다.</string>
     <string name="remove_recipe_item_dialog_content">해당 항목을 삭제하시겠습니까?</string>
     <string name="ingredients_description">식재료 설명</string>
@@ -22,4 +23,5 @@
     <string name="save">저장</string>
     <string name="search_result">\'%s\' 검색결과</string>
     <string name="add_to_cook">할 요리에 추가</string>
+    <string name="complete_cook">요리 완료</string>
 </resources>

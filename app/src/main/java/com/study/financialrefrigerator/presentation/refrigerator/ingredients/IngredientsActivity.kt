@@ -7,6 +7,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.core.view.isGone
 import com.study.financialrefrigerator.R
 import com.study.financialrefrigerator.base.BaseActivity
 import com.study.financialrefrigerator.databinding.ActivityIngredientsBinding
@@ -25,8 +26,6 @@ class IngredientsActivity : BaseActivity<ActivityIngredientsBinding, Ingredients
     private var ingredientsID: Int? = null
 
     private var shelfLifeDay: Int? = null
-    private var isSetCalendar: Boolean = false
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,6 +81,8 @@ class IngredientsActivity : BaseActivity<ActivityIngredientsBinding, Ingredients
     }
 
     private fun initViews() = with(binding) {
+        calendarTextView.isGone = true
+        titleBar.txtHomeTitle.text = "식재료"
         ingredientsName.setOnClickListener {
             Log.d(",", ",")
         }
@@ -97,10 +98,10 @@ class IngredientsActivity : BaseActivity<ActivityIngredientsBinding, Ingredients
                 val quantity = etIngredientsAmount.text.toString().toInt()
                 val unit = amountSpinner.selectedItem.toString()
 
-                if (name.isEmpty() || description.isEmpty() || quantity == 0 || unit.isEmpty() || shelfLifeDay == null) {
+                if (name.isEmpty() || quantity == 0 || unit.isEmpty() || shelfLifeDay == null) {
                     Toast.makeText(this@IngredientsActivity, "정보를 정확히 입력해주세요", Toast.LENGTH_SHORT).show()
                     return@setOnClickListener
-                } else if (shelfLifeDay!! < 0){
+                } else if (shelfLifeDay!! < 0) {
                     Toast.makeText(this@IngredientsActivity, "이미 유통기한이 지난 식재료입니다.", Toast.LENGTH_SHORT).show()
                     return@setOnClickListener
                 }
@@ -131,6 +132,10 @@ class IngredientsActivity : BaseActivity<ActivityIngredientsBinding, Ingredients
 
     fun setCalendarDate(year: Int, month: Int, day: Int) {
         shelfLifeDay = Days.daysBetween(LocalDate.now(), LocalDate(year, month + 1, day)).days + 1
+        binding.calendarTextView.run {
+            text = LocalDate(year, month, day).toString("yyyy-MM-dd")
+            isGone = false
+        }
     }
 
 
@@ -138,6 +143,11 @@ class IngredientsActivity : BaseActivity<ActivityIngredientsBinding, Ingredients
         with(binding) {
             ingredientsName.setText(ingredients?.name ?: "")
             ingredientsDescription.setText(ingredients?.description ?: "")
+            if (ingredients?.quantity == null) {
+                etIngredientsAmount.setText("")
+            } else {
+                etIngredientsAmount.setText(ingredients.quantity.toString())
+            }
         }
     }
 

@@ -7,7 +7,7 @@
         android:layout_height="match_parent"
         tools:context=".presentation.refrigerator.ingredients.IngredientsActivity">
 
-        <TextView
+        <EditText
             android:id="@+id/ingredientsName"
             android:layout_width="100dp"
             android:layout_height="80dp"
@@ -66,12 +66,14 @@
             app:layout_constraintStart_toStartOf="@id/ingredientsName"
             app:layout_constraintTop_toBottomOf="@+id/ingredientsDescription" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/calendarButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
-            android:text="딜력"
+            android:backgroundTint="@color/title_sky"
+            android:text="@string/calendar"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="@id/shelfLife"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/shelfLife" />

@@ -24,12 +24,15 @@ class RefrigeratorViewModel @Inject constructor(private val repository: Refriege
             withContext(Dispatchers.IO) {
                 _refrigeratorLiveData.postValue(RefrigeratorState.Success(repository.getAllIngredient()))
             }
-
     }
 
     fun delete(item: IngredientItem) {
-        repository.deleteIngredients(item)
+        _refrigeratorLiveData.postValue(RefrigeratorState.Loading)
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteIngredients(item)
+        }
         _refrigeratorLiveData.postValue(RefrigeratorState.Delete)
+
     }
 
 }

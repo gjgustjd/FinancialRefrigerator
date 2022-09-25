@@ -17,4 +17,6 @@
     <string name="shelfLife">유통기한</string>
     <string name="ingredients_amount">식재료량</string>
     <string name="save">저장</string>
+    <string name="add">add</string>
+    <string name="calendar">딜력</string>
 </resources>

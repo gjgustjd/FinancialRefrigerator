@@ -1,13 +1,17 @@
 package com.study.financialrefrigerator.presentation.refrigerator
 
+import android.app.Activity.RESULT_OK
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.study.financialrefrigerator.R
 import com.study.financialrefrigerator.base.BaseFragment
 import com.study.financialrefrigerator.databinding.FragmentRefrigeratorBinding
+import com.study.financialrefrigerator.presentation.refrigerator.ingredients.IngredientsActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -21,23 +25,28 @@ class RefrigeratorFragment : BaseFragment<FragmentRefrigeratorBinding, Refrigera
             fragment.arguments = args
             return fragment
         }
+
+        const val REFRIGERATOR_EXTRA_ID = "REFRIGERATOR_EXTRA_ID"
     }
 
-    override val viewModel:RefrigeratorViewModel by viewModels()
-    private val refrigeratorRecyclerViewAdapter by lazy {
-        RefrigeratorRecyclerViewAdapter(itemOnClicked = {
-
-        }
-        , deleteOnClicked = {
-
-            })
-    }
+    override val viewModel: RefrigeratorViewModel by viewModels()
 
     override val layoutId: Int
         get() = R.layout.fragment_refrigerator
 
+    private val refrigeratorRecyclerViewAdapter by lazy {
+        RefrigeratorRecyclerViewAdapter(itemOnClicked = { ingredients ->
+            val intent = context?.let { Intent(it, IngredientsActivity::class.java) }
+            intent?.putExtra(REFRIGERATOR_EXTRA_ID, ingredients.id)
+            startActivity(intent) //intent extra 넘길 예정
+        }, deleteOnClicked = {
+            viewModel.delete(it)
+        })
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initViews()
         initRecyclerView()
         observeData()
         viewModel.fetchData()
@@ -48,6 +57,7 @@ class RefrigeratorFragment : BaseFragment<FragmentRefrigeratorBinding, Refrigera
         viewModel.refrigeratorLiveData.observe(viewLifecycleOwner){ refrigeratorState ->
             when (refrigeratorState) {
                 is RefrigeratorState.UnInitialize -> {
+
                 }
                 is RefrigeratorState.Loading -> {
                     //프로그래스 바 보임 처리
@@ -57,6 +67,7 @@ class RefrigeratorFragment : BaseFragment<FragmentRefrigeratorBinding, Refrigera
                 }
                 is RefrigeratorState.Delete -> {
                     Toast.makeText(requireContext(), getString(R.string.delete_success), Toast.LENGTH_SHORT).show()
+                    viewModel.fetchData()
                 }
                 is RefrigeratorState.Error -> {
                     Toast.makeText(requireContext(), getString(R.string.error), Toast.LENGTH_SHORT).show()
@@ -65,9 +76,22 @@ class RefrigeratorFragment : BaseFragment<FragmentRefrigeratorBinding, Refrigera
         }
     }
 
+    private fun initViews() {
+        val getResult =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                if (it.resultCode == RESULT_OK) {
+                    viewModel.fetchData()
+                }
+            }
+        binding.titleBar.txtHomeTitle.text = "나의 냉장고"
+        binding.addFAButton.setOnClickListener {
+            context?.let { getResult.launch(Intent(it, IngredientsActivity::class.java)) }
+        }
+    }
+
     private fun initRecyclerView() {
         binding.refrigeratorRecyclerView.adapter = refrigeratorRecyclerViewAdapter
-        binding.refrigeratorRecyclerView.layoutManager = GridLayoutManager(requireContext(),2)
+        binding.refrigeratorRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
     }
 
 

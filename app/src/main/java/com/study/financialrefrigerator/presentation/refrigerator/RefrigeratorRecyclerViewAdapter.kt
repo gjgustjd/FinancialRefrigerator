@@ -31,6 +31,13 @@ class RefrigeratorRecyclerViewAdapter(private val itemOnClicked: (IngredientItem
                 name.text = data.name
                 amount.text = data.quantity.toString()
                 day.text = "${data.shelf_life}일"
+
+                itemView.setOnClickListener {
+                    itemOnClicked(data)
+                }
+                binding.deleteButton.setOnClickListener {
+                    deleteOnClicked(data)
+                }
             }
         }
 

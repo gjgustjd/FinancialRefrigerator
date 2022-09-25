@@ -1,5 +1,6 @@
 package com.study.financialrefrigerator.presentation.recipe
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.study.financialrefrigerator.R
 import com.study.financialrefrigerator.base.BaseFragment
 import com.study.financialrefrigerator.databinding.FragmentRecipeBinding
+import com.study.financialrefrigerator.presentation.recipe.detail.RecipeDetailActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -30,7 +32,7 @@ class RecipeFragment : BaseFragment<FragmentRecipeBinding, RecipeViewModel>() {
 
     private val recipeRecyclerViewAdapter by lazy {
         RecipeRecyclerViewAdapter{
-
+            context?.let { startActivity(Intent(it, RecipeDetailActivity::class.java)) } //intent extra 넘길 예정
         }
     }
 
@@ -70,7 +72,7 @@ class RecipeFragment : BaseFragment<FragmentRecipeBinding, RecipeViewModel>() {
     }
 
     private fun initViews() {
-
+        binding.titleBar.txtHomeTitle.text = "요리 계획"
     }
 
     private fun handleSuccessState(recipeState: RecipeState.Success) {

@@ -41,7 +41,8 @@ class RecipeRecyclerViewAdapter(
                 context?.startActivity(
                     Intent(context, RecipeDetailActivity::class.java)
                         .putExtra(RecipeDetailActivity.KEY_CALL_FROM,RecipeDetailActivity.FROM_MEALS)
-                        .putExtra(RecipeDetailActivity.KEY_RECIPE_ID,item.recipe.id))
+                        .putExtra(RecipeDetailActivity.KEY_RECIPE_ID,item.recipe.id)
+                        .putExtra(RecipeDetailActivity.KEY_MEAL_ID,item.meal.id))
             }
         }
     }

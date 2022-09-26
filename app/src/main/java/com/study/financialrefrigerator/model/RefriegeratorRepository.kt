@@ -50,6 +50,9 @@ class RefriegeratorRepository @Inject constructor(
     suspend fun getAllMeals(): List<MealItem> =
         refrigeratorDatabase.mealsDao().getAllMeals()
 
+    suspend fun getMealWithId(id:Int): MealItem =
+        refrigeratorDatabase.mealsDao().getMealWithId(id)
+
     suspend fun getAllMealsWithRecipe() =
         refrigeratorDatabase.mealsDao().getAllMealsWithRecipe()
 
@@ -57,6 +60,6 @@ class RefriegeratorRepository @Inject constructor(
         refrigeratorDatabase.mealsDao().insert(MealItem(recipeKey = id))
     suspend fun deleteMeal(item:MealItem) =
         refrigeratorDatabase.mealsDao().delete(item)
-    suspend fun deleteMealWithId(recipeId:Int) =
-        refrigeratorDatabase.mealsDao().deleteWithId(recipeId)
+    suspend fun deleteMealWithId(mealId:Int) =
+        refrigeratorDatabase.mealsDao().deleteWithId(mealId)
 }

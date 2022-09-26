@@ -19,10 +19,12 @@ class RecipeDetailActivity : BaseActivity<ActivityRecipeDetailBinding, RecipeDet
 
     override val viewModel: RecipeDetailViewModel by viewModels()
     lateinit var call_from:String
+    var mealId:Int?= null
 
     companion object{
         const val KEY_CALL_FROM = "key_call_from"
         const val KEY_RECIPE_ID = "key_recipe_id"
+        const val KEY_MEAL_ID = "key_meal_id"
         const val FROM_MEALS="from meals"
         const val FROM_HOME="from home"
     }
@@ -34,6 +36,7 @@ class RecipeDetailActivity : BaseActivity<ActivityRecipeDetailBinding, RecipeDet
 
     override fun initViewModel() {
         viewModel.id = intent.getIntExtra(KEY_RECIPE_ID, -1)
+        mealId = intent?.getIntExtra(KEY_MEAL_ID,-1)
     }
 
     private fun initViews() {
@@ -89,7 +92,7 @@ class RecipeDetailActivity : BaseActivity<ActivityRecipeDetailBinding, RecipeDet
                         R.string.toast_added_meal
                     }
                     FROM_MEALS -> {
-                        viewModel.deleteMealWithRecipeId(recipeId)
+                        viewModel.deleteMealWithId(mealId?:throw IllegalStateException())
                         R.string.delete_success
                     }
                     else -> throw IllegalStateException()

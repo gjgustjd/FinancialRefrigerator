@@ -9,7 +9,7 @@ import com.study.financialrefrigerator.model.meal.MealItem
 import com.study.financialrefrigerator.model.recipe.RecipeItem
 import com.study.financialrefrigerator.model.recipe.RecipesDAO
 
-@Database(entities = [IngredientItem::class,RecipeItem::class, MealItem::class], version = 6)
+@Database(entities = [IngredientItem::class,RecipeItem::class, MealItem::class], version = 7)
 abstract class RefrigeratorDatabase : RoomDatabase() {
     abstract fun ingredientsDao(): IngredientsDAO
     abstract fun recipesDao(): RecipesDAO

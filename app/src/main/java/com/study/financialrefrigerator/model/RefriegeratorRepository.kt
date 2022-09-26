@@ -11,6 +11,9 @@ import javax.inject.Singleton
 class RefriegeratorRepository @Inject constructor(
     var refrigeratorDatabase: RefrigeratorDatabase
 ) {
+    suspend fun getIngredients(id:Int) =
+        refrigeratorDatabase.ingredientsDao().getIngredientById(id)
+
     fun insertIngredients(item: IngredientItem) =
         refrigeratorDatabase.ingredientsDao().insert(item)
 

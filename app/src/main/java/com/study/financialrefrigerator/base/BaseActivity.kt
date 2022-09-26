@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import com.study.financialrefrigerator.Dialog.CustomProgressDialog
 import kotlinx.coroutines.Job
 
 abstract class BaseActivity<Binding: ViewDataBinding, VM:BaseViewModel>: AppCompatActivity() {
@@ -11,6 +12,9 @@ abstract class BaseActivity<Binding: ViewDataBinding, VM:BaseViewModel>: AppComp
     abstract val layoutId: Int
     abstract val viewModel: VM
     private lateinit var fetchJob: Job
+
+    private var progressDialog: CustomProgressDialog? = null
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,11 +26,19 @@ abstract class BaseActivity<Binding: ViewDataBinding, VM:BaseViewModel>: AppComp
         observeData()
     }
 
-    open fun initViewModel() {
+    open fun initViewModel() {}
 
+    fun showProgressBar() {
+        CustomProgressDialog.getInstance().also {
+            progressDialog = it
+        }.show(supportFragmentManager,"progressbar")
+    }
+    fun hideProgressBar() {
+        progressDialog?.dismiss()
     }
 
     abstract fun observeData()
+
 
     override fun onDestroy() {
         if (fetchJob.isActive) {

@@ -20,4 +20,7 @@ interface IngredientsDAO {
 
     @Query("SELECT * FROM ingredients")
     suspend fun getAllIngredient(): List<IngredientItem>
+
+    @Query("SELECT * FROM ingredients WHERE id = :id")
+    suspend fun getIngredientById(id:Int): IngredientItem?
 }

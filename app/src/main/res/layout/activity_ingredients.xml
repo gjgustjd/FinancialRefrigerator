@@ -7,22 +7,41 @@
         android:layout_height="match_parent"
         tools:context=".presentation.refrigerator.ingredients.IngredientsActivity">
 
+        <include
+            android:id="@+id/title_bar"
+            layout="@layout/title_bar" />
+
         <TextView
-            android:id="@+id/ingredientsName"
-            android:layout_width="100dp"
-            android:layout_height="80dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="40dp"
-            android:background="@drawable/round_layout_blue"
+            android:id="@+id/tvIngredientsName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
             android:ellipsize="end"
             android:gravity="center"
             android:maxLines="1"
-            android:textColor="@color/black"
-            android:textSize="30sp"
+            android:text="@string/ingredients_name"
+            android:textColor="@color/title_sky"
+            android:textSize="13sp"
             android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/ingredientsName"
+            app:layout_constraintTop_toBottomOf="@id/title_bar" />
+
+        <EditText
+            android:id="@+id/ingredientsName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="20dp"
+            android:background="@drawable/round_layout_blue"
+            android:hint="@string/hint_ingredients_name"
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="10dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/black"
+            android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="피망" />
+            app:layout_constraintTop_toBottomOf="@id/tvIngredientsName" />
 
         <TextView
             android:id="@+id/descriptionTitle"
@@ -48,7 +67,7 @@
             android:background="@drawable/round_layout_blue"
             android:gravity="start"
             android:hint="@string/ingredients_description_add_please"
-            android:padding="10dp"
+            android:padding="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/ingredientsName"
             app:layout_constraintTop_toBottomOf="@+id/descriptionTitle" />
@@ -66,12 +85,26 @@
             app:layout_constraintStart_toStartOf="@id/ingredientsName"
             app:layout_constraintTop_toBottomOf="@+id/ingredientsDescription" />
 
-        <Button
+        <TextView
+            android:id="@+id/calendarTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/round_layout"
+            android:padding="7dp"
+            tools:text="2022-08-25"
+            app:layout_constraintBottom_toBottomOf="@id/shelfLife"
+            app:layout_constraintEnd_toStartOf="@id/calendarButton"
+            app:layout_constraintTop_toTopOf="@id/shelfLife" />
+
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/calendarButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
-            android:text="딜력"
+            android:backgroundTint="@color/title_sky"
+            android:text="@string/calendar"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="@id/shelfLife"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/shelfLife" />
@@ -94,6 +127,8 @@
             android:layout_height="wrap_content"
             android:autofillHints="식재료량"
             android:inputType="number"
+            android:layout_marginEnd="10dp"
+            android:gravity="center"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@+id/ingredientsAmount"
             app:layout_constraintEnd_toStartOf="@id/amountSpinner"
@@ -103,8 +138,9 @@
             android:id="@+id/amountSpinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingHorizontal="10dp"
             app:layout_constraintBottom_toBottomOf="@id/ingredientsAmount"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/calendarButton"
             app:layout_constraintTop_toTopOf="@id/ingredientsAmount" />
 
 

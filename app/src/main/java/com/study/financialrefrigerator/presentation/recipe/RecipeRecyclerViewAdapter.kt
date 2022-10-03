@@ -65,7 +65,6 @@ class RecipeRecyclerViewAdapter(
                 content = context.getString(R.string.remove_recipe_item_dialog_content),
                 confirmClickListener = {
                     viewModel.delete(item)
-                    viewModel.fetchData()
                 }
             )
         }

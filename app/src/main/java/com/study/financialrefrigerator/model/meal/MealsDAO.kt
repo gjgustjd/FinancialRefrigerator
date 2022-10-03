@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import com.study.financialrefrigerator.model.recipe.RecipeItem
+import kotlinx.coroutines.flow.Flow
 
 
 @Dao
@@ -30,4 +31,7 @@ interface MealsDAO {
 
     @Query("SELECT * FROM meals")
     suspend fun getAllMealsWithRecipe(): List<MealAndRecipeItem>
+
+    @Query("SELECT * FROM meals")
+    fun getAllMealsWithRecipeAsFlow(): Flow<List<MealAndRecipeItem>>
 }

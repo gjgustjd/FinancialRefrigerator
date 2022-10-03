@@ -54,7 +54,7 @@
                         android:layout_height="220dp"
                         android:adjustViewBounds="true"
                         android:cropToPadding="true"
-                        android:scaleType="fitXY"
+                        android:scaleType="fitCenter"
                         app:imageUrl="@{recipe.imageUrl}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"

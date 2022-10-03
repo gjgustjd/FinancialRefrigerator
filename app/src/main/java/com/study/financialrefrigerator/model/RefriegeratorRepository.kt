@@ -4,6 +4,7 @@ import com.study.financialrefrigerator.model.ingredient.IngredientItem
 import com.study.financialrefrigerator.model.meal.MealAndRecipeItem
 import com.study.financialrefrigerator.model.meal.MealItem
 import com.study.financialrefrigerator.model.recipe.RecipeItem
+import kotlinx.coroutines.flow.asFlow
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -23,8 +24,11 @@ class RefriegeratorRepository @Inject constructor(
     fun updateIngredients(item:IngredientItem)=
         refrigeratorDatabase.ingredientsDao().update(item)
 
-    suspend fun getAllIngredient(): List<IngredientItem> =
+    suspend fun getAllIngredient() =
         refrigeratorDatabase.ingredientsDao().getAllIngredient()
+
+    suspend fun getAllIngredientByFlow() =
+        refrigeratorDatabase.ingredientsDao().getAllIngredientAsFlow()
 
     fun insertRecipe(item: RecipeItem) =
         refrigeratorDatabase.recipesDao().insert(item)

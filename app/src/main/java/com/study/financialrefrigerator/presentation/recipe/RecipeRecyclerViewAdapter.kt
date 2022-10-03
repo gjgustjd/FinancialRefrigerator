@@ -11,7 +11,6 @@ import com.study.financialrefrigerator.base.BaseViewHolder
 import com.study.financialrefrigerator.common.DialogUtil
 import com.study.financialrefrigerator.databinding.ItemRecipeSearchBinding
 import com.study.financialrefrigerator.model.meal.MealAndRecipeItem
-import com.study.financialrefrigerator.model.recipe.RecipeItem
 import com.study.financialrefrigerator.presentation.recipe.detail.RecipeDetailActivity
 
 class RecipeRecyclerViewAdapter(

@@ -2,21 +2,31 @@ package com.study.financialrefrigerator.presentation.home
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.View.GONE
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.study.financialrefrigerator.R
 import com.study.financialrefrigerator.base.BaseFragment
 import com.study.financialrefrigerator.databinding.FragmentHomeBinding
+import com.study.financialrefrigerator.model.ingredient.IngredientItem
 import com.study.financialrefrigerator.presentation.activity.search.SearchRecipesActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
     override val viewModel: HomeViewModel by viewModels()
-    private val ingredientsAdapter by lazy { HomeIngredientsAdapter(requireActivity(), listOf()) }
+    private val ingredientsAdapter by lazy { HomeIngredientsAdapter(
+        requireActivity(),
+        listOf(),
+        object : DiffUtil.ItemCallback<IngredientItem>() {
+            override fun areItemsTheSame(oldItem: IngredientItem, newItem: IngredientItem) = oldItem == newItem
+            override fun areContentsTheSame(oldItem: IngredientItem, newItem: IngredientItem) = oldItem == newItem
+        })
+    }
 
     companion object {
         const val TAG = "HOME_FRAGMENT"
@@ -33,8 +43,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.setupIngrediestsData()
         initViews()
+        Log.i("HomeFragment","onResume")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.setupIngrediestsData()
+        Log.i("HomeFragment","onResume")
     }
 
     private fun initViews()
@@ -44,7 +60,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
                 adapter = ingredientsAdapter
                 layoutManager = LinearLayoutManager(context)
             }
-            activity?.let {
+            activity?.let { it ->
                 viewModel.homeIngredients.observe(it)
                 {
                     ingredientsAdapter.setItems(it)

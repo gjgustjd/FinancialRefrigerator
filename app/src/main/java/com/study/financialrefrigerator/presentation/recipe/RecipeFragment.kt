@@ -5,12 +5,16 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.study.financialrefrigerator.R
 import com.study.financialrefrigerator.base.BaseFragment
 import com.study.financialrefrigerator.databinding.FragmentRecipeBinding
 import com.study.financialrefrigerator.presentation.recipe.detail.RecipeDetailActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class RecipeFragment : BaseFragment<FragmentRecipeBinding, RecipeViewModel>() {
@@ -71,6 +75,15 @@ class RecipeFragment : BaseFragment<FragmentRecipeBinding, RecipeViewModel>() {
             }
 
             recipeRecyclerViewAdapter.refreshData()
+        }
+        lifecycleScope.launch(Dispatchers.Main){
+            viewModel.mealsWithRecipesFlow.collectLatest {
+                btnAction.visibility =
+                    if (it.isEmpty())
+                        View.GONE
+                    else
+                        View.VISIBLE
+            }
         }
     }
 

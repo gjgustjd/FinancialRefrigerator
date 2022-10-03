@@ -2,6 +2,7 @@ package com.study.financialrefrigerator.presentation.recipe
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.viewModels
@@ -12,6 +13,7 @@ import com.study.financialrefrigerator.base.BaseFragment
 import com.study.financialrefrigerator.databinding.FragmentRecipeBinding
 import com.study.financialrefrigerator.presentation.recipe.detail.RecipeDetailActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_recipe.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -76,13 +78,15 @@ class RecipeFragment : BaseFragment<FragmentRecipeBinding, RecipeViewModel>() {
 
             recipeRecyclerViewAdapter.refreshData()
         }
-        lifecycleScope.launch(Dispatchers.Main){
+        lifecycleScope.launch(Dispatchers.Main) {
             viewModel.mealsWithRecipesFlow.collectLatest {
-                btnAction.visibility =
-                    if (it.isEmpty())
-                        View.GONE
-                    else
-                        View.VISIBLE
+                if (it.isEmpty()) {
+                    btnAction.visibility = View.GONE
+                    binding.txtEmptyRecipes.visibility = View.VISIBLE
+                } else {
+                    btnAction.visibility = View.VISIBLE
+                    binding.txtEmptyRecipes.visibility = View.GONE
+                }
             }
         }
     }
@@ -112,6 +116,11 @@ class RecipeFragment : BaseFragment<FragmentRecipeBinding, RecipeViewModel>() {
 
     private fun initViews() {
 
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.i("RecipeFragment","onStop")
     }
 
     private fun handleSuccessState(recipeState: RecipeState.Success) {

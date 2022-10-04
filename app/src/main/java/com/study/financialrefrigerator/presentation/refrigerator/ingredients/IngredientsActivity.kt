@@ -1,7 +1,6 @@
 package com.study.financialrefrigerator.presentation.refrigerator.ingredients
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -14,18 +13,26 @@ import com.study.financialrefrigerator.databinding.ActivityIngredientsBinding
 import com.study.financialrefrigerator.model.ingredient.IngredientItem
 import com.study.financialrefrigerator.presentation.refrigerator.RefrigeratorFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.refrigerator_item.*
+import kotlinx.android.synthetic.main.title_bar.*
 import org.joda.time.Days
 import org.joda.time.LocalDate
 
 @AndroidEntryPoint
-class IngredientsActivity : BaseActivity<ActivityIngredientsBinding, IngredientsVieModel>(), AdapterView.OnItemSelectedListener {
+class IngredientsActivity : BaseActivity<ActivityIngredientsBinding, IngredientsVieModel>(), AdapterView.OnItemSelectedListener, View.OnClickListener {
+
+    companion object {
+        const val TYPE = "INGREDIENTS_TYPE"
+        const val WRITE = "WRITE"
+        const val MODIFY= "MODIFY"
+    }
 
     override val layoutId: Int
         get() = R.layout.activity_ingredients
 
     private var ingredientsID: Int? = null
-
     private var shelfLifeDay: Int? = null
+    private var type: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,53 +81,93 @@ class IngredientsActivity : BaseActivity<ActivityIngredientsBinding, Ingredients
         }
     }
 
+    override fun onClick(v: View?) {
+        with(binding) {
+            when (v?.id) {
+                R.id.calendarButton -> {
+                    DatePickerFragment().show(supportFragmentManager, "datePicker")
+                }
+
+                R.id.saveButton -> {
+                    try {
+                        val name = ingredientsName.text.toString()
+                        val description = ingredientsDescription.text.toString()
+                        val quantity = etIngredientsAmount.text.toString().toInt()
+                        val unit = amountSpinner.selectedItem.toString()
+
+                        if (isCorrectIngredientData(name, quantity)) return
+
+                        val ingredientItem = IngredientItem(
+                            name = name,
+                            description = description,
+                            quantity = quantity,
+                            unit = unit,
+                            shelf_life = shelfLifeDay ?: 0
+                        )
+                        when (type) {
+                            WRITE -> {
+                                viewModel.writeTodo(ingredientItem)
+                            }
+                            MODIFY -> {
+                                viewModel.modifyTodo(ingredientItem)
+                            }
+                        }
+                    } catch (e: Exception) {
+                        Toast.makeText(this@IngredientsActivity, getString(R.string.error), Toast.LENGTH_SHORT).show()
+                        return
+                    }
+                }
+
+                R.id.imgbtn_back -> {
+                    onBackPressed()
+                }
+            }
+        }
+    }
+
+
     private fun initData() {
         ingredientsID = intent.getIntExtra(RefrigeratorFragment.REFRIGERATOR_EXTRA_ID, -1)
         ingredientsID?.let { viewModel.setId(it) }
+        type = intent.getStringExtra(TYPE)
         viewModel.fetchData()
     }
 
     private fun initViews() = with(binding) {
         calendarTextView.isGone = true
         titleBar.txtHomeTitle.text = "식재료"
-        ingredientsName.setOnClickListener {
-            Log.d(",", ",")
+        calendarButton.setOnClickListener(this@IngredientsActivity)
+        saveButton.setOnClickListener(this@IngredientsActivity)
+        imgbtn_back.setOnClickListener(this@IngredientsActivity)
+    }
+
+    private fun isCorrectIngredientData(name: String, quantity: Int): Boolean {
+        if (isNameCorrect(name)) {
+            Toast.makeText(this@IngredientsActivity, getString(R.string.name_error), Toast.LENGTH_SHORT).show()
+            return true
         }
 
-        calendarButton.setOnClickListener {
-            DatePickerFragment().show(supportFragmentManager, "datePicker")
+        if (isQuantityCorrect(quantity)) {
+            Toast.makeText(this@IngredientsActivity, getString(R.string.quantity_error), Toast.LENGTH_SHORT).show()
+            return true
         }
 
-        saveButton.setOnClickListener {
-            try {
-                val name = ingredientsName.text.toString()
-                val description = ingredientsDescription.text.toString()
-                val quantity = etIngredientsAmount.text.toString().toInt()
-                val unit = amountSpinner.selectedItem.toString()
-
-                if (name.isEmpty() || quantity == 0 || unit.isEmpty() || shelfLifeDay == null) {
-                    Toast.makeText(this@IngredientsActivity, "정보를 정확히 입력해주세요", Toast.LENGTH_SHORT).show()
-                    return@setOnClickListener
-                } else if (shelfLifeDay!! < 0) {
-                    Toast.makeText(this@IngredientsActivity, "이미 유통기한이 지난 식재료입니다.", Toast.LENGTH_SHORT).show()
-                    return@setOnClickListener
-                }
-
-                val ingredientItem = IngredientItem(
-                    name = name,
-                    description = description,
-                    quantity = quantity,
-                    unit = unit,
-                    shelf_life = shelfLifeDay ?: 0
-
-                )
-                viewModel.writeTodo(ingredientItem)
-            } catch (e: Exception) {
-                Toast.makeText(this@IngredientsActivity, "에러가 발생하였습니다.", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
+        if (shelfLifeDay == null) {
+            Toast.makeText(this@IngredientsActivity, getString(R.string.day_error), Toast.LENGTH_SHORT).show()
+            return true
+        } else if (shelfLifeDay!! < 0) {
+            Toast.makeText(this@IngredientsActivity, getString(R.string.shelflife_error), Toast.LENGTH_SHORT).show()
+            return true
         }
+        return false
+    }
+
+    private fun isQuantityCorrect(quantity: Int): Boolean {
+        return quantity == 0
+    }
+
+    private fun isNameCorrect(name: String): Boolean {
+        return name.isEmpty()
     }
 
     private fun initSpinner() {
@@ -133,7 +180,7 @@ class IngredientsActivity : BaseActivity<ActivityIngredientsBinding, Ingredients
     fun setCalendarDate(year: Int, month: Int, day: Int) {
         shelfLifeDay = Days.daysBetween(LocalDate.now(), LocalDate(year, month + 1, day)).days + 1
         binding.calendarTextView.run {
-            text = LocalDate(year, month, day).toString("yyyy-MM-dd")
+            text = LocalDate(year, month + 1, day).toString("yyyy-MM-dd")
             isGone = false
         }
     }
@@ -148,17 +195,23 @@ class IngredientsActivity : BaseActivity<ActivityIngredientsBinding, Ingredients
             } else {
                 etIngredientsAmount.setText(ingredients.quantity.toString())
             }
+            calendarTextView.text = ingredients?.shelf_life?.let { LocalDate.now().plusDays(it).toString("yyyy-MM-dd") }
+            shelfLifeDay = ingredients?.shelf_life
+            calendarTextView.isGone = false
         }
     }
 
     private fun modifyHandler() {
-
-    }
-
-    private fun writeHandler() {
-        Toast.makeText(this, "저장에 성공하였습니다.", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, getString(R.string.modify_success), Toast.LENGTH_SHORT).show()
         setResult(RESULT_OK)
         finish()
     }
+
+    private fun writeHandler() {
+        Toast.makeText(this, getString(R.string.save_success), Toast.LENGTH_SHORT).show()
+        setResult(RESULT_OK)
+        finish()
+    }
+
 
 }

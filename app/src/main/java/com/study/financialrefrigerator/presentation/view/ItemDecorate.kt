@@ -23,26 +23,25 @@ class ItemDecorate : RecyclerView.ItemDecoration() {
         val position = parent.getChildAdapterPosition(view)
         val itemCount = state.itemCount
 
-        outRect.left = dpToPx(view.context,10)
-        outRect.right = dpToPx(view.context,10)
+        outRect.left = dpToPx(view.context, 10)
+        outRect.right = dpToPx(view.context, 10)
 
-        if (position == 0) {
-            outRect.top = dpToPx(view.context,10)
-        } else if (position+1 == itemCount) {
-            outRect.bottom = dpToPx(view.context, 10)
+
+        outRect.top = dpToPx(view.context, 10)
+        outRect.bottom = dpToPx(view.context, 10)
+
+
+        val lp: GridLayoutManager.LayoutParams = view.layoutParams as (GridLayoutManager.LayoutParams)
+
+        val spanIndex = lp.spanIndex
+
+        if (spanIndex == 0) {
+            outRect.left = dpToPx(view.context, 10)
+            outRect.right = dpToPx(view.context, 10)
+        } else if (spanIndex == 1) {
+            outRect.left = dpToPx(view.context, 10)
+            outRect.right = dpToPx(view.context, 10)
         }
-
-//        val lp : GridLayoutManager.LayoutParams = view.layoutParams as (GridLayoutManager.LayoutParams)
-//
-//        val spanIndex = lp.spanIndex
-//
-//        if(spanIndex == 0){
-//            outRect.left = dpToPx(view.context, 10)
-//            outRect.right = dpToPx(view.context, 5)
-//        } else if (spanIndex == 1) {
-//            outRect.left = dpToPx(view.context, 5)
-//            outRect.right = dpToPx(view.context, 10)
-//        }
 
     }
 

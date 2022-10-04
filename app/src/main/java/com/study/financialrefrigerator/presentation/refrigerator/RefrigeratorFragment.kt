@@ -12,6 +12,7 @@ import com.study.financialrefrigerator.R
 import com.study.financialrefrigerator.base.BaseFragment
 import com.study.financialrefrigerator.databinding.FragmentRefrigeratorBinding
 import com.study.financialrefrigerator.presentation.refrigerator.ingredients.IngredientsActivity
+import com.study.financialrefrigerator.presentation.view.ItemDecorate
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -38,11 +39,19 @@ class RefrigeratorFragment : BaseFragment<FragmentRefrigeratorBinding, Refrigera
         RefrigeratorRecyclerViewAdapter(itemOnClicked = { ingredients ->
             val intent = context?.let { Intent(it, IngredientsActivity::class.java) }
             intent?.putExtra(REFRIGERATOR_EXTRA_ID, ingredients.id)
+            intent?.putExtra(IngredientsActivity.TYPE, IngredientsActivity.MODIFY)
             startActivity(intent) //intent extra 넘길 예정
         }, deleteOnClicked = {
             viewModel.delete(it)
         })
     }
+
+    private val getResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == RESULT_OK) {
+                viewModel.fetchData()
+            }
+        }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -77,21 +86,20 @@ class RefrigeratorFragment : BaseFragment<FragmentRefrigeratorBinding, Refrigera
     }
 
     private fun initViews() {
-        val getResult =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-                if (it.resultCode == RESULT_OK) {
-                    viewModel.fetchData()
-                }
-            }
-        binding.titleBar.txtHomeTitle.text = "나의 냉장고"
+        binding.titleBar.txtHomeTitle.text = getString(R.string.my_refrigerator)
         binding.addFAButton.setOnClickListener {
-            context?.let { getResult.launch(Intent(it, IngredientsActivity::class.java)) }
+            context?.let {
+                val intent = context?.let { Intent(it, IngredientsActivity::class.java) }
+                intent?.putExtra(IngredientsActivity.TYPE, IngredientsActivity.WRITE)
+                getResult.launch(intent)
+            }
         }
     }
 
     private fun initRecyclerView() {
         binding.refrigeratorRecyclerView.adapter = refrigeratorRecyclerViewAdapter
         binding.refrigeratorRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
+        binding.refrigeratorRecyclerView.addItemDecoration(ItemDecorate())
     }
 
 

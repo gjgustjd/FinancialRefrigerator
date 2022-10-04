@@ -37,4 +37,11 @@ class IngredientsVieModel @Inject constructor(private val repository: Refriegera
         }
         _ingredientsLiveData.postValue(IngredientsState.Write)
     }
+
+    fun modifyTodo(item: IngredientItem) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.updateIngredients(item)
+        }
+        _ingredientsLiveData.postValue(IngredientsState.Modify)
+    }
 }

@@ -150,6 +150,7 @@
             android:layout_width="0dp"
             android:layout_height="60dp"
             android:textSize="20sp"
+            android:textColor="@color/white"
             android:backgroundTint="@color/title_sky"
             android:layout_marginHorizontal="10dp"
             app:layout_constraintBottom_toBottomOf="parent"

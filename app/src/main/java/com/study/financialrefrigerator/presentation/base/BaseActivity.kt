@@ -1,13 +1,13 @@
-package com.study.financialrefrigerator.base
+package com.study.financialrefrigerator.presentation.base
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import com.study.financialrefrigerator.Dialog.CustomProgressDialog
+import com.study.financialrefrigerator.presentation.Dialog.CustomProgressDialog
 import kotlinx.coroutines.Job
 
-abstract class BaseActivity<Binding: ViewDataBinding, VM:BaseViewModel>: AppCompatActivity() {
+abstract class BaseActivity<Binding: ViewDataBinding, VM: BaseViewModel>: AppCompatActivity() {
     lateinit var binding: Binding
     abstract val layoutId: Int
     abstract val viewModel: VM

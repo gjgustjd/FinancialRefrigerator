@@ -3,7 +3,7 @@ package com.study.financialrefrigerator.presentation.activity.search
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.study.financialrefrigerator.base.BaseViewModel
+import com.study.financialrefrigerator.presentation.base.BaseViewModel
 import com.study.financialrefrigerator.model.RefriegeratorRepository
 import com.study.financialrefrigerator.model.recipe.RecipeItem
 import dagger.hilt.android.lifecycle.HiltViewModel

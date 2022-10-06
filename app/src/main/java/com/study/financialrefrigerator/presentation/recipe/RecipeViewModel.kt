@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.study.financialrefrigerator.base.BaseViewModel
+import com.study.financialrefrigerator.presentation.base.BaseViewModel
 import com.study.financialrefrigerator.model.RefriegeratorRepository
 import com.study.financialrefrigerator.model.meal.MealAndRecipeItem
 import com.study.financialrefrigerator.model.recipe.RecipeItem

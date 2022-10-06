@@ -5,12 +5,12 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.study.financialrefrigerator.R
-import com.study.financialrefrigerator.base.BaseActivity
+import com.study.financialrefrigerator.presentation.base.BaseActivity
 import com.study.financialrefrigerator.databinding.ActivitySearchRecipesBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SearchRecipesActivity : BaseActivity<ActivitySearchRecipesBinding,SearchRecipesViewModel>() {
+class SearchRecipesActivity : BaseActivity<ActivitySearchRecipesBinding, SearchRecipesViewModel>() {
     companion object IntentKey{
        const val SEARCH_TYPE="type"
         const val SEARCH_KEYWORD="keyword"

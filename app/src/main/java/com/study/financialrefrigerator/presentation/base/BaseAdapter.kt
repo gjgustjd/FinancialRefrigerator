@@ -1,11 +1,11 @@
-package com.study.financialrefrigerator.base
+package com.study.financialrefrigerator.presentation.base
 
 import android.content.Context
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 
-abstract class BaseAdapter<ItemVO:Any,holder:BaseViewHolder<ItemVO>> constructor(
+abstract class BaseAdapter<ItemVO:Any,holder: BaseViewHolder<ItemVO>> constructor(
     open val context: Context?=null,
     open var itemList: List<ItemVO>,
     diffUtil: DiffUtil.ItemCallback<ItemVO> = getDefaultDiffUtil()

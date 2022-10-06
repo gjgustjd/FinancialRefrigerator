@@ -9,7 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.study.financialrefrigerator.R
-import com.study.financialrefrigerator.base.BaseFragment
+import com.study.financialrefrigerator.presentation.base.BaseFragment
 import com.study.financialrefrigerator.databinding.FragmentRecipeBinding
 import com.study.financialrefrigerator.presentation.recipe.detail.RecipeDetailActivity
 import dagger.hilt.android.AndroidEntryPoint

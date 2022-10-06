@@ -9,7 +9,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.study.financialrefrigerator.R
-import com.study.financialrefrigerator.base.BaseFragment
+import com.study.financialrefrigerator.presentation.base.BaseFragment
 import com.study.financialrefrigerator.databinding.FragmentRefrigeratorBinding
 import com.study.financialrefrigerator.presentation.refrigerator.ingredients.IngredientsActivity
 import com.study.financialrefrigerator.presentation.view.ItemDecorate

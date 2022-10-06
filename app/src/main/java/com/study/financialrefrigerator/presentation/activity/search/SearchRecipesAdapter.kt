@@ -6,8 +6,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.study.financialrefrigerator.R
-import com.study.financialrefrigerator.base.BaseAdapter
-import com.study.financialrefrigerator.base.BaseViewHolder
+import com.study.financialrefrigerator.presentation.base.BaseAdapter
+import com.study.financialrefrigerator.presentation.base.BaseViewHolder
 import com.study.financialrefrigerator.databinding.ItemRecipeSearchBinding
 import com.study.financialrefrigerator.model.recipe.RecipeItem
 import com.study.financialrefrigerator.presentation.recipe.detail.RecipeDetailActivity
@@ -15,7 +15,7 @@ import com.study.financialrefrigerator.presentation.recipe.detail.RecipeDetailAc
 class SearchRecipesAdapter constructor(
     context: Context,
     items: List<RecipeItem>,
-) :BaseAdapter<RecipeItem,SearchRecipesAdapter.Holder>(context,items) {
+) : BaseAdapter<RecipeItem, SearchRecipesAdapter.Holder>(context,items) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val view =
             LayoutInflater.from(parent.context)

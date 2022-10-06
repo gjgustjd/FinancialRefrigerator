@@ -1,2 +1,5 @@
 rootProject.name = "FinancialRefrigerator"
 include ':app'
+include ':data'
+include ':presentation'
+include ':domain'

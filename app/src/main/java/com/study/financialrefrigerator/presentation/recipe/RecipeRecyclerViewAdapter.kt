@@ -6,8 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.study.financialrefrigerator.R
-import com.study.financialrefrigerator.base.BaseAdapter
-import com.study.financialrefrigerator.base.BaseViewHolder
+import com.study.financialrefrigerator.presentation.base.BaseAdapter
+import com.study.financialrefrigerator.presentation.base.BaseViewHolder
 import com.study.financialrefrigerator.common.DialogUtil
 import com.study.financialrefrigerator.databinding.ItemRecipeSearchBinding
 import com.study.financialrefrigerator.model.meal.MealAndRecipeItem

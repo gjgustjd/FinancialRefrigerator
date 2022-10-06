@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.view.isGone
 import com.study.financialrefrigerator.R
-import com.study.financialrefrigerator.base.BaseActivity
+import com.study.financialrefrigerator.presentation.base.BaseActivity
 import com.study.financialrefrigerator.databinding.ActivityIngredientsBinding
 import com.study.financialrefrigerator.model.ingredient.IngredientItem
 import com.study.financialrefrigerator.presentation.refrigerator.RefrigeratorFragment

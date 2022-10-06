@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import com.study.financialrefrigerator.R
-import com.study.financialrefrigerator.base.BaseActivity
+import com.study.financialrefrigerator.presentation.base.BaseActivity
 import com.study.financialrefrigerator.databinding.ActivityMainBinding
 import com.study.financialrefrigerator.presentation.home.HomeFragment
 import com.study.financialrefrigerator.presentation.recipe.RecipeFragment

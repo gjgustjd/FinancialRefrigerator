@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import com.study.financialrefrigerator.R
-import com.study.financialrefrigerator.base.BaseActivity
+import com.study.financialrefrigerator.presentation.base.BaseActivity
 import com.study.financialrefrigerator.databinding.ActivityRecipeDetailBinding
 import com.study.financialrefrigerator.model.recipe.RecipeItem
 import dagger.hilt.android.AndroidEntryPoint

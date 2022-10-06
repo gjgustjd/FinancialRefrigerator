@@ -1,4 +1,4 @@
-package com.study.financialrefrigerator.Dialog
+package com.study.financialrefrigerator.presentation.Dialog
 
 import android.app.Dialog
 import android.os.Bundle

@@ -1,4 +1,4 @@
-package com.study.financialrefrigerator.base
+package com.study.financialrefrigerator.presentation.base
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,7 +9,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import kotlinx.coroutines.Job
 
-abstract class BaseFragment<Binding : ViewDataBinding, VM:BaseViewModel> : Fragment() {
+abstract class BaseFragment<Binding : ViewDataBinding, VM: BaseViewModel> : Fragment() {
     private var _binding: Binding? = null
     open val binding get() = _binding!!
     abstract val viewModel: VM

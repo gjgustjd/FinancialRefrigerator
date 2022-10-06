@@ -1,7 +1,7 @@
 package com.study.financialrefrigerator.presentation.activity.main
 
 import androidx.lifecycle.viewModelScope
-import com.study.financialrefrigerator.base.BaseViewModel
+import com.study.financialrefrigerator.presentation.base.BaseViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 

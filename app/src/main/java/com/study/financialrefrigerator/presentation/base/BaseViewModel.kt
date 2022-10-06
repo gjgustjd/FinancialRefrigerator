@@ -1,4 +1,4 @@
-package com.study.financialrefrigerator.base
+package com.study.financialrefrigerator.presentation.base
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.Job

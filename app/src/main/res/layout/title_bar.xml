@@ -3,10 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
-        <import type="com.study.financialrefrigerator.base.BaseActivity"/>
+        <import type="com.study.financialrefrigerator.presentation.base.BaseActivity"/>
         <variable
             name="activity"
-            type="BaseActivity" />
+            type="com.study.financialrefrigerator.presentation.base.BaseActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

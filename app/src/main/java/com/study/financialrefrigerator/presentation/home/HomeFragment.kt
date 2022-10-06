@@ -10,7 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.study.financialrefrigerator.R
-import com.study.financialrefrigerator.base.BaseFragment
+import com.study.financialrefrigerator.presentation.base.BaseFragment
 import com.study.financialrefrigerator.databinding.FragmentHomeBinding
 import com.study.financialrefrigerator.model.ingredient.IngredientItem
 import com.study.financialrefrigerator.presentation.activity.search.SearchRecipesActivity

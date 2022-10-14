@@ -1,4 +1,4 @@
-package com.study.presentation.v2.activity
+package com.study.presentation.v2.view.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

@@ -28,7 +28,7 @@ android {
         targetCompatibility JavaVersion.VERSION_1_6
     }
     kotlinOptions {
-        jvmTarget = '1.6'
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
     kapt {
         javacOptions {

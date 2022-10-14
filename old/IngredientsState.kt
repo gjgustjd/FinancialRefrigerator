@@ -1,6 +1,6 @@
-package com.study.old.old.presentation.refrigerator.ingredients
+package com.study.presentation.old.presentation.refrigerator.ingredients
 
-import com.study.old.old.model.ingredient.IngredientItem
+import com.study.presentation.old.model.ingredient.IngredientItem
 
 sealed class IngredientsState {
 

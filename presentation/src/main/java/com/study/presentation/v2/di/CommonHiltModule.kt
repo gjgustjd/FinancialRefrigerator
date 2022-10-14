@@ -2,7 +2,7 @@ package com.study.presentation.v2.di
 
 import android.content.Context
 import androidx.room.Room
-import com.study.presentation.old.model.RefrigeratorDatabase
+import com.study.data.database.RefrigeratorDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

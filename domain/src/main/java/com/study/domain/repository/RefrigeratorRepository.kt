@@ -6,7 +6,7 @@ import com.study.domain.model.MealItem
 import com.study.domain.model.RecipeItem
 import kotlinx.coroutines.flow.Flow
 
-interface RefriegeratorRepository {
+interface RefrigeratorRepository {
     suspend fun getIngredientById(id: Int): IngredientItem?
     suspend fun insertIngredients(item: IngredientItem)
     suspend fun deleteIngredients(item: IngredientItem)

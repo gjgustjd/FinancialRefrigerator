@@ -1,9 +1,6 @@
 package com.study.data.repository
 
 import com.study.data.mapper.*
-import com.study.data.model.ingredient.IngredientEntity
-import com.study.data.model.meal.MealEntity
-import com.study.data.model.recipe.RecipeEntity
 import com.study.data.repository.local.RefrigeratorLocalDataSource
 import com.study.domain.model.IngredientItem
 import com.study.domain.model.MealAndRecipeItem
@@ -15,7 +12,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class RefriegeratorRepositoryImpl @Inject constructor(
+class RefrigeratorRepositoryImpl @Inject constructor(
     val localDataSource: RefrigeratorLocalDataSource
 ):RefriegeratorRepository {
     override suspend fun getIngredientById(id: Int) =

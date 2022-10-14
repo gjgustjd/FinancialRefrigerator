@@ -8,7 +8,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class RefriegeratorLocalDataSourceImpl @Inject constructor(
+class RefrigeratorLocalDataSourceImpl @Inject constructor(
     var refrigeratorDatabase: RefrigeratorDatabase
 ):RefrigeratorLocalDataSource {
     override suspend fun getIngredientById(id:Int) =

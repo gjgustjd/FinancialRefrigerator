@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <data>
-        <import type="com.study.presentation.old.model.recipe.RecipeItem"/>
+        <import type="com.study.domain.model.RecipeItem"/>
         <variable
             name="recipe"
-            type="com.study.presentation.old.model.recipe.RecipeItem" />
+            type="com.study.domain.model.RecipeItem" />
     </data>
 
     <FrameLayout

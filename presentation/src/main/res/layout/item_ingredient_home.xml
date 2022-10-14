@@ -6,7 +6,7 @@
     <data>
         <variable
             name="ingredient"
-            type="com.study.presentation.old.model.ingredient.IngredientItem" />
+            type="com.study.domain.model.IngredientItem" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -21,19 +21,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.study.presentation.old.presentation.refrigerator.ingredients.IngredientsActivity"
-            android:exported="true" />
-        <activity
-            android:name="com.study.presentation.old.presentation.activity.search.SearchRecipesActivity"
-            android:exported="false" />
-        <activity
-            android:name="com.study.presentation.old.presentation.recipe.detail.RecipeDetailActivity"
-            android:exported="false" />
-        <activity
-            android:name="com.study.presentation.old.presentation.activity.main.MainActivity"
-            android:exported="false">
-        </activity>
     </application>
 
 </manifest>

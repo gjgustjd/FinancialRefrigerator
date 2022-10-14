@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import com.study.presentation.R
 import com.study.presentation.v2.base.BaseActivity
 import com.study.presentation.databinding.ActivityMainBinding
+import com.study.presentation.v2.view.main.home.HomeFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -16,14 +17,14 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
 
     override val viewModel: MainViewModel by viewModels()
 
-//    private val homeFragment by lazy { HomeFragment.newInstance() }
+    private val homeFragment by lazy { HomeFragment.newInstance() }
 //    private val recipeFragment by lazy { RecipeFragment.newInstance() }
 //    private val refrigeratorFragment by lazy { RefrigeratorFragment.newInstance() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initBottomNav()
-//        showFragment(homeFragment, HomeFragment.TAG)
+        showFragment(homeFragment, HomeFragment.TAG)
     }
 
     private fun initBottomNav() {
@@ -31,7 +32,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
             bottomNav.setOnItemSelectedListener { menuItem ->
                 when (menuItem.itemId) {
                     R.id.home_menu -> {
-//                        showFragment(homeFragment, HomeFragment.TAG)
+                        showFragment(homeFragment, HomeFragment.TAG)
                         true
                     }
                     R.id.recipe_menu -> {

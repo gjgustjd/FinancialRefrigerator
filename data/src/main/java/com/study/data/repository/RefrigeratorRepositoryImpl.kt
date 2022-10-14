@@ -6,7 +6,7 @@ import com.study.domain.model.IngredientItem
 import com.study.domain.model.MealAndRecipeItem
 import com.study.domain.model.MealItem
 import com.study.domain.model.RecipeItem
-import com.study.domain.repository.RefriegeratorRepository
+import com.study.domain.repository.RefrigeratorRepository
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -14,7 +14,7 @@ import javax.inject.Singleton
 @Singleton
 class RefrigeratorRepositoryImpl @Inject constructor(
     val localDataSource: RefrigeratorLocalDataSource
-):RefriegeratorRepository {
+): RefrigeratorRepository {
     override suspend fun getIngredientById(id: Int) =
         localDataSource.getIngredientById(id)?.toIngredientItem()
 

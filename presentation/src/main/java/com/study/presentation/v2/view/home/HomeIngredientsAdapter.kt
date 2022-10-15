@@ -1,6 +1,7 @@
 package com.study.presentation.v2.view.home
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -9,6 +10,7 @@ import com.study.presentation.R
 import com.study.presentation.databinding.ItemIngredientHomeBinding
 import com.study.presentation.v2.base.BaseAdapter
 import com.study.presentation.v2.base.BaseViewHolder
+import com.study.presentation.v2.view.searchRecipe.SearchRecipesActivity
 
 class HomeIngredientsAdapter (
     context: Context,
@@ -29,11 +31,11 @@ class HomeIngredientsAdapter (
         override fun bind(item: IngredientItem) {
             itemBinding.ingredient = item
             itemBinding.item.setOnClickListener{
-//                context?.startActivity(
-//                    Intent(context, SearchRecipesActivity::class.java)
-//                        .putExtra(SearchRecipesActivity.SEARCH_TYPE, SearchRecipesActivity.TYPE_INGREDIENT)
-//                        .putExtra(SearchRecipesActivity.SEARCH_KEYWORD,item.name)
-//                )
+                context?.startActivity(
+                    Intent(context, SearchRecipesActivity::class.java)
+                        .putExtra(SearchRecipesActivity.SEARCH_TYPE, SearchRecipesActivity.TYPE_INGREDIENT)
+                        .putExtra(SearchRecipesActivity.SEARCH_KEYWORD,item.name)
+                )
             }
         }
     }

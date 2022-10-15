@@ -23,6 +23,8 @@
         </activity>
         <activity
             android:name=".v2.view.recipeDetail.RecipeDetailActivity"/>
+        <activity
+            android:name=".v2.view.searchRecipe.SearchRecipesActivity"/>
     </application>
 
 </manifest>

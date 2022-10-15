@@ -6,9 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.study.domain.model.MealAndRecipeItem
+import com.study.presentation.R
 import com.study.presentation.databinding.ItemRecipeSearchBinding
 import com.study.presentation.v2.base.BaseAdapter
 import com.study.presentation.v2.base.BaseViewHolder
+import com.study.presentation.v2.view.dialog.DialogUtil
 
 class RecipeRecyclerViewAdapter(
     context: Context,
@@ -57,13 +59,13 @@ class RecipeRecyclerViewAdapter(
     fun showDeleteDialog(item: MealAndRecipeItem)
     {
         context?.run{
-//            DialogUtil(context).showTwoBtn(
-//                title = context.getString(R.string.text_remove),
-//                content = context.getString(R.string.remove_recipe_item_dialog_content),
-//                confirmClickListener = {
-//                    viewModel.delete(item)
-//                }
-//            )
+            DialogUtil(this).showTwoBtn(
+                title = getString(R.string.text_remove),
+                content = getString(R.string.remove_recipe_item_dialog_content),
+                confirmClickListener = {
+                    viewModel.delete(item)
+                }
+            )
         }
     }
 

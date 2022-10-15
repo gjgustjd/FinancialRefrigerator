@@ -34,9 +34,10 @@ class RecipeFragment : BaseFragment<FragmentRecipeBinding, RecipeViewModel>() {
     override val viewModel: RecipeViewModel by viewModels()
 
     private val recipeRecyclerViewAdapter by lazy {
-            RecipeRecyclerViewAdapter(
-                viewModel = viewModel,
-                context = context?:throw IllegalArgumentException())
+        RecipeRecyclerViewAdapter(
+            viewModel = viewModel,
+            context = context ?: throw IllegalArgumentException()
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

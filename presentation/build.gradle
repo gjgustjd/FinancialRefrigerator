@@ -103,4 +103,6 @@ dependencies {
     //joda Time
     implementation 'joda-time:joda-time:2.10.10'
 
+    //jSoup
+    implementation 'org.jsoup:jsoup:1.13.1'
 }

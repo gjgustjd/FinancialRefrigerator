@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.study.domain.repository.RefrigeratorRepository
-import com.study.domain.usecase.meal.DeleteMealByIdUseCase
-import com.study.domain.usecase.meal.InsertMealUseCase
-import com.study.domain.usecase.recipe.GetRecipeByIdUseCase
+import com.study.domain.usecase.local.meal.DeleteMealByIdUseCase
+import com.study.domain.usecase.local.meal.InsertMealUseCase
+import com.study.domain.usecase.local.recipe.GetRecipeByIdUseCase
 import com.study.presentation.v2.base.BaseViewModel
 import com.study.presentation.v2.view.recipeDetail.RecipeDetailState
 import dagger.hilt.android.lifecycle.HiltViewModel

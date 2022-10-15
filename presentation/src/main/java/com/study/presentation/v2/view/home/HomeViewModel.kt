@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.study.domain.model.IngredientItem
-import com.study.domain.usecase.ingredients.GetAllIngredientsUseCase
+import com.study.domain.usecase.local.ingredients.GetAllIngredientsUseCase
 import com.study.presentation.v2.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job

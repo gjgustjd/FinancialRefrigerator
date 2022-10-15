@@ -1,4 +1,4 @@
-package com.study.domain.usecase.recipe
+package com.study.domain.usecase.local.recipe
 
 import com.study.domain.repository.RefrigeratorRepository
 import kotlinx.coroutines.CoroutineScope

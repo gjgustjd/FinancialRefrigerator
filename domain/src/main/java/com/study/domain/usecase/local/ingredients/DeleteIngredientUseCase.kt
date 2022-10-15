@@ -1,4 +1,4 @@
-package com.study.domain.usecase.ingredients
+package com.study.domain.usecase.local.ingredients
 
 import com.study.domain.model.IngredientItem
 import com.study.domain.repository.RefrigeratorRepository

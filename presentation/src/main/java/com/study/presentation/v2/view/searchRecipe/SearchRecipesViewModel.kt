@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.study.domain.model.RecipeItem
-import com.study.domain.usecase.recipe.GetRecipeByIngredientUseCase
-import com.study.domain.usecase.recipe.GetRecipeByNameUseCase
+import com.study.domain.usecase.local.recipe.GetRecipeByIngredientUseCase
+import com.study.domain.usecase.local.recipe.GetRecipeByNameUseCase
 import com.study.presentation.v2.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

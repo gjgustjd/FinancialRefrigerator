@@ -1,5 +1,6 @@
 package com.study.presentation.v2.view.recipe
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.study.presentation.R
 import com.study.presentation.databinding.FragmentRecipeBinding
 import com.study.presentation.v2.base.BaseFragment
+import com.study.presentation.v2.view.ingredients.IngredientsActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
@@ -45,11 +47,18 @@ class RecipeFragment : BaseFragment<FragmentRecipeBinding, RecipeViewModel>() {
         observeData()
         initTitleView()
         initRecyclerView()
+        initFloatingButton()
     }
 
     override fun onResume() {
         super.onResume()
         viewModel.fetchData()
+    }
+    private fun initFloatingButton(){
+        binding.floatBtnSearchRecipe.setOnClickListener {
+            context?.let {
+            }
+        }
     }
 
     private fun initRecyclerView() {

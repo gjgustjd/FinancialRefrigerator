@@ -1,4 +1,4 @@
-package com.study.domain.usecase.ingredients
+package com.study.domain.usecase.local.ingredients
 
 import com.study.domain.model.IngredientItem
 import com.study.domain.repository.RefrigeratorRepository
@@ -7,10 +7,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class UpdateIngredientUseCase @Inject constructor(private val repository: RefrigeratorRepository) {
+class InsertIngredientUseCase @Inject constructor(private val repository: RefrigeratorRepository) {
     fun execute(scope:CoroutineScope,item:IngredientItem) =
         scope.launch(Dispatchers.IO) {
-            repository.updateIngredients(item)
+            repository.insertIngredients(item)
         }
 
     operator fun invoke(scope:CoroutineScope, item: IngredientItem) =

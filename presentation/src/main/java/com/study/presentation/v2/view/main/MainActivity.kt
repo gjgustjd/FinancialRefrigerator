@@ -8,6 +8,7 @@ import com.study.presentation.v2.base.BaseActivity
 import com.study.presentation.databinding.ActivityMainBinding
 import com.study.presentation.v2.view.home.HomeFragment
 import com.study.presentation.v2.view.recipe.RecipeFragment
+import com.study.presentation.v2.view.refrigerator.RefrigeratorFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -20,7 +21,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
 
     private val homeFragment by lazy { HomeFragment.newInstance() }
     private val recipeFragment by lazy { RecipeFragment.newInstance() }
-//    private val refrigeratorFragment by lazy { RefrigeratorFragment.newInstance() }
+    private val refrigeratorFragment by lazy { RefrigeratorFragment.newInstance() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +42,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
                         true
                     }
                     R.id.refrigerator_menu -> {
-//                        showFragment(refrigeratorFragment, RefrigeratorFragment.TAG)
+                        showFragment(refrigeratorFragment, RefrigeratorFragment.TAG)
                         true
                     }
                     else -> {

@@ -9,13 +9,15 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class GetAllIngredientsUseCase @Inject constructor(private val repository: RefrigeratorRepository) {
-    fun execute(scope: CoroutineScope,collectProcess:(list:List<IngredientItem>)->Unit) =
+    fun executeWithCollect(scope: CoroutineScope, collectProcess:(list:List<IngredientItem>)->Unit) =
         scope.launch(Dispatchers.IO) {
             repository.getAllIngredientByFlow().collectLatest {
                 collectProcess(it)
             }
         }
 
+    suspend fun execute()= repository.getAllIngredientByFlow()
+
     operator fun invoke(scope: CoroutineScope,collectProcess:(list:List<IngredientItem>)->Unit) =
-        execute(scope,collectProcess)
+        executeWithCollect(scope,collectProcess)
 }

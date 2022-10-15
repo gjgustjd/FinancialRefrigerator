@@ -11,6 +11,7 @@ import com.study.presentation.databinding.ItemRecipeSearchBinding
 import com.study.presentation.v2.base.BaseAdapter
 import com.study.presentation.v2.base.BaseViewHolder
 import com.study.presentation.v2.view.dialog.DialogUtil
+import com.study.presentation.v2.view.recipeDetail.RecipeDetailActivity
 
 class RecipeRecyclerViewAdapter(
     context: Context,
@@ -36,11 +37,11 @@ class RecipeRecyclerViewAdapter(
                 showDeleteDialog(item)
             }
             root.setOnClickListener{
-//                context?.startActivity(
-//                    Intent(context, RecipeDetailActivity::class.java)
-//                        .putExtra(RecipeDetailActivity.KEY_CALL_FROM, RecipeDetailActivity.FROM_MEALS)
-//                        .putExtra(RecipeDetailActivity.KEY_RECIPE_ID,item.recipe.id)
-//                        .putExtra(RecipeDetailActivity.KEY_MEAL_ID,item.meal.id))
+                context?.startActivity(
+                    Intent(context, RecipeDetailActivity::class.java)
+                        .putExtra(RecipeDetailActivity.KEY_CALL_FROM, RecipeDetailActivity.FROM_MEALS)
+                        .putExtra(RecipeDetailActivity.KEY_RECIPE_ID,item.recipe.id)
+                        .putExtra(RecipeDetailActivity.KEY_MEAL_ID,item.meal.id))
             }
         }
     }

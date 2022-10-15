@@ -1,4 +1,4 @@
-package com.study.presentation.v2.view.main.home
+package com.study.presentation.v2.view.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

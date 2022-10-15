@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 import com.study.presentation.R
 import com.study.presentation.v2.base.BaseActivity
 import com.study.presentation.databinding.ActivityMainBinding
-import com.study.presentation.v2.view.main.home.HomeFragment
+import com.study.presentation.v2.view.home.HomeFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

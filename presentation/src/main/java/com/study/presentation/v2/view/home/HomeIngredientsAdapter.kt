@@ -1,7 +1,6 @@
-package com.study.presentation.v2.view.main.home
+package com.study.presentation.v2.view.home
 
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil

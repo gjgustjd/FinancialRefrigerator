@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import com.study.presentation.v2.view.dialog.CustomProgressDialog
 //import com.study.presentation.Dialog.CustomProgressDialog
 import kotlinx.coroutines.Job
 
@@ -13,7 +14,7 @@ abstract class BaseActivity<Binding: ViewDataBinding, VM: BaseViewModel>: AppCom
     abstract val viewModel: VM
     private lateinit var fetchJob: Job
 
-//    private var progressDialog: CustomProgressDialog? = null
+    private var progressDialog: CustomProgressDialog? = null
 
 
 
@@ -28,14 +29,14 @@ abstract class BaseActivity<Binding: ViewDataBinding, VM: BaseViewModel>: AppCom
 
     open fun initViewModel() {}
 
-//    fun showProgressBar() {
-//        CustomProgressDialog.getInstance().also {
-//            progressDialog = it
-//        }.show(supportFragmentManager,"progressbar")
-//    }
-//    fun hideProgressBar() {
-//        progressDialog?.dismiss()
-//    }
+    fun showProgressBar() {
+        CustomProgressDialog.getInstance().also {
+            progressDialog = it
+        }.show(supportFragmentManager,"progressbar")
+    }
+    fun hideProgressBar() {
+        progressDialog?.dismiss()
+    }
 
     abstract fun observeData()
 

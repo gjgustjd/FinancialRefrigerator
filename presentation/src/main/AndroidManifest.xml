@@ -25,6 +25,8 @@
             android:name=".v2.view.recipeDetail.RecipeDetailActivity"/>
         <activity
             android:name=".v2.view.searchRecipe.SearchRecipesActivity"/>
+        <activity
+            android:name=".v2.view.ingredients.IngredientsActivity"/>
     </application>
 
 </manifest>

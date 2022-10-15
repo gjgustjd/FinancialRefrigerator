@@ -8,11 +8,11 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class UpdateIngredientUseCase @Inject constructor(private val repository: RefrigeratorRepository) {
-    suspend fun execute(scope:CoroutineScope,item:IngredientItem) =
+    fun execute(scope:CoroutineScope,item:IngredientItem) =
         scope.launch(Dispatchers.IO) {
             repository.updateIngredients(item)
         }
 
-    suspend operator fun invoke(scope:CoroutineScope, item: IngredientItem) =
+    operator fun invoke(scope:CoroutineScope, item: IngredientItem) =
         execute(scope,item)
 }

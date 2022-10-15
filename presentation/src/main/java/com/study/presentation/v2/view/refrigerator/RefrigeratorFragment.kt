@@ -12,6 +12,7 @@ import com.study.presentation.R
 import com.study.presentation.databinding.FragmentRefrigeratorBinding
 import com.study.presentation.v2.base.BaseFragment
 import com.study.presentation.v2.util.ItemDecorate
+import com.study.presentation.v2.view.ingredients.IngredientsActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -36,10 +37,10 @@ class RefrigeratorFragment : BaseFragment<FragmentRefrigeratorBinding, Refrigera
 
     private val refrigeratorRecyclerViewAdapter by lazy {
         RefrigeratorRecyclerViewAdapter(itemOnClicked = { ingredients ->
-//            val intent = context?.let { Intent(it, IngredientsActivity::class.java) }
-//            intent?.putExtra(REFRIGERATOR_EXTRA_ID, ingredients.id)
-//            intent?.putExtra(IngredientsActivity.TYPE, IngredientsActivity.MODIFY)
-//            startActivity(intent) //intent extra 넘길 예정
+            val intent = context?.let { Intent(it, IngredientsActivity::class.java) }
+            intent?.putExtra(REFRIGERATOR_EXTRA_ID, ingredients.id)
+            intent?.putExtra(IngredientsActivity.TYPE, IngredientsActivity.MODIFY)
+            startActivity(intent) //intent extra 넘길 예정
         }, deleteOnClicked = {
             viewModel.delete(it)
         })
@@ -88,9 +89,9 @@ class RefrigeratorFragment : BaseFragment<FragmentRefrigeratorBinding, Refrigera
         binding.titleBar.txtHomeTitle.text = getString(R.string.my_refrigerator)
         binding.addFAButton.setOnClickListener {
             context?.let {
-//                val intent = context?.let { Intent(it, IngredientsActivity::class.java) }
-//                intent?.putExtra(IngredientsActivity.TYPE, IngredientsActivity.WRITE)
-//                getResult.launch(intent)
+                val intent = context?.let { Intent(it, IngredientsActivity::class.java) }
+                intent?.putExtra(IngredientsActivity.TYPE, IngredientsActivity.WRITE)
+                getResult.launch(intent)
             }
         }
     }

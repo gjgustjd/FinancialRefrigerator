@@ -10,6 +10,7 @@ import com.study.presentation.R
 import com.study.presentation.databinding.ItemIngredientHomeBinding
 import com.study.presentation.v2.base.BaseAdapter
 import com.study.presentation.v2.base.BaseViewHolder
+import com.study.presentation.v2.view.searchRecipe.CrawlRecipesActivity
 import com.study.presentation.v2.view.searchRecipe.SearchRecipesActivity
 
 class HomeIngredientsAdapter (
@@ -32,9 +33,15 @@ class HomeIngredientsAdapter (
             itemBinding.ingredient = item
             itemBinding.item.setOnClickListener{
                 context?.startActivity(
-                    Intent(context, SearchRecipesActivity::class.java)
-                        .putExtra(SearchRecipesActivity.SEARCH_TYPE, SearchRecipesActivity.TYPE_INGREDIENT)
-                        .putExtra(SearchRecipesActivity.SEARCH_KEYWORD,item.name)
+//                    Intent(context, SearchRecipesActivity::class.java)
+//                        .putExtra(SearchRecipesActivity.SEARCH_TYPE, SearchRecipesActivity.TYPE_INGREDIENT)
+//                        .putExtra(SearchRecipesActivity.SEARCH_KEYWORD,item.name)
+                    Intent(context, CrawlRecipesActivity::class.java)
+                        .putExtra(
+                            CrawlRecipesActivity.SEARCH_TYPE,
+                            CrawlRecipesActivity.TYPE_INGREDIENT
+                        )
+                        .putExtra(CrawlRecipesActivity.SEARCH_KEYWORD, item.name)
                 )
             }
         }

@@ -47,18 +47,11 @@ class RecipeFragment : BaseFragment<FragmentRecipeBinding, RecipeViewModel>() {
         observeData()
         initTitleView()
         initRecyclerView()
-        initFloatingButton()
     }
 
     override fun onResume() {
         super.onResume()
         viewModel.fetchData()
-    }
-    private fun initFloatingButton(){
-        binding.floatBtnSearchRecipe.setOnClickListener {
-            context?.let {
-            }
-        }
     }
 
     private fun initRecyclerView() {

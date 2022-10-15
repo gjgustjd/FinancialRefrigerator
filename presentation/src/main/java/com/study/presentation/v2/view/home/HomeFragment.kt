@@ -1,5 +1,6 @@
 package com.study.presentation.v2.view.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
@@ -12,6 +13,7 @@ import com.study.domain.model.IngredientItem
 import com.study.presentation.R
 import com.study.presentation.databinding.FragmentHomeBinding
 import com.study.presentation.v2.base.BaseFragment
+import com.study.presentation.v2.view.searchRecipe.CrawlRecipesActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -70,11 +72,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
             }
             edtHomeSearchRecipe.setOnKeyListener { _, keyCode, _ ->
                 if (keyCode == KeyEvent.KEYCODE_ENTER) {
-//                    startActivity(
-//                        Intent(activity, SearchRecipesActivity::class.java)
-//                            .putExtra("type", "recipe")
-//                            .putExtra("keyword", binding.edtHomeSearchRecipe.text.toString())
-//                    )
+                    startActivity(
+                        Intent(context, CrawlRecipesActivity::class.java)
+                            .putExtra(
+                                CrawlRecipesActivity.SEARCH_TYPE,
+                                CrawlRecipesActivity.TYPE_RECIPE
+                            )
+                            .putExtra(CrawlRecipesActivity.SEARCH_KEYWORD, binding.edtHomeSearchRecipe.text.toString()))
                 }
                 false
             }

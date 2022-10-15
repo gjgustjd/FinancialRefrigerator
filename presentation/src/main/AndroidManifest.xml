@@ -8,6 +8,7 @@
         android:name="com.study.presentation.v2.base.BaseApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
+        android:usesCleartextTraffic="true"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
@@ -27,6 +28,8 @@
             android:name=".v2.view.searchRecipe.SearchRecipesActivity"/>
         <activity
             android:name=".v2.view.ingredients.IngredientsActivity"/>
+        <activity
+            android:name=".v2.view.searchRecipe.CrawlRecipesActivity"/>
     </application>
 
 </manifest>

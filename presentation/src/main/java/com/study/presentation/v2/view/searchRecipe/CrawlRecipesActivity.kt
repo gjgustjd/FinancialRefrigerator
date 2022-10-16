@@ -14,22 +14,17 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jsoup.Connection
 import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
+import org.jsoup.nodes.Element
+import org.jsoup.select.Elements
 import java.net.URLEncoder
 
 class CrawlRecipesActivity : AppCompatActivity() {
     val recyclerAdapter by lazy { RecyclerWebLinkAdapter() }
     var webLinkVOList = arrayListOf<WebLinkItem>()
-    private val notIngredientsTextList = listOf(
-        ".",
-        "?",
-        "!",
-        "레시피",
-        "만드는법",
-        "만드는 법",
-        "먹는 법",
-        "만들기",
-        "요리",
-    )
+    private val notIngredientsTextList = listOf( ".", "?", "!", "레시피", "만드는법", "만드는 법", "먹는 법", "만들기", "요리", )
+    private val notRecipePostKeywords = listOf("맛집", "후기", "내돈내먹", "식당", "리뷰", "웨이팅", "포장", "밀키트")
+    private val PATH="https://search.daum.net/search?nil_suggest=btn&w=blog&lpp=10&DA=PGD&q="
     companion object IntentKey{
         const val SEARCH_TYPE="type"
         const val SEARCH_KEYWORD="keyword"
@@ -62,6 +57,7 @@ class CrawlRecipesActivity : AppCompatActivity() {
     private fun crawlKeyword(endNum: Int, coroutineNum: Int) {
         webLinkVOList.clear()
         recyclerAdapter.notifyDataSetChanged()
+
         val eachUnit = (endNum / coroutineNum)
         for (j in 0 until coroutineNum) {
             try {
@@ -69,8 +65,7 @@ class CrawlRecipesActivity : AppCompatActivity() {
                 val endPosition = currentPosition + (eachUnit - 1)
                 runCrawler(currentPosition, endPosition)
                 Log.i("crawlKeyword", "$currentPosition..$endPosition")
-            }catch (e:Exception)
-            {
+            } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
@@ -79,61 +74,67 @@ class CrawlRecipesActivity : AppCompatActivity() {
     private fun runCrawler(currentPosition: Int, range: Int) {
         lifecycleScope.launch(Dispatchers.IO) {
             for (i in currentPosition..range) {
-                    val searchKeyword = URLEncoder.encode(keyword, "UTF-8")
-                    val doc =
-                        Jsoup
-                            .connect("https://search.daum.net/search?nil_suggest=btn&w=blog&lpp=10&DA=PGD&q=$searchKeyword&p=$i")
-                            .method(Connection.Method.GET)
-                            .get()
-//                Log.i("DaumCrawling All", doc.toString())
-                    val mightNotRecipePosts = arrayListOf<WebLinkItem>()
-                    doc.select("div:contains(레시피).cont_inner")
-                        ?.forEach {
-                            Log.i("DaumCrawling Parsing", "Started")
-                            val a = it.selectFirst("a[href]")
-
-                            val href = a?.attr("href") ?: ""
-                            val imgUrl = doc.selectFirst("a[href$=$href] img")?.attr("src") ?: ""
-                            val title = a?.text() ?: ""
-                            val desc = it.selectFirst("p")?.text() ?: ""
-                            val webLinkItem =
-                                WebLinkItem(
-                                    href = href,
-                                    imageUrl = imgUrl,
-                                    title = title,
-                                    desc = desc
-                                )
-                            val isMightNotBeRecipePost =
-                                listOf("맛집", "후기", "내돈내먹", "식당", "리뷰", "웨이팅", "포장", "밀키트")
-                                    .any { title.contains(it) || desc.contains(it) }
-
-                            Log.i("DaumCrawling Parsing", "Ended")
-                            if (isMightNotBeRecipePost) {
-                                mightNotRecipePosts.add(webLinkItem)
-                            } else {
+                val searchKeyword = URLEncoder.encode(keyword, "UTF-8")
+                val doc =
+                    Jsoup
+                        .connect("$PATH$searchKeyword&p=$i")
+                        .method(Connection.Method.GET)
+                        .get()
+                doc.select("div:contains(레시피).cont_inner")
+                    ?.forEach { it ->
+                        val webLinkItem = parseWebLink(doc, it)
+                        Log.i("DaumCrawling Parsing", "Ended")
+                        if (isLinkContainNotRecipePostKeywords(webLinkItem)) {
+                            launch {
                                 checkIsRecipePostAndAdd(webLinkItem)
                             }
+                        } else {
+                            checkIsRecipePostAndAdd(webLinkItem)
                         }
-
-                    mightNotRecipePosts.forEach {
-                        checkIsRecipePostAndAdd(it)
                     }
             }
         }
     }
+    private fun parseWebLink(doc: Document, element: Element): WebLinkItem {
+        Log.i("DaumCrawling Parsing", "Started")
+        val a = element.selectFirst("a[href]")
+
+        val href = a?.attr("href") ?: ""
+        val imgUrl = doc.selectFirst("a[href$=$href] img")?.attr("src") ?: ""
+        val title = a?.text() ?: ""
+        val desc = element.selectFirst("p")?.text() ?: ""
+
+        return  WebLinkItem(
+            href = href,
+            imageUrl = imgUrl,
+            title = title,
+            desc = desc
+        )
+    }
+    private fun isLinkContainNotRecipePostKeywords(webLinkItem: WebLinkItem) = notRecipePostKeywords
+        .any { webLinkItem.title.contains(it) || webLinkItem.desc.contains(it) }
 
     private fun isRecipePost(text: String) = listOf("재료", "레시피", "만들기", "따라하기")
         .any { text.contains(it) }
 
+    private fun checkIsRecipePost(vo: WebLinkItem): Boolean {
+        val innerDocs =
+            Jsoup
+                .connect(vo.href)
+                .method(Connection.Method.GET)
+                .get()
+        return isRecipePost(innerDocs.toString())
+    }
+
     private suspend fun checkIsRecipePostAndAdd(vo: WebLinkItem) {
         try {
             Log.i("DaumCrawling isRecipePost", "Started")
-            val innerDocs =
-                Jsoup
-                    .connect(vo.href)
-                    .method(Connection.Method.GET)
-                    .get()
-            if (isRecipePost(innerDocs.toString())) {
+            if (checkIsRecipePost(vo)) {
+                val innerDocs =
+                    Jsoup
+                        .connect(vo.href)
+                        .method(Connection.Method.GET)
+                        .get()
                 val ownIngredientsElement = innerDocs.getElementsContainingOwnText("재료").first()
                 val ingredientsElements = ownIngredientsElement?.parent()
                     ?.getElementsByIndexGreaterThan(ownIngredientsElement.siblingIndex() - 1)
@@ -141,9 +142,11 @@ class CrawlRecipesActivity : AppCompatActivity() {
                     ingredientsElements?.text()
                         ?.split(",")
                         ?.filter { txt ->
-                            txt.length <= 20 &&
-                                    txt !in notIngredientsTextList &&
-                                    txt.isNotBlank()
+                            txt.run {
+                                length <= 20 &&
+                                        this !in notIngredientsTextList &&
+                                        isNotBlank()
+                            }
                         }
                         ?.distinct()
                         ?.onEach { it.trim() }

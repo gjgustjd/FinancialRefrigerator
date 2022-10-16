@@ -10,54 +10,54 @@ import com.study.domain.model.WebLinkItem
 import com.study.presentation.R
 import com.study.presentation.databinding.ActivitySearchRecipesBinding
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jsoup.Connection
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
-import org.jsoup.select.Elements
 import java.net.URLEncoder
 
 class CrawlRecipesActivity : AppCompatActivity() {
     val recyclerAdapter by lazy { RecyclerWebLinkAdapter() }
     var webLinkVOList = arrayListOf<WebLinkItem>()
-    private val notIngredientsTextList = listOf( ".", "?", "!", "레시피", "만드는법", "만드는 법", "먹는 법", "만들기", "요리", )
+    private val notIngredientsTextList =
+        listOf(".", "?", "!", "레시피", "만드는법", "만드는 법", "먹는 법", "만들기", "요리")
     private val notRecipePostKeywords = listOf("맛집", "후기", "내돈내먹", "식당", "리뷰", "웨이팅", "포장", "밀키트")
-    private val PATH="https://search.daum.net/search?nil_suggest=btn&w=blog&lpp=10&DA=PGD&q="
-    companion object IntentKey{
-        const val SEARCH_TYPE="type"
-        const val SEARCH_KEYWORD="keyword"
-        const val TYPE_INGREDIENT="ingredient"
-        const val TYPE_RECIPE="recipe"
+    private val PATH = "https://search.daum.net/search?nil_suggest=btn&w=blog&lpp=10&DA=PGD&q="
+
+    companion object IntentKey {
+        const val SEARCH_TYPE = "type"
+        const val SEARCH_KEYWORD = "keyword"
+        const val TYPE_INGREDIENT = "ingredient"
+        const val TYPE_RECIPE = "recipe"
     }
 
     lateinit var binding: ActivitySearchRecipesBinding
-    lateinit var type:String
-    lateinit var keyword:String
-    lateinit var webLinkItemFlow: Flow<WebLinkItem>
+    lateinit var type: String
+    lateinit var keyword: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_search_recipes)
-        binding.run{
+        binding.run {
             type = intent.getStringExtra(SearchRecipesActivity.SEARCH_TYPE) ?: ""
             keyword = intent.getStringExtra(SearchRecipesActivity.SEARCH_KEYWORD) ?: ""
 
-            recyclerSearchRecipes.run{
+            recyclerSearchRecipes.run {
                 adapter = recyclerAdapter
                 layoutManager = LinearLayoutManager(baseContext)
             }
-            titleBar.run{
+            titleBar.run {
 //                activity = this@CrawlRecipesActivity
-                txtHomeTitle.text = getString(R.string.search_result,keyword)
+                txtHomeTitle.text = getString(R.string.search_result, keyword)
             }
-            crawlKeyword(100, 5)
-            lifecycleScope.launch(Dispatchers.IO){
-                webLinkItemFlow.collectLatest {
+            webLinkVOList.clear()
+            recyclerAdapter.notifyDataSetChanged()
+
+            lifecycleScope.launch(Dispatchers.IO) {
+                crawlKeywordAndGetFlows(100, 5).collect{
                     webLinkVOList.add(it)
                     withContext(Dispatchers.Main)
                     {
@@ -68,26 +68,25 @@ class CrawlRecipesActivity : AppCompatActivity() {
         }
     }
 
-    private fun crawlKeyword(endNum: Int, coroutineNum: Int) {
-        webLinkVOList.clear()
-        recyclerAdapter.notifyDataSetChanged()
-
+    @OptIn(FlowPreview::class)
+    private suspend fun crawlKeywordAndGetFlows(endNum: Int, coroutineNum: Int):Flow<WebLinkItem> {
         val eachUnit = (endNum / coroutineNum)
+        val flowList = arrayListOf<Flow<WebLinkItem>>()
         for (j in 0 until coroutineNum) {
             try {
                 val currentPosition = eachUnit * j + 1
                 val endPosition = currentPosition + (eachUnit - 1)
-                runCrawler(currentPosition, endPosition)
+                flowList.add(runCrawler(currentPosition, endPosition))
                 Log.i("crawlKeyword", "$currentPosition..$endPosition")
             } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
+        return flowOf(*flowList.toTypedArray()).flattenMerge()
     }
 
-    private fun runCrawler(currentPosition: Int, range: Int) {
-        lifecycleScope.launch(Dispatchers.IO) {
-            webLinkItemFlow = flow {
+    private suspend fun runCrawler(currentPosition: Int, range: Int) =
+            channelFlow {
                 for (i in currentPosition..range) {
                     val searchKeyword = URLEncoder.encode(keyword, "UTF-8")
                     try {
@@ -101,14 +100,14 @@ class CrawlRecipesActivity : AppCompatActivity() {
                             ?.forEach { it ->
                                 val webLinkItem = parseWebLink(doc, it)
                                 if (isLinkContainNotRecipePostKeywords(webLinkItem)) {
-                                    launch {
+                                    lifecycleScope.launch(Dispatchers.IO) {
                                         if (checkIsRecipePost(webLinkItem)) {
-                                            emit(webLinkItem)
+//                                                    send(webLinkItem)
                                         }
                                     }
                                 } else {
                                     if (checkIsRecipePost(webLinkItem)) {
-                                        emit(webLinkItem)
+                                        send(webLinkItem)
                                     }
                                 }
                             }
@@ -117,8 +116,7 @@ class CrawlRecipesActivity : AppCompatActivity() {
                     }
                 }
             }
-        }
-    }
+
     private fun parseWebLink(doc: Document, element: Element): WebLinkItem {
         Log.i("DaumCrawling Parsing", "Started")
         val a = element.selectFirst("a[href]")
@@ -128,13 +126,14 @@ class CrawlRecipesActivity : AppCompatActivity() {
         val title = a?.text() ?: ""
         val desc = element.selectFirst("p")?.text() ?: ""
 
-        return  WebLinkItem(
+        return WebLinkItem(
             href = href,
             imageUrl = imgUrl,
             title = title,
             desc = desc
         )
     }
+
     private fun isLinkContainNotRecipePostKeywords(webLinkItem: WebLinkItem) = notRecipePostKeywords
         .any { webLinkItem.title.contains(it) || webLinkItem.desc.contains(it) }
 

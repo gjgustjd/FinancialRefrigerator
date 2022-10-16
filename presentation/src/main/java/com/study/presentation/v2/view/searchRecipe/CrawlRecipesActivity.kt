@@ -10,6 +10,10 @@ import com.study.domain.model.WebLinkItem
 import com.study.presentation.R
 import com.study.presentation.databinding.ActivitySearchRecipesBinding
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jsoup.Connection
@@ -35,6 +39,7 @@ class CrawlRecipesActivity : AppCompatActivity() {
     lateinit var binding: ActivitySearchRecipesBinding
     lateinit var type:String
     lateinit var keyword:String
+    lateinit var webLinkItemFlow: Flow<WebLinkItem>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_search_recipes)
@@ -51,6 +56,15 @@ class CrawlRecipesActivity : AppCompatActivity() {
                 txtHomeTitle.text = getString(R.string.search_result,keyword)
             }
             crawlKeyword(100, 5)
+            lifecycleScope.launch(Dispatchers.IO){
+                webLinkItemFlow.collectLatest {
+                    webLinkVOList.add(it)
+                    withContext(Dispatchers.Main)
+                    {
+                        recyclerAdapter.setInsertItems(webLinkVOList)
+                    }
+                }
+            }
         }
     }
 
@@ -73,25 +87,35 @@ class CrawlRecipesActivity : AppCompatActivity() {
 
     private fun runCrawler(currentPosition: Int, range: Int) {
         lifecycleScope.launch(Dispatchers.IO) {
-            for (i in currentPosition..range) {
-                val searchKeyword = URLEncoder.encode(keyword, "UTF-8")
-                val doc =
-                    Jsoup
-                        .connect("$PATH$searchKeyword&p=$i")
-                        .method(Connection.Method.GET)
-                        .get()
-                doc.select("div:contains(레시피).cont_inner")
-                    ?.forEach { it ->
-                        val webLinkItem = parseWebLink(doc, it)
-                        Log.i("DaumCrawling Parsing", "Ended")
-                        if (isLinkContainNotRecipePostKeywords(webLinkItem)) {
-                            launch {
-                                checkIsRecipePostAndAdd(webLinkItem)
+            webLinkItemFlow = flow {
+                for (i in currentPosition..range) {
+                    val searchKeyword = URLEncoder.encode(keyword, "UTF-8")
+                    try {
+                        Log.i("DaumCrawling Flow", "Started")
+                        val doc =
+                            Jsoup
+                                .connect("$PATH$searchKeyword&p=$i")
+                                .method(Connection.Method.GET)
+                                .get()
+                        doc.select("div:contains(레시피).cont_inner")
+                            ?.forEach { it ->
+                                val webLinkItem = parseWebLink(doc, it)
+                                if (isLinkContainNotRecipePostKeywords(webLinkItem)) {
+                                    launch {
+                                        if (checkIsRecipePost(webLinkItem)) {
+                                            emit(webLinkItem)
+                                        }
+                                    }
+                                } else {
+                                    if (checkIsRecipePost(webLinkItem)) {
+                                        emit(webLinkItem)
+                                    }
+                                }
                             }
-                        } else {
-                            checkIsRecipePostAndAdd(webLinkItem)
-                        }
+                    } catch (e: Exception) {
+                        Log.i("DaumCrawling Flow", e.toString())
                     }
+                }
             }
         }
     }

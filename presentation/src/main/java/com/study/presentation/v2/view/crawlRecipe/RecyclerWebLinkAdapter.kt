@@ -1,6 +1,5 @@
-package com.study.presentation.v2.view.searchRecipe
+package com.study.presentation.v2.view.crawlRecipe
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView

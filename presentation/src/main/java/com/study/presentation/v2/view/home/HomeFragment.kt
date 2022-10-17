@@ -13,7 +13,7 @@ import com.study.domain.model.IngredientItem
 import com.study.presentation.R
 import com.study.presentation.databinding.FragmentHomeBinding
 import com.study.presentation.v2.base.BaseFragment
-import com.study.presentation.v2.view.searchRecipe.CrawlRecipesActivity
+import com.study.presentation.v2.view.crawlRecipe.CrawlRecipesActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

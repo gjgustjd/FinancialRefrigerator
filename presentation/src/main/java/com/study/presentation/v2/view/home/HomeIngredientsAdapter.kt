@@ -10,8 +10,7 @@ import com.study.presentation.R
 import com.study.presentation.databinding.ItemIngredientHomeBinding
 import com.study.presentation.v2.base.BaseAdapter
 import com.study.presentation.v2.base.BaseViewHolder
-import com.study.presentation.v2.view.searchRecipe.CrawlRecipesActivity
-import com.study.presentation.v2.view.searchRecipe.SearchRecipesActivity
+import com.study.presentation.v2.view.crawlRecipe.CrawlRecipesActivity
 
 class HomeIngredientsAdapter (
     context: Context,

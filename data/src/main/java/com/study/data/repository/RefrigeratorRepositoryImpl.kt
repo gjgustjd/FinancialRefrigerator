@@ -2,18 +2,18 @@ package com.study.data.repository
 
 import com.study.data.mapper.*
 import com.study.data.repository.local.RefrigeratorLocalDataSource
-import com.study.domain.model.IngredientItem
-import com.study.domain.model.MealAndRecipeItem
-import com.study.domain.model.MealItem
-import com.study.domain.model.RecipeItem
+import com.study.data.repository.remote.RefrigeratorRemoteDataSource
+import com.study.domain.model.*
 import com.study.domain.repository.RefrigeratorRepository
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class RefrigeratorRepositoryImpl @Inject constructor(
-    val localDataSource: RefrigeratorLocalDataSource
+    private val localDataSource: RefrigeratorLocalDataSource,
+    private val remoteDataSource: RefrigeratorRemoteDataSource
 ): RefrigeratorRepository {
     override suspend fun getIngredientById(id: Int) =
         localDataSource.getIngredientById(id)?.toIngredientItem()
@@ -85,4 +85,6 @@ class RefrigeratorRepositoryImpl @Inject constructor(
     override suspend fun deleteMealWithId(mealId: Int) =
         localDataSource.deleteMealWithId(mealId)
 
+    override suspend fun getCrawlWebLinkItemFlow(keyword: String,endNum: Int, coroutineNum: Int): Flow<WebLinkItem> =
+        remoteDataSource.getCrawlWebLinkItemFlow(keyword, endNum, coroutineNum)
 }

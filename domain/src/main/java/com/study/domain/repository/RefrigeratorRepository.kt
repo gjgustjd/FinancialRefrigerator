@@ -1,9 +1,6 @@
 package com.study.domain.repository
 
-import com.study.domain.model.IngredientItem
-import com.study.domain.model.MealAndRecipeItem
-import com.study.domain.model.MealItem
-import com.study.domain.model.RecipeItem
+import com.study.domain.model.*
 import kotlinx.coroutines.flow.Flow
 
 interface RefrigeratorRepository {
@@ -27,4 +24,6 @@ interface RefrigeratorRepository {
     suspend fun insertMeal(id: Int)
     suspend fun deleteMeal(item: MealItem)
     suspend fun deleteMealWithId(mealId: Int)
+
+    suspend fun getCrawlWebLinkItemFlow(keyword: String,endNum: Int, coroutineNum: Int): Flow<WebLinkItem>
 }

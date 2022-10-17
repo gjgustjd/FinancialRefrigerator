@@ -11,6 +11,7 @@ import com.study.presentation.R
 import com.study.presentation.databinding.ActivitySearchRecipesBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -57,7 +58,7 @@ class CrawlRecipesActivity : AppCompatActivity() {
             recyclerAdapter.notifyDataSetChanged()
 
             lifecycleScope.launch(Dispatchers.IO) {
-                crawlKeywordAndGetFlows(100, 5).collect{
+                crawlKeywordAndGetFlows(100, 5).collect {
                     webLinkVOList.add(it)
                     withContext(Dispatchers.Main)
                     {
@@ -99,15 +100,19 @@ class CrawlRecipesActivity : AppCompatActivity() {
                         doc.select("div:contains(레시피).cont_inner")
                             ?.forEach { it ->
                                 val webLinkItem = parseWebLink(doc, it)
-                                if (isLinkContainNotRecipePostKeywords(webLinkItem)) {
-                                    lifecycleScope.launch(Dispatchers.IO) {
-                                        if (checkIsRecipePost(webLinkItem)) {
-//                                                    send(webLinkItem)
+                                if (!webLinkVOList.contains(webLinkItem)) {
+                                    if (isLinkContainNotRecipePostKeywords(webLinkItem)) {
+                                        awaitClose {
+                                            lifecycleScope.launch(Dispatchers.IO) {
+                                                if (checkIsRecipePost(webLinkItem)) {
+                                                    send(webLinkItem)
+                                                }
+                                            }
                                         }
-                                    }
-                                } else {
-                                    if (checkIsRecipePost(webLinkItem)) {
-                                        send(webLinkItem)
+                                    } else {
+                                        if (checkIsRecipePost(webLinkItem)) {
+                                            send(webLinkItem)
+                                        }
                                     }
                                 }
                             }

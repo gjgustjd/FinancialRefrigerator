@@ -6,6 +6,8 @@ import com.study.data.database.RefrigeratorDatabase
 import com.study.data.repository.RefrigeratorRepositoryImpl
 import com.study.data.repository.local.RefrigeratorLocalDataSource
 import com.study.data.repository.local.RefrigeratorLocalDataSourceImpl
+import com.study.data.repository.remote.RefrigeratorRemoteDataSource
+import com.study.data.repository.remote.RefrigeratorRemoteDataSourceImpl
 import com.study.domain.repository.RefrigeratorRepository
 import dagger.Module
 import dagger.Provides
@@ -32,6 +34,11 @@ class CommonHiltModule {
 
     @Provides
     @Singleton
-    fun getRepository(localDatasource:RefrigeratorLocalDataSource): RefrigeratorRepository =
-        RefrigeratorRepositoryImpl(localDatasource)
+    fun getRemoteDataSource(): RefrigeratorRemoteDataSource =
+        RefrigeratorRemoteDataSourceImpl()
+
+    @Provides
+    @Singleton
+    fun getRepository(localDatasource:RefrigeratorLocalDataSource,remoteDataSource: RefrigeratorRemoteDataSource): RefrigeratorRepository =
+        RefrigeratorRepositoryImpl(localDatasource,remoteDataSource)
 }

@@ -19,7 +19,6 @@ import javax.inject.Singleton
 
 @Singleton
 class RefrigeratorRemoteDataSourceImpl:RefrigeratorRemoteDataSource {
-    var webLinkVOList = arrayListOf<WebLinkItem>()
     private val notIngredientsTextList =
         listOf(".", "?", "!", "레시피", "만드는법", "만드는 법", "먹는 법", "만들기", "요리")
     private val notRecipePostKeywords = listOf("맛집", "후기", "내돈내먹", "식당", "리뷰", "웨이팅", "포장", "밀키트")
@@ -56,21 +55,19 @@ class RefrigeratorRemoteDataSourceImpl:RefrigeratorRemoteDataSource {
                     doc.select("div:contains(레시피).cont_inner")
                         ?.forEach { it ->
                             val webLinkItem = parseWebLink(doc, it)
-                            if (!webLinkVOList.contains(webLinkItem)) {
-                                if (isLinkContainNotRecipePostKeywords(webLinkItem)) {
-                                    awaitClose {
-                                        launch(Dispatchers.IO) {
-                                            if (checkIsRecipePost(webLinkItem)) {
-                                                logRecipes(webLinkItem)
-                                                send(webLinkItem)
-                                            }
+                            if (isLinkContainNotRecipePostKeywords(webLinkItem)) {
+                                awaitClose {
+                                    launch(Dispatchers.IO) {
+                                        if (checkIsRecipePost(webLinkItem)) {
+                                            logRecipes(webLinkItem)
+                                            send(webLinkItem)
                                         }
                                     }
-                                } else {
-                                    if (checkIsRecipePost(webLinkItem)) {
-                                        logRecipes(webLinkItem)
-                                        send(webLinkItem)
-                                    }
+                                }
+                            } else {
+                                if (checkIsRecipePost(webLinkItem)) {
+                                    logRecipes(webLinkItem)
+                                    send(webLinkItem)
                                 }
                             }
                         }

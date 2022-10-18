@@ -52,10 +52,12 @@ class CrawlRecipesActivity : BaseActivity<ActivitySearchRecipesBinding,CrawlReci
             viewModel.setupRecipesDataByIngredient(keyword)
             lifecycleScope.launch(Dispatchers.IO) {
                 viewModel.webLinks.collectLatest {
-                    webLinkVOList.add(it)
-                    withContext(Dispatchers.Main)
-                    {
-                        recyclerAdapter.setInsertItems(webLinkVOList)
+                    if(!webLinkVOList.contains(it)) {
+                        webLinkVOList.add(it)
+                        withContext(Dispatchers.Main)
+                        {
+                            recyclerAdapter.setInsertItems(webLinkVOList)
+                        }
                     }
                 }
             }

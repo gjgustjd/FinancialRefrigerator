@@ -38,11 +38,11 @@ class RefrigeratorRemoteDataSourceImpl:RefrigeratorRemoteDataSource {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private suspend fun runCrawler(keyword:String, currentPosition: Int, range: Int) =
-        flow {
+        callbackFlow {
             var job:Job?=null
             for (i in currentPosition..range) {
                 if(!currentCoroutineContext().isActive)
-                    return@flow
+                    return@callbackFlow
                 val searchKeyword = URLEncoder.encode(keyword, "UTF-8")
                 try {
                     Log.i("DaumCrawling Flow", "Started")
@@ -55,16 +55,16 @@ class RefrigeratorRemoteDataSourceImpl:RefrigeratorRemoteDataSource {
                         ?.forEach { it ->
                             val webLinkItem = parseWebLink(doc, it)
                             if (isLinkContainNotRecipePostKeywords(webLinkItem)) {
-//                                    job = launch(Dispatchers.IO) {
-//                                        if (checkIsRecipePost(webLinkItem)) {
-//                                            logRecipes(webLinkItem)
-//                                            trySend(webLinkItem)
-//                                        }
-//                                    }
+                                    job = launch(Dispatchers.IO) {
+                                        if (checkIsRecipePost(webLinkItem)) {
+                                            logRecipes(webLinkItem)
+                                            trySend(webLinkItem)
+                                        }
+                                    }
                             } else {
                                 if (checkIsRecipePost(webLinkItem)) {
                                     logRecipes(webLinkItem)
-                                    emit(webLinkItem)
+                                    send(webLinkItem)
                                 }
                             }
                         }
@@ -72,9 +72,9 @@ class RefrigeratorRemoteDataSourceImpl:RefrigeratorRemoteDataSource {
                     Log.i("DaumCrawling Flow", e.toString())
                 }
             }
-//            awaitClose{
-//                job?.cancel()
-//            }
+            awaitClose{
+                job?.cancel()
+            }
         }
 
     private fun parseWebLink(doc: Document, element: Element): WebLinkItem {

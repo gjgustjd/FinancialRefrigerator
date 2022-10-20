@@ -1,6 +1,7 @@
 package com.study.presentation.v2.view.crawlRecipe
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -50,15 +51,18 @@ class CrawlRecipesActivity : BaseActivity<ActivitySearchRecipesBinding,CrawlReci
             recyclerAdapter.notifyDataSetChanged()
 
             viewModel.setupRecipesDataByIngredient(keyword)
-            lifecycleScope.launch(Dispatchers.IO) {
-                viewModel.webLinks.collectLatest {
-                    if(!webLinkVOList.contains(it)) {
-                        webLinkVOList.add(it)
-                        withContext(Dispatchers.Main)
-                        {
-                            recyclerAdapter.setInsertItems(webLinkVOList)
+            lifecycleScope.launchWhenResumed {
+                withContext(Dispatchers.IO) {
+                    viewModel.webLinks.collect {
+                        if(!webLinkVOList.contains(it)) {
+                            webLinkVOList.add(it)
+                            withContext(Dispatchers.Main)
+                            {
+                                recyclerAdapter.setInsertItems(webLinkVOList)
+                            }
                         }
                     }
+                    Log.i("DaumCrawling", "collect started")
                 }
             }
         }

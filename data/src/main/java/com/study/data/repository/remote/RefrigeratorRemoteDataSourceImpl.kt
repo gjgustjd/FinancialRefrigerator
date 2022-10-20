@@ -2,14 +2,9 @@ package com.study.data.repository.remote
 
 import android.util.Log
 import com.study.domain.model.WebLinkItem
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.channelFlow
-import kotlinx.coroutines.flow.flattenMerge
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.*
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
 import org.jsoup.Connection
@@ -41,9 +36,13 @@ class RefrigeratorRemoteDataSourceImpl:RefrigeratorRemoteDataSource {
         return flowOf(*flowList.toTypedArray()).flattenMerge()
     }
 
-    private suspend fun runCrawler(keyword:String,currentPosition: Int, range: Int) =
-        channelFlow {
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private suspend fun runCrawler(keyword:String, currentPosition: Int, range: Int) =
+        flow {
+            var job:Job?=null
             for (i in currentPosition..range) {
+                if(!currentCoroutineContext().isActive)
+                    return@flow
                 val searchKeyword = URLEncoder.encode(keyword, "UTF-8")
                 try {
                     Log.i("DaumCrawling Flow", "Started")
@@ -56,18 +55,16 @@ class RefrigeratorRemoteDataSourceImpl:RefrigeratorRemoteDataSource {
                         ?.forEach { it ->
                             val webLinkItem = parseWebLink(doc, it)
                             if (isLinkContainNotRecipePostKeywords(webLinkItem)) {
-                                awaitClose {
-                                    launch(Dispatchers.IO) {
-                                        if (checkIsRecipePost(webLinkItem)) {
-                                            logRecipes(webLinkItem)
-                                            send(webLinkItem)
-                                        }
-                                    }
-                                }
+//                                    job = launch(Dispatchers.IO) {
+//                                        if (checkIsRecipePost(webLinkItem)) {
+//                                            logRecipes(webLinkItem)
+//                                            trySend(webLinkItem)
+//                                        }
+//                                    }
                             } else {
                                 if (checkIsRecipePost(webLinkItem)) {
                                     logRecipes(webLinkItem)
-                                    send(webLinkItem)
+                                    emit(webLinkItem)
                                 }
                             }
                         }
@@ -75,6 +72,9 @@ class RefrigeratorRemoteDataSourceImpl:RefrigeratorRemoteDataSource {
                     Log.i("DaumCrawling Flow", e.toString())
                 }
             }
+//            awaitClose{
+//                job?.cancel()
+//            }
         }
 
     private fun parseWebLink(doc: Document, element: Element): WebLinkItem {

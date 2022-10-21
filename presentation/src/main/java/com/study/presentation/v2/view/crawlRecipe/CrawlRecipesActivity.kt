@@ -51,18 +51,15 @@ class CrawlRecipesActivity : BaseActivity<ActivitySearchRecipesBinding,CrawlReci
             webLinkVOList.clear()
             recyclerAdapter.notifyDataSetChanged()
 
-            viewModel.setupRecipesDataByIngredient(keyword)
             lifecycleScope.launchWhenResumed {
-                withContext(Dispatchers.Main) {
-                    viewModel.webLinks.buffer().collect {
-                        Log.i("DaumCrawling", currentCoroutineContext().toString())
-                        if(!webLinkVOList.contains(it)) {
+                viewModel.setupRecipesDataByIngredient(keyword)
+                    .buffer()
+                    .collect {
+                        if (!webLinkVOList.contains(it)) {
                             webLinkVOList.add(it)
                             recyclerAdapter.setInsertItems(webLinkVOList)
                         }
                     }
-                    Log.i("DaumCrawling", "collect started")
-                }
             }
         }
     }

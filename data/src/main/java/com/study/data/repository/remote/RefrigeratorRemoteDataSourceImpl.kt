@@ -5,10 +5,10 @@ import com.study.domain.model.WebLinkItem
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.*
-import org.jsoup.nodes.Document
-import org.jsoup.nodes.Element
 import org.jsoup.Connection
 import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
+import org.jsoup.nodes.Element
 import java.net.URLEncoder
 import javax.inject.Singleton
 
@@ -33,16 +33,15 @@ class RefrigeratorRemoteDataSourceImpl:RefrigeratorRemoteDataSource {
                 e.printStackTrace()
             }
         }
-        return flowOf(*flowList.toTypedArray()).flattenMerge()
+        return flowOf(*flowList.toTypedArray()).flattenMerge().flowOn(Dispatchers.IO)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private suspend fun runCrawler(keyword:String, currentPosition: Int, range: Int) =
         callbackFlow {
-            var job:Job?=null
+            var job: Job? = null
             for (i in currentPosition..range) {
-                if(!currentCoroutineContext().isActive)
-                    return@callbackFlow
+                currentCoroutineContext().ensureActive()
                 val searchKeyword = URLEncoder.encode(keyword, "UTF-8")
                 try {
                     Log.i("DaumCrawling Flow", "Started")
@@ -55,12 +54,12 @@ class RefrigeratorRemoteDataSourceImpl:RefrigeratorRemoteDataSource {
                         ?.forEach { it ->
                             val webLinkItem = parseWebLink(doc, it)
                             if (isLinkContainNotRecipePostKeywords(webLinkItem)) {
-                                    job = launch(Dispatchers.IO) {
-                                        if (checkIsRecipePost(webLinkItem)) {
-                                            logRecipes(webLinkItem)
-                                            trySend(webLinkItem)
-                                        }
+                                job = launch(Dispatchers.IO) {
+                                    if (checkIsRecipePost(webLinkItem)) {
+                                        logRecipes(webLinkItem)
+                                        trySend(webLinkItem)
                                     }
+                                }
                             } else {
                                 if (checkIsRecipePost(webLinkItem)) {
                                     logRecipes(webLinkItem)
@@ -72,10 +71,10 @@ class RefrigeratorRemoteDataSourceImpl:RefrigeratorRemoteDataSource {
                     Log.i("DaumCrawling Flow", e.toString())
                 }
             }
-            awaitClose{
+            awaitClose {
                 job?.cancel()
             }
-        }
+        }.flowOn(Dispatchers.IO)
 
     private fun parseWebLink(doc: Document, element: Element): WebLinkItem {
         Log.i("DaumCrawling Parsing", "Started")

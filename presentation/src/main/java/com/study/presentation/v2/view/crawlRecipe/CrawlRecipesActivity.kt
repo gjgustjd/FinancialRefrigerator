@@ -12,6 +12,7 @@ import com.study.presentation.v2.base.BaseActivity
 import com.study.presentation.v2.view.searchRecipe.SearchRecipesActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -52,14 +53,12 @@ class CrawlRecipesActivity : BaseActivity<ActivitySearchRecipesBinding,CrawlReci
 
             viewModel.setupRecipesDataByIngredient(keyword)
             lifecycleScope.launchWhenResumed {
-                withContext(Dispatchers.IO) {
-                    viewModel.webLinks.collect {
+                withContext(Dispatchers.Main) {
+                    viewModel.webLinks.buffer().collect {
+                        Log.i("DaumCrawling", currentCoroutineContext().toString())
                         if(!webLinkVOList.contains(it)) {
                             webLinkVOList.add(it)
-                            withContext(Dispatchers.Main)
-                            {
-                                recyclerAdapter.setInsertItems(webLinkVOList)
-                            }
+                            recyclerAdapter.setInsertItems(webLinkVOList)
                         }
                     }
                     Log.i("DaumCrawling", "collect started")

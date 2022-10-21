@@ -53,18 +53,17 @@ class RefrigeratorRemoteDataSourceImpl:RefrigeratorRemoteDataSource {
                     doc.select("div:contains(레시피).cont_inner")
                         ?.forEach { it ->
                             val webLinkItem = parseWebLink(doc, it)
-                            if (isLinkContainNotRecipePostKeywords(webLinkItem)) {
-                                job = launch(Dispatchers.IO) {
-                                    if (checkIsRecipePost(webLinkItem)) {
-                                        logRecipes(webLinkItem)
-                                        trySend(webLinkItem)
-                                    }
-                                }
-                            } else {
+                            val checkProcess = {
                                 if (checkIsRecipePost(webLinkItem)) {
                                     logRecipes(webLinkItem)
-                                    send(webLinkItem)
+                                    trySend(webLinkItem)
                                 }
+                            }
+
+                            if (isLinkContainNotRecipePostKeywords(webLinkItem)) {
+                                job = launch(Dispatchers.IO) { checkProcess() }
+                            } else {
+                                checkProcess()
                             }
                         }
                 } catch (e: Exception) {
@@ -76,7 +75,7 @@ class RefrigeratorRemoteDataSourceImpl:RefrigeratorRemoteDataSource {
             }
         }.flowOn(Dispatchers.IO)
 
-    private fun parseWebLink(doc: Document, element: Element): WebLinkItem {
+    private fun parseWebLink(doc: Document, element: Element):WebLinkItem {
         Log.i("DaumCrawling Parsing", "Started")
         val a = element.selectFirst("a[href]")
 
@@ -120,25 +119,21 @@ class RefrigeratorRemoteDataSourceImpl:RefrigeratorRemoteDataSource {
                 val ownIngredientsElement = innerDocs.getElementsContainingOwnText("재료").first()
                 val ingredientsElements = ownIngredientsElement?.parent()
                     ?.getElementsByIndexGreaterThan(ownIngredientsElement.siblingIndex() - 1)
-                val ingListTexts =
-                    ingredientsElements?.text()
-                        ?.split(",")
-                        ?.filter { txt ->
-                            txt.run {
-                                length <= 20 &&
-                                        this !in notIngredientsTextList &&
-                                        isNotBlank()
-                            }
-                        }
-                        ?.distinct()
-                        ?.onEach { it.trim() }
 
+                ingredientsElements
+                    ?.text()
+                    ?.split(",")
+                    ?.filter(::isIngredientText)
+                    ?.distinct()
+                    ?.onEach { Log.i("DaumCrawling ingredientElement", it.trim()) }
 //                Log.i("DaumCrawling innerContent", innerDocs.toString())
-                ingListTexts?.forEach {
-                    Log.i("DaumCrawling ingredientElement", it)
-                }
             }
         } catch (e: Exception) {
         }
+    }
+    fun isIngredientText(text: String): Boolean = text.run {
+        length <= 20 &&
+                this !in notIngredientsTextList &&
+                isNotBlank()
     }
 }

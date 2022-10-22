@@ -19,7 +19,7 @@ abstract class BaseAdapter<ItemVO:Any,holder: BaseViewHolder<ItemVO>> constructo
     open val asyncDiffUtil = AsyncListDiffer(this,diffUtil)
 
     fun setItems(updatedItems: List<ItemVO>) {
-        itemList = updatedItems
+        itemList = updatedItems.toMutableList()
         asyncDiffUtil.submitList(itemList)
     }
     override fun getItemCount() = itemList.count()

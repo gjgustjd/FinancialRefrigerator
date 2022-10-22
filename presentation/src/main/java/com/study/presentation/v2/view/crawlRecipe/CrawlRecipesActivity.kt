@@ -1,8 +1,10 @@
 package com.study.presentation.v2.view.crawlRecipe
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.study.domain.model.WebLinkItem
 import com.study.presentation.R
@@ -12,10 +14,14 @@ import com.study.presentation.v2.view.searchRecipe.SearchRecipesActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class CrawlRecipesActivity : BaseActivity<ActivitySearchRecipesBinding,CrawlRecipesViewModel>() {
-    private val recyclerAdapter by lazy { RecyclerWebLinkAdapter() }
+class CrawlRecipesActivity : BaseActivity<ActivitySearchRecipesBinding, CrawlRecipesViewModel>() {
+    private val recyclerAdapter by lazy {
+        RecyclerWebLinkAdapter(
+            this,
+            listOf())
+    }
     var webLinkVOList = arrayListOf<WebLinkItem>()
-    override val viewModel:CrawlRecipesViewModel by viewModels()
+    override val viewModel: CrawlRecipesViewModel by viewModels()
 
     companion object IntentKey {
         const val SEARCH_TYPE = "type"
@@ -42,8 +48,6 @@ class CrawlRecipesActivity : BaseActivity<ActivitySearchRecipesBinding,CrawlReci
                 activity = this@CrawlRecipesActivity
                 txtHomeTitle.text = getString(R.string.search_result, keyword)
             }
-            webLinkVOList.clear()
-            recyclerAdapter.notifyDataSetChanged()
 
             lifecycleScope.launchWhenResumed {
                 viewModel.setupRecipesDataByIngredient(keyword)
@@ -51,7 +55,7 @@ class CrawlRecipesActivity : BaseActivity<ActivitySearchRecipesBinding,CrawlReci
                 {
                     if (!webLinkVOList.contains(it)) {
                         webLinkVOList.add(it)
-                        recyclerAdapter.setInsertItems(webLinkVOList)
+                        recyclerAdapter.setItems(webLinkVOList)
                     }
                 }
             }

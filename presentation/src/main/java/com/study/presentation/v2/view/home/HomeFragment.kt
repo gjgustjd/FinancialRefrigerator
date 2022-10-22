@@ -23,8 +23,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
         requireActivity(),
         listOf(),
         object : DiffUtil.ItemCallback<IngredientItem>() {
-            override fun areItemsTheSame(oldItem: IngredientItem, newItem: IngredientItem) = oldItem == newItem
-            override fun areContentsTheSame(oldItem: IngredientItem, newItem: IngredientItem) = oldItem == newItem
+            override fun areItemsTheSame(oldItem: IngredientItem, newItem: IngredientItem): Boolean {
+                val value = oldItem == newItem
+                Log.i("DiffUtil", value.toString())
+                return value
+            }
+
+            override fun areContentsTheSame(oldItem: IngredientItem, newItem: IngredientItem): Boolean {
+                val value = oldItem == newItem
+                Log.i("DiffUtil", value.toString())
+                return value
+            }
         })
     }
 

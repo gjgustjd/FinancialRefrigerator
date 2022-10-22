@@ -125,7 +125,7 @@ class RefrigeratorRemoteDataSourceImpl : RefrigeratorRemoteDataSource {
         }
     }
 
-    fun isIngredientText(text: String): Boolean = text.run {
+    private fun isIngredientText(text: String): Boolean = text.run {
         length <= 20 &&
                 this !in notIngredientsTextList &&
                 isNotBlank()

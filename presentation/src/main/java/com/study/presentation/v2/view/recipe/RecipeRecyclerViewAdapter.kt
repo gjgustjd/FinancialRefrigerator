@@ -17,8 +17,7 @@ class RecipeRecyclerViewAdapter(
     context: Context,
     itemList: List<MealAndRecipeItem> = listOf(),
     val viewModel: RecipeViewModel
-) :
-    BaseAdapter<MealAndRecipeItem, BaseViewHolder<MealAndRecipeItem>>(
+) : BaseAdapter<MealAndRecipeItem, BaseViewHolder<MealAndRecipeItem>>(
         context = context,
         itemList = itemList
     ) {

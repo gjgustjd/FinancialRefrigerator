@@ -1,4 +1,4 @@
-package com.study.old.old.presentation.activity.search
+package com.study.presentation.v2.view.searchRecipe
 
 import android.content.Context
 import android.content.Intent

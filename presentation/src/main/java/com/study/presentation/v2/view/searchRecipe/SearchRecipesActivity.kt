@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.study.old.old.presentation.activity.search.SearchRecipesAdapter
 import com.study.presentation.R
 import com.study.presentation.databinding.ActivitySearchRecipesBinding
 import com.study.presentation.v2.base.BaseActivity

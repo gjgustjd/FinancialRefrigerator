@@ -1,4 +1,4 @@
-package com.study.old.old.presentation.recipe.detail
+package com.study.presentation.recipe.detail
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="notIngredientText">
+        <item>.</item>
+        <item>$?</item>
+        <item>!</item>
+        <item>레시피</item>
+        <item>만드는법</item>
+        <item>먹는 법</item>
+        <item>만들기</item>
+        <item>요리</item>
+    </string-array>
+</resources>

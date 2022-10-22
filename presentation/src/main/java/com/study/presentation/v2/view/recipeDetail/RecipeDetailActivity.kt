@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import com.study.domain.model.RecipeItem
-import com.study.old.old.presentation.recipe.detail.RecipeDetailViewModel
+import com.study.presentation.recipe.detail.RecipeDetailViewModel
 import com.study.presentation.R
 import com.study.presentation.databinding.ActivityRecipeDetailBinding
 import com.study.presentation.v2.base.BaseActivity

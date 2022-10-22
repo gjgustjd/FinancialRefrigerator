@@ -38,7 +38,7 @@ class RefrigeratorRemoteDataSourceImpl : RefrigeratorRemoteDataSource {
     private fun runCrawler(keyword: String, range: IntRange) =
         callbackFlow {
             var job: Job? = null
-            range.forEachIndexed { i, _ ->
+            for (i in range) {
                 currentCoroutineContext().ensureActive()
                 val searchKeyword = URLEncoder.encode(keyword, "UTF-8")
                 Log.i("DaumCrawling Flow", "Started")

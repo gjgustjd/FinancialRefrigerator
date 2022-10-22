@@ -1,7 +1,6 @@
 package com.study.presentation.v2.view.crawlRecipe
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -11,11 +10,6 @@ import com.study.presentation.databinding.ActivitySearchRecipesBinding
 import com.study.presentation.v2.base.BaseActivity
 import com.study.presentation.v2.view.searchRecipe.SearchRecipesActivity
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.currentCoroutineContext
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
 class CrawlRecipesActivity : BaseActivity<ActivitySearchRecipesBinding,CrawlRecipesViewModel>() {
@@ -53,13 +47,13 @@ class CrawlRecipesActivity : BaseActivity<ActivitySearchRecipesBinding,CrawlReci
 
             lifecycleScope.launchWhenResumed {
                 viewModel.setupRecipesDataByIngredient(keyword)
-                    .buffer()
-                    .collect {
-                        if (!webLinkVOList.contains(it)) {
-                            webLinkVOList.add(it)
-                            recyclerAdapter.setInsertItems(webLinkVOList)
-                        }
+                viewModel._webLinks.observe(this@CrawlRecipesActivity)
+                {
+                    if (!webLinkVOList.contains(it)) {
+                        webLinkVOList.add(it)
+                        recyclerAdapter.setInsertItems(webLinkVOList)
                     }
+                }
             }
         }
     }

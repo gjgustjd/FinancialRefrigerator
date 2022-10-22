@@ -20,7 +20,7 @@ class RefrigeratorRemoteDataSourceImpl:RefrigeratorRemoteDataSource {
     private val PATH = "https://search.daum.net/search?nil_suggest=btn&w=blog&lpp=10&DA=PGD&q="
 
     @OptIn(FlowPreview::class)
-    override suspend fun getCrawlWebLinkItemFlow(keyword: String,endNum: Int, coroutineNum: Int): Flow<WebLinkItem> {
+    override suspend fun getCrawlWebLinkItemFlow(keyword: String, endNum: Int, coroutineNum: Int): Flow<WebLinkItem> {
         val eachUnit = (endNum / coroutineNum)
         val flowList = arrayListOf<Flow<WebLinkItem>>()
         for (j in 0 until coroutineNum) {
@@ -37,7 +37,7 @@ class RefrigeratorRemoteDataSourceImpl:RefrigeratorRemoteDataSource {
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    private suspend fun runCrawler(keyword:String, currentPosition: Int, range: Int) =
+    private fun runCrawler(keyword:String, currentPosition: Int, range: Int) =
         callbackFlow {
             var job: Job? = null
             for (i in currentPosition..range) {

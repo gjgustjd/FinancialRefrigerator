@@ -25,7 +25,7 @@ abstract class BaseAdapter<ItemVO:Any,holder: BaseViewHolder<ItemVO>> constructo
     override fun getItemCount() = itemList.count()
 
     override fun onBindViewHolder(holder: holder, position: Int) {
-        holder.bind(itemList[position])
+        holder.bind(itemList[holder.adapterPosition])
     }
 
 

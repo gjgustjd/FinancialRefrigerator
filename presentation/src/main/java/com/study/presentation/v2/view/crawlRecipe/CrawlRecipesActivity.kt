@@ -1,10 +1,8 @@
 package com.study.presentation.v2.view.crawlRecipe
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.study.domain.model.WebLinkItem
 import com.study.presentation.R
@@ -12,6 +10,7 @@ import com.study.presentation.databinding.ActivitySearchRecipesBinding
 import com.study.presentation.v2.base.BaseActivity
 import com.study.presentation.v2.view.searchRecipe.SearchRecipesActivity
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class CrawlRecipesActivity : BaseActivity<ActivitySearchRecipesBinding, CrawlRecipesViewModel>() {
@@ -22,6 +21,7 @@ class CrawlRecipesActivity : BaseActivity<ActivitySearchRecipesBinding, CrawlRec
     }
     var webLinkVOList = arrayListOf<WebLinkItem>()
     override val viewModel: CrawlRecipesViewModel by viewModels()
+    @Inject lateinit var linearLayoutManager:LinearLayoutManager
 
     companion object IntentKey {
         const val SEARCH_TYPE = "type"
@@ -42,7 +42,7 @@ class CrawlRecipesActivity : BaseActivity<ActivitySearchRecipesBinding, CrawlRec
 
             recyclerSearchRecipes.run {
                 adapter = recyclerAdapter
-                layoutManager = LinearLayoutManager(baseContext)
+                layoutManager = linearLayoutManager
             }
             titleBar.run {
                 activity = this@CrawlRecipesActivity

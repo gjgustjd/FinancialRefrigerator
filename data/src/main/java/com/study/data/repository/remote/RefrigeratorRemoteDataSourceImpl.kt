@@ -13,69 +13,61 @@ import java.net.URLEncoder
 import javax.inject.Singleton
 
 @Singleton
-class RefrigeratorRemoteDataSourceImpl:RefrigeratorRemoteDataSource {
+class RefrigeratorRemoteDataSourceImpl : RefrigeratorRemoteDataSource {
     private val notIngredientsTextList =
         listOf(".", "?", "!", "레시피", "만드는법", "만드는 법", "먹는 법", "만들기", "요리")
     private val notRecipePostKeywords = listOf("맛집", "후기", "내돈내먹", "식당", "리뷰", "웨이팅", "포장", "밀키트")
     private val PATH = "https://search.daum.net/search?nil_suggest=btn&w=blog&lpp=10&DA=PGD&q="
 
     @OptIn(FlowPreview::class)
-    override suspend fun getCrawlWebLinkItemFlow(keyword: String, endNum: Int, coroutineNum: Int): Flow<WebLinkItem> {
-        val eachUnit = (endNum / coroutineNum)
-        val flowList = arrayListOf<Flow<WebLinkItem>>()
-        for (j in 0 until coroutineNum) {
-            try {
-                val currentPosition = eachUnit * j + 1
-                val endPosition = currentPosition + (eachUnit - 1)
-                flowList.add(runCrawler(keyword,currentPosition, endPosition))
-                Log.i("crawlKeyword", "$currentPosition..$endPosition")
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-        return flowOf(*flowList.toTypedArray()).flattenMerge().flowOn(Dispatchers.IO)
+    override suspend fun getCrawlWebLinkItemFlow(
+        keyword: String,
+        endNum: Int,
+        flowNum: Int
+    ): Flow<WebLinkItem> {
+        val progression = getDividedProgressions(endNum, flowNum)
+        val flowArray = progression.map {
+            runCrawler(keyword, it until it + progression.step)
+        }.toTypedArray()
+        return flowOf(*flowArray).flattenMerge()
     }
 
+    private fun getDividedProgressions(num: Int, dividend: Int) = (1..num step (num / dividend))
+
     @OptIn(ExperimentalCoroutinesApi::class)
-    private fun runCrawler(keyword:String, currentPosition: Int, range: Int) =
+    private fun runCrawler(keyword: String, range: IntRange) =
         callbackFlow {
             var job: Job? = null
-            for (i in currentPosition..range) {
+            range.forEachIndexed { i, _ ->
                 currentCoroutineContext().ensureActive()
                 val searchKeyword = URLEncoder.encode(keyword, "UTF-8")
-                try {
-                    Log.i("DaumCrawling Flow", "Started")
-                    val doc =
-                        Jsoup
-                            .connect("$PATH$searchKeyword&p=$i")
-                            .method(Connection.Method.GET)
-                            .get()
-                    doc.select("div:contains(레시피).cont_inner")
-                        ?.forEach { it ->
-                            val webLinkItem = parseWebLink(doc, it)
-                            val checkProcess = {
-                                if (checkIsRecipePost(webLinkItem)) {
-                                    logRecipes(webLinkItem)
-                                    trySend(webLinkItem)
+                Log.i("DaumCrawling Flow", "Started")
+                getJSoupDocument("$PATH$searchKeyword&p=$i")
+                    ?.apply {
+                        select("div:contains(레시피).cont_inner")
+                            ?.forEach { it ->
+                                val webLinkItem = parseWebLink(this, it)
+                                val checkProcess = {
+                                    if (checkIsRecipePost(webLinkItem)) {
+                                        logRecipes(webLinkItem)
+                                        trySend(webLinkItem)
+                                    }
+                                }
+
+                                if (isLinkContainNotRecipePostKeywords(webLinkItem)) {
+                                    job = launch(Dispatchers.IO) { checkProcess() }
+                                } else {
+                                    checkProcess()
                                 }
                             }
-
-                            if (isLinkContainNotRecipePostKeywords(webLinkItem)) {
-                                job = launch(Dispatchers.IO) { checkProcess() }
-                            } else {
-                                checkProcess()
-                            }
-                        }
-                } catch (e: Exception) {
-                    Log.i("DaumCrawling Flow", e.toString())
-                }
+                    }
             }
             awaitClose {
                 job?.cancel()
             }
-        }.flowOn(Dispatchers.IO)
+        }.flowOn(Dispatchers.IO).catch { e -> Log.i("DaumCrawling Flow", e.toString()) }
 
-    private fun parseWebLink(doc: Document, element: Element):WebLinkItem {
+    private fun parseWebLink(doc: Document, element: Element): WebLinkItem {
         Log.i("DaumCrawling Parsing", "Started")
         val a = element.selectFirst("a[href]")
 
@@ -99,38 +91,40 @@ class RefrigeratorRemoteDataSourceImpl:RefrigeratorRemoteDataSource {
         .any { text.contains(it) }
 
     private fun checkIsRecipePost(vo: WebLinkItem): Boolean {
-        val innerDocs =
+        return getJSoupDocument(vo.href)?.let {
+            isRecipePost(it.toString())
+        } ?: false
+    }
+
+    private fun getJSoupDocument(link: String): Document? {
+        return try {
             Jsoup
-                .connect(vo.href)
+                .connect(link)
                 .method(Connection.Method.GET)
                 .get()
-        return isRecipePost(innerDocs.toString())
-    }
-
-    private fun logRecipes(vo:WebLinkItem){
-        try {
-            Log.i("DaumCrawling isRecipePost", "Started")
-            if (checkIsRecipePost(vo)) {
-                val innerDocs =
-                    Jsoup
-                        .connect(vo.href)
-                        .method(Connection.Method.GET)
-                        .get()
-                val ownIngredientsElement = innerDocs.getElementsContainingOwnText("재료").first()
-                val ingredientsElements = ownIngredientsElement?.parent()
-                    ?.getElementsByIndexGreaterThan(ownIngredientsElement.siblingIndex() - 1)
-
-                ingredientsElements
-                    ?.text()
-                    ?.split(",")
-                    ?.filter(::isIngredientText)
-                    ?.distinct()
-                    ?.onEach { Log.i("DaumCrawling ingredientElement", it.trim()) }
-//                Log.i("DaumCrawling innerContent", innerDocs.toString())
-            }
         } catch (e: Exception) {
+            null
         }
     }
+
+    private fun logRecipes(vo: WebLinkItem) {
+        Log.i("DaumCrawling isRecipePost", "Started")
+        if (checkIsRecipePost(vo)) {
+            val innerDocs = getJSoupDocument(vo.href)
+            val ownIngredientsElement = innerDocs?.getElementsContainingOwnText("재료")?.first()
+            val ingredientsElements = ownIngredientsElement?.parent()
+                ?.getElementsByIndexGreaterThan(ownIngredientsElement.siblingIndex() - 1)
+
+            ingredientsElements
+                ?.text()
+                ?.split(",")
+                ?.filter(::isIngredientText)
+                ?.distinct()
+                ?.onEach { Log.i("DaumCrawling ingredientElement", it.trim()) }
+//                Log.i("DaumCrawling innerContent", innerDocs.toString())
+        }
+    }
+
     fun isIngredientText(text: String): Boolean = text.run {
         length <= 20 &&
                 this !in notIngredientsTextList &&

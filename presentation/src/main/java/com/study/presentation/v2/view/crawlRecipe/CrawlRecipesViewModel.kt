@@ -8,8 +8,10 @@ import com.study.domain.model.WebLinkItem
 import com.study.domain.usecase.remote.GetCrawlRecipeWebLinkUseCase
 import com.study.presentation.v2.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.buffer
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,6 +25,7 @@ class CrawlRecipesViewModel
     suspend fun setupRecipesDataByIngredient(word: String) {
         _webLinks = getCrawlRecipeWebLinkUseCase
             .invoke(word, 100, 5)
+            .flowOn(Dispatchers.IO)
             .buffer()
             .asLiveData()
     }

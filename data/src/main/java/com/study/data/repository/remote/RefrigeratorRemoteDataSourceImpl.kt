@@ -103,6 +103,7 @@ class RefrigeratorRemoteDataSourceImpl : RefrigeratorRemoteDataSource {
                 .method(Connection.Method.GET)
                 .get()
         } catch (e: Exception) {
+            Log.i("DaumCrawling Error", e.toString())
             null
         }
     }

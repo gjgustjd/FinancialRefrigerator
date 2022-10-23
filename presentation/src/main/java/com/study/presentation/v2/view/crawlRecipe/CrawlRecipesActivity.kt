@@ -1,6 +1,8 @@
 package com.study.presentation.v2.view.crawlRecipe
 
 import android.os.Bundle
+import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,11 +19,14 @@ class CrawlRecipesActivity : BaseActivity<ActivitySearchRecipesBinding, CrawlRec
     private val recyclerAdapter by lazy {
         RecyclerWebLinkAdapter(
             this,
-            listOf())
+            listOf()
+        )
     }
     var webLinkVOList = arrayListOf<WebLinkItem>()
     override val viewModel: CrawlRecipesViewModel by viewModels()
-    @Inject lateinit var linearLayoutManager:LinearLayoutManager
+
+    @Inject
+    lateinit var linearLayoutManager: LinearLayoutManager
 
     companion object IntentKey {
         const val SEARCH_TYPE = "type"
@@ -34,6 +39,7 @@ class CrawlRecipesActivity : BaseActivity<ActivitySearchRecipesBinding, CrawlRec
         get() = R.layout.activity_search_recipes
     lateinit var type: String
     lateinit var keyword: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.run {
@@ -51,11 +57,26 @@ class CrawlRecipesActivity : BaseActivity<ActivitySearchRecipesBinding, CrawlRec
 
             lifecycleScope.launchWhenResumed {
                 viewModel.setupRecipesDataByIngredient(keyword)
-                viewModel._webLinks.observe(this@CrawlRecipesActivity)
-                {
-                    if (!webLinkVOList.contains(it)) {
-                        webLinkVOList.add(it)
-                        recyclerAdapter.setItems(webLinkVOList)
+                viewModel.uiState.collect { state ->
+                    when (state) {
+                        is CrawlRecipeState.Loading -> {
+                            pgBarLoading.visibility = View.VISIBLE
+                        }
+                        is CrawlRecipeState.Success -> {
+                            pgBarLoading.visibility = View.GONE
+                            if (!webLinkVOList.contains(state.item)) {
+                                webLinkVOList.add(state.item)
+                                recyclerAdapter.setItems(webLinkVOList)
+                            }
+                        }
+                        is CrawlRecipeState.Error -> {
+                            pgBarLoading.visibility = View.GONE
+                            Toast.makeText(
+                                this@CrawlRecipesActivity,
+                                "에러가 발생하였습니다.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     }
                 }
             }

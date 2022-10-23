@@ -26,8 +26,8 @@ class RecipeDetailViewModel
     var id: Int = -1
 
     override fun fetchData(): Job = viewModelScope.launch {
-        _detailRecipe.postValue(RecipeDetailState.Loading)
-        _detailRecipe.postValue(RecipeDetailState.Success(getRecipeByIdUseCase.invoke(viewModelScope,id)))
+//        _detailRecipe.postValue(RecipeDetailState.Loading)
+//        _detailRecipe.postValue(RecipeDetailState.Success(getRecipeByIdUseCase.invoke(viewModelScope,id)))
     }
 
     fun addRecipe(recipeId: Int) {

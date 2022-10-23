@@ -1,6 +1,7 @@
 package com.study.presentation.v2.view.crawlRecipe
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -9,6 +10,7 @@ import com.study.presentation.R
 import com.study.presentation.databinding.ItemWebSearchBinding
 import com.study.presentation.v2.base.BaseAdapter
 import com.study.presentation.v2.base.BaseViewHolder
+import com.study.presentation.v2.view.recipeDetail.RecipeDetailActivity
 
 class RecyclerWebLinkAdapter constructor(
     context: Context,
@@ -35,9 +37,14 @@ class RecyclerWebLinkAdapter constructor(
 
     inner class Holder(private val itemBinding: ItemWebSearchBinding) :
         BaseViewHolder<WebLinkItem>(itemBinding) {
-        override fun bind(linkItem: WebLinkItem) = with(itemBinding) {
-            webLinkItem = linkItem
-            item.setOnClickListener {
+        override fun bind(item: WebLinkItem) = with(itemBinding) {
+            webLinkItem = item
+            this.item.setOnClickListener {
+                context?.startActivity(
+                    Intent(context,RecipeDetailActivity::class.java)
+                        .putExtra(RecipeDetailActivity.KEY_CALL_FROM,RecipeDetailActivity.FROM_HOME)
+                        .putExtra(RecipeDetailActivity.KEY_RECIPE_URL,item.href)
+                )
             }
         }
     }

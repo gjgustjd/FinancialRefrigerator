@@ -1,5 +1,6 @@
 package com.study.presentation.v2.base
 
+import android.annotation.SuppressLint
 import android.content.Context
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -8,12 +9,16 @@ import com.study.domain.model.DomainItem
 
 abstract class BaseAdapter<Item : DomainItem, holder : BaseViewHolder<Item>> constructor(
     open val context: Context? = null,
-    open var itemList: List<Item>,
+    open var itemList: List<Item> = listOf(),
     diffUtil: DiffUtil.ItemCallback<Item> = object : DiffUtil.ItemCallback<Item>() {
-        override fun areItemsTheSame(oldItem: Item, newItem: Item) =
-            oldItem.getIdentifier() == newItem.getIdentifier()
+        override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean {
+            return oldItem.getIdentifier() == newItem.getIdentifier()
+        }
 
-        override fun areContentsTheSame(oldItem: Item, newItem: Item) = oldItem == newItem
+        @SuppressLint("DiffUtilEquals")
+        override fun areContentsTheSame(oldItem: Item, newItem: Item): Boolean {
+            return oldItem == newItem
+        }
     }
 ) : ListAdapter<Item, holder>(diffUtil) {
     open val asyncDiffUtil = AsyncListDiffer(this, diffUtil)

@@ -5,7 +5,7 @@ data class WebLinkItem(
     val imageUrl: String,
     val title: String,
     val desc: String
-) : DomainItem() {
+) : DomainItem {
     override fun getIdentifier(): String {
         return href
     }

@@ -7,7 +7,7 @@ data class RecipeItem(
     var ingredients: String = "",
     var instruction: String = "",
     val time: Int = 0
-) : DomainItem() {
+) : DomainItem {
     override fun getIdentifier(): String {
         return id.toString()
     }

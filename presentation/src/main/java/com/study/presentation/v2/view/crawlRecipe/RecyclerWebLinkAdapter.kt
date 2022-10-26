@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import com.study.domain.model.WebLinkItem
 import com.study.presentation.R
 import com.study.presentation.databinding.ItemWebSearchBinding
@@ -12,18 +11,9 @@ import com.study.presentation.v2.base.BaseAdapter
 import com.study.presentation.v2.base.BaseViewHolder
 import com.study.presentation.v2.view.recipeDetail.RecipeDetailActivity
 
-class RecyclerWebLinkAdapter constructor(
+class RecyclerWebLinkAdapter (
     context: Context,
-    itemList: List<WebLinkItem> = listOf(),
-) : BaseAdapter<WebLinkItem, BaseViewHolder<WebLinkItem>>(context, itemList,
-    object : DiffUtil.ItemCallback<WebLinkItem>() {
-        override fun areItemsTheSame(oldItem: WebLinkItem, newItem: WebLinkItem) =
-            oldItem.href === newItem.href
-
-        override fun areContentsTheSame(oldItem: WebLinkItem, newItem: WebLinkItem) =
-            oldItem == newItem
-
-    }) {
+) : BaseAdapter<WebLinkItem, BaseViewHolder<WebLinkItem>>(context) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<WebLinkItem> {
         val view =
             LayoutInflater.from(parent.context)

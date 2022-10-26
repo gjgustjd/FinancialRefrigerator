@@ -15,12 +15,8 @@ import com.study.presentation.v2.view.recipeDetail.RecipeDetailActivity
 
 class RecipeRecyclerViewAdapter(
     context: Context,
-    itemList: List<MealAndRecipeItem> = listOf(),
     val viewModel: RecipeViewModel
-) : BaseAdapter<MealAndRecipeItem, BaseViewHolder<MealAndRecipeItem>>(
-        context = context,
-        itemList = itemList
-    ) {
+) : BaseAdapter<MealAndRecipeItem, BaseViewHolder<MealAndRecipeItem>>(context) {
     var isDeleting = false
 
     inner class RecipeRecyclerViewHolder(private val binding: ItemRecipeSearchBinding) :
@@ -32,21 +28,24 @@ class RecipeRecyclerViewAdapter(
                     View.VISIBLE
                 else
                     View.GONE
-            btnDelete.setOnClickListener{
+            btnDelete.setOnClickListener {
                 showDeleteDialog(item)
             }
-            root.setOnClickListener{
+            root.setOnClickListener {
                 context?.startActivity(
                     Intent(context, RecipeDetailActivity::class.java)
-                        .putExtra(RecipeDetailActivity.KEY_CALL_FROM, RecipeDetailActivity.FROM_MEALS)
-                        .putExtra(RecipeDetailActivity.KEY_RECIPE_ID,item.recipe.id)
-                        .putExtra(RecipeDetailActivity.KEY_MEAL_ID,item.meal.id))
+                        .putExtra(
+                            RecipeDetailActivity.KEY_CALL_FROM,
+                            RecipeDetailActivity.FROM_MEALS
+                        )
+                        .putExtra(RecipeDetailActivity.KEY_RECIPE_ID, item.recipe.id)
+                        .putExtra(RecipeDetailActivity.KEY_MEAL_ID, item.meal.id)
+                )
             }
         }
     }
 
-    fun refreshData()
-    {
+    fun refreshData() {
         val tempList = itemList.toMutableList()
         setItems(listOf())
         setItems(tempList.toList())
@@ -56,9 +55,8 @@ class RecipeRecyclerViewAdapter(
         return position
     }
 
-    fun showDeleteDialog(item: MealAndRecipeItem)
-    {
-        context?.run{
+    fun showDeleteDialog(item: MealAndRecipeItem) {
+        context?.run {
             DialogUtil(this).showTwoBtn(
                 title = getString(R.string.text_remove),
                 content = getString(R.string.remove_recipe_item_dialog_content),
@@ -69,8 +67,12 @@ class RecipeRecyclerViewAdapter(
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<MealAndRecipeItem> {
-        val view = ItemRecipeSearchBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): BaseViewHolder<MealAndRecipeItem> {
+        val view =
+            ItemRecipeSearchBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return RecipeRecyclerViewHolder(view)
     }
 }

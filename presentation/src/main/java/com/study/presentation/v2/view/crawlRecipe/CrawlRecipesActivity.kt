@@ -16,12 +16,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class CrawlRecipesActivity : BaseActivity<ActivitySearchRecipesBinding, CrawlRecipesViewModel>() {
-    private val recyclerAdapter by lazy {
-        RecyclerWebLinkAdapter(
-            this,
-            listOf()
-        )
-    }
+    private val recyclerAdapter by lazy { RecyclerWebLinkAdapter(this) }
     var webLinkVOList = arrayListOf<WebLinkItem>()
     override val viewModel: CrawlRecipesViewModel by viewModels()
 

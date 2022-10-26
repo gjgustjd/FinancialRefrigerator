@@ -8,12 +8,8 @@ data class IngredientItem(
     val quantity: Int,
     val unit: String,
     val shelf_life: Int
-) : DomainItem() {
-   override fun getIdentifier(): String {
+) : DomainItem {
+    override fun getIdentifier(): String {
         return id.toString()
-    }
-
-    override fun equals(other: Any?): Boolean {
-        return other==this
     }
 }

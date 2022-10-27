@@ -55,7 +55,22 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent">
+
+                    </WebView>
+
+                    <ProgressBar
+                        android:id="@+id/pgBar_webview_loading"
+                        style="?android:attr/progressBarStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="@+id/webview_recipe_detail"
+                        app:layout_constraintEnd_toEndOf="@+id/webview_recipe_detail"
+                        app:layout_constraintStart_toStartOf="@+id/webview_recipe_detail"
+                        app:layout_constraintTop_toTopOf="@+id/webview_recipe_detail"
+                        tools:visibility="visible" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </ScrollView>
 

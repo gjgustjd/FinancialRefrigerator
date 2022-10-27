@@ -1,7 +1,11 @@
 package com.study.presentation.v2.view.recipeDetail
 
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import android.webkit.WebChromeClient
+import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -25,6 +29,19 @@ class RecipeDetailActivity : BaseActivity<ActivityRecipeDetailBinding, RecipeDet
     private lateinit var call_from: String
     var mealId: Int? = null
     var recipeUrl: String? = ""
+    private val wbClient = object : WebViewClient() {
+        override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+            super.onPageStarted(view, url, favicon)
+            binding.pgBarWebviewLoading.visibility = View.VISIBLE
+            Log.i("onPageStarted","")
+        }
+
+        override fun onPageFinished(view: WebView?, url: String?) {
+            super.onPageFinished(view, url)
+            binding.pgBarWebviewLoading.visibility = View.GONE
+            Log.i("onPageFinished","")
+        }
+    }
 
     companion object {
         const val KEY_RECIPE_URL = "key_recipe_url"
@@ -55,13 +72,15 @@ class RecipeDetailActivity : BaseActivity<ActivityRecipeDetailBinding, RecipeDet
                 FROM_HOME -> {
                     getString(R.string.add_to_cook)
                 }
-                FROM_MEALS -> { getString(R.string.complete_cook) }
+                FROM_MEALS -> {
+                    getString(R.string.complete_cook)
+                }
                 else -> throw IllegalStateException()
             }
         recipeUrl?.let {
             with(binding.webviewRecipeDetail) {
                 settings.apply {
-                    webViewClient = WebViewClient() // 새 창 띄우기 않기
+                    webViewClient = wbClient
                     webChromeClient = WebChromeClient()
                     javaScriptEnabled = true
                     domStorageEnabled = true

@@ -10,6 +10,7 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
 import java.net.URLEncoder
+import java.util.regex.Pattern
 import javax.inject.Singleton
 
 @Singleton
@@ -146,6 +147,16 @@ class RefrigeratorRemoteDataSourceImpl : RefrigeratorRemoteDataSource {
 //                ?.onEach { Log.i("DaumCrawling ingredientElement", it.trim()) }
 
             ingredientsList.addAll( ingredientElementsText )
+            try {
+                val matcher = Pattern.compile("\\S+\\s?"+ingeredientUnitRegexList[0]).matcher(ingredientsElements.text())
+                while (matcher.find())
+                {
+                    Log.i("DaumCrawling finded", matcher.group())
+                }
+            }catch (e:Exception)
+            {
+                Log.i("DaumCrawling finded", e.toString())
+            }
 
             ingredientsList.onEach { Log.i("DaumCrawling ingredientElement", it) }
 

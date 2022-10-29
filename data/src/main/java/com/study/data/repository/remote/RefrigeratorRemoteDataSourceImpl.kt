@@ -19,7 +19,7 @@ class RefrigeratorRemoteDataSourceImpl : RefrigeratorRemoteDataSource {
         listOf(".", "?", "!", "레시피", "만드는법", "만드는 법", "먹는 법", "만들기", "요리", "재료", "조리", "순서")
     private val ingeredientUnitRegexList =
         listOf(
-            "(\\d+(\\/\\d+)?|한|두|세|네|다섯|여섯|일곱|여덟|아홉|열|반)\\s?(개|꼬집|숟가락|숟갈|스푼|(티|테이블)\\s?스푼|(큰|작은)\\s?술|통|조각|움큼|주먹|근|묶음|봉지|장|공기)",
+            "(\\d+((.\\d+)|(~\\d+)|(\\/\\d+))?|한|두|세|네|다섯|여섯|일곱|여덟|아홉|열|반)\\s?(개|꼬집|숟가락|숟갈|스푼|(티|테이블)\\s?스푼|(큰|작은)\\s?술|통|조각|움큼|주먹|근|묶음|봉지|장|공기)",
             "(\\d+)(\\/\\d+)?\\s?([mMkK]?[lLgG]|[tT]([bB]?[sS])?|[cC]c|cup)"
         )
     private val notRecipePostKeywords = listOf("맛집", "후기", "내돈내먹", "식당", "리뷰", "웨이팅", "포장", "밀키트")

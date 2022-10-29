@@ -15,10 +15,12 @@ import javax.inject.Singleton
 @Singleton
 class RefrigeratorRemoteDataSourceImpl : RefrigeratorRemoteDataSource {
     private val notIngredientsTextList =
-        listOf(".", "?", "!", "레시피", "만드는법", "만드는 법", "먹는 법", "만들기", "요리", "재료","조리","순서")
+        listOf(".", "?", "!", "레시피", "만드는법", "만드는 법", "먹는 법", "만들기", "요리", "재료", "조리", "순서")
     private val ingeredientUnitRegexList =
-        listOf("(\\d+(\\/\\d+)?|한|두|세|네|다섯|여섯|일곱|여덟|아홉|열|반)\\s?(개|꼬집|숟가락|숟갈|스푼|(티|테이블)\\s?스푼|(큰|작은)\\s?술|통|조각|움큼|주먹|근|묶음|봉지|장)",
-        "(\\d+)(\\/\\d+)?\\s?([mMkK]?[lLgG]|[tT]([bB]?[sS])?|[cC]c|cup)")
+        listOf(
+            "(\\d+(\\/\\d+)?|한|두|세|네|다섯|여섯|일곱|여덟|아홉|열|반)\\s?(개|꼬집|숟가락|숟갈|스푼|(티|테이블)\\s?스푼|(큰|작은)\\s?술|통|조각|움큼|주먹|근|묶음|봉지|장|공기)",
+            "(\\d+)(\\/\\d+)?\\s?([mMkK]?[lLgG]|[tT]([bB]?[sS])?|[cC]c|cup)"
+        )
     private val notRecipePostKeywords = listOf("맛집", "후기", "내돈내먹", "식당", "리뷰", "웨이팅", "포장", "밀키트")
     private val PATH = "https://search.daum.net/search?nil_suggest=btn&w=blog&lpp=10&DA=PGD&q="
 
@@ -114,25 +116,46 @@ class RefrigeratorRemoteDataSourceImpl : RefrigeratorRemoteDataSource {
     private fun logRecipes(vo: WebLinkItem) {
         Log.i("DaumCrawling isRecipePost", "Started")
         if (checkIsRecipePost(vo)) {
+            val ingredientsList = arrayListOf<String>()
             val innerDocs = getJSoupDocument(vo.href)
             val ownIngredientsElement = innerDocs?.getElementsContainingOwnText("재료")?.first()
-            val ingredientsElements = if (ownIngredientsElement?.siblingElements()?.isEmpty() == true)
-                ownIngredientsElement.parent()?.nextElementSiblings()
-            else
-                ownIngredientsElement?.nextElementSiblings()
+            val ingredientsElements =
+                if (ownIngredientsElement?.siblingElements()?.isEmpty() == true)
+                    ownIngredientsElement.parent()?.nextElementSiblings()
+                else
+                    ownIngredientsElement?.nextElementSiblings()
 
+            if (ownIngredientsElement?.text()
+                    ?.contains(ingeredientUnitRegexList[0].toRegex()) == true
+            )
+                ingredientsList.addAll(ownIngredientsElement.text().split(","))
 
-            ingredientsElements
-                ?.distinct()
-                ?.takeWhile { element ->
-                    notIngredientsTextList.none(element.text()::contains)
-                }
-                ?.fold("") { total, next -> total + " " + next.text() }
-                ?.split(",")
+            val ingredientElementsText = ingredientsElements
+                ?.flatMap { it.text().split("[,:]".toRegex()) }
+                ?.onEach(String::trim)
+                ?.asSequence()
+                ?.takeWhile { it -> notIngredientsTextList.none(it::contains) }
+                ?.filter(String::isNotEmpty)
                 ?.filter(::isIngredientText)
                 ?.distinct()
-                ?.onEach { Log.i("DaumCrawling ingredientElement", it.trim()) }
-            Log.i("DaumCrawling innerContent", ingredientsElements?.text().toString())
+                ?.toList()!!
+//                ?.fold("") { total, next -> total + " " + next.text() }
+//                ?.split(",")
+//                ?.filter(::isIngredientText)
+//                ?.distinct()
+//                ?.onEach { Log.i("DaumCrawling ingredientElement", it.trim()) }
+
+            ingredientsList.addAll( ingredientElementsText )
+
+            ingredientsList.onEach { Log.i("DaumCrawling ingredientElement", it) }
+
+            if(ingredientsList.isEmpty())
+            {
+                Log.i("DaumCrawling ingredientError", "innerDocs:${innerDocs?.text()}")
+                Log.i("DaumCrawling ingredientError", "ownIngredientsElement:${ownIngredientsElement?.text()?:"null"}")
+                Log.i("DaumCrawling ingredientError", "ingredientsElements:${ingredientsElements.text()}")
+                Log.i("DaumCrawling ingredientError", "ingredientsElementsText:${ingredientElementsText}")
+            }
         }
     }
 

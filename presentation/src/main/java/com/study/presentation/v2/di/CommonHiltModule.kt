@@ -8,6 +8,7 @@ import com.study.data.repository.local.RefrigeratorLocalDataSource
 import com.study.data.repository.local.RefrigeratorLocalDataSourceImpl
 import com.study.data.repository.remote.RefrigeratorRemoteDataSource
 import com.study.data.repository.remote.RefrigeratorRemoteDataSourceImpl
+import com.study.data.repository.remote.api.AgriculturalProductApi
 import com.study.domain.repository.RefrigeratorRepository
 import dagger.Module
 import dagger.Provides
@@ -34,8 +35,8 @@ class CommonHiltModule {
 
     @Provides
     @Singleton
-    fun getRemoteDataSource(): RefrigeratorRemoteDataSource =
-        RefrigeratorRemoteDataSourceImpl()
+    fun getRemoteDataSource(agriculturalProductApi: AgriculturalProductApi): RefrigeratorRemoteDataSource =
+        RefrigeratorRemoteDataSourceImpl(agriculturalProductApi)
 
     @Provides
     @Singleton

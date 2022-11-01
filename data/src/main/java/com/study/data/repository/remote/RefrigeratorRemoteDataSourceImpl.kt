@@ -1,6 +1,7 @@
 package com.study.data.repository.remote
 
 import android.util.Log
+import com.study.data.repository.remote.api.AgriculturalProductApi
 import com.study.domain.model.WebLinkItem
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.awaitClose
@@ -11,15 +12,19 @@ import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
 import java.net.URLEncoder
 import java.util.regex.Pattern
+import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class RefrigeratorRemoteDataSourceImpl : RefrigeratorRemoteDataSource {
+class RefrigeratorRemoteDataSourceImpl @Inject constructor(
+    private val agriculturalProductApi: AgriculturalProductApi
+) :
+    RefrigeratorRemoteDataSource {
     private val notIngredientsTextList =
         listOf(".", "?", "!", "레시피", "만드는법", "만드는 법", "먹는 법", "만들기", "요리", "재료", "조리", "순서")
     private val ingeredientUnitRegexList =
         listOf(
-            "(\\d+((.\\d+)|(~\\d+)|(\\/\\d+))?|한|두|세|네|다섯|여섯|일곱|여덟|아홉|열|반)\\s?(개|꼬집|숟가락|숟갈|스푼|(티|테이블)\\s?스푼|(큰|작은)\\s?술|통|조각|움큼|주먹|근|묶음|봉지|장|공기)",
+            "(\\d+([.\\/~]\\d+)?|한|두|세|네|다섯|여섯|일곱|여덟|아홉|열|반|한두|서너|대여섯)\\s?(개|꼬집|숟가락|숟갈|스푼|(티|테이블)\\s?스푼|(큰|작은)\\s?술|통|조각|움큼|주먹|근|묶음|봉지|장|공기)",
             "(\\d+)(\\/\\d+)?\\s?([mMkK]?[lLgG]|[tT]([bB]?[sS])?|[cC]c|cup)"
         )
     private val notRecipePostKeywords = listOf("맛집", "후기", "내돈내먹", "식당", "리뷰", "웨이팅", "포장", "밀키트")
@@ -36,6 +41,10 @@ class RefrigeratorRemoteDataSourceImpl : RefrigeratorRemoteDataSource {
             runCrawler(keyword, it until it + progression.step)
         }.toTypedArray()
         return flowOf(*flowArray).flattenMerge()
+    }
+
+    override suspend fun getAgriculturalProductData(product_name: String) {
+        agriculturalProductApi.getProductItemData(product_name)
     }
 
     private fun getDividedProgressions(num: Int, dividend: Int) = (1..num step (num / dividend))
@@ -107,6 +116,7 @@ class RefrigeratorRemoteDataSourceImpl : RefrigeratorRemoteDataSource {
             Jsoup
                 .connect(link)
                 .method(Connection.Method.GET)
+                .ignoreContentType(true)
                 .get()
         } catch (e: Exception) {
             Log.i("DaumCrawling Error", e.toString())
@@ -146,32 +156,40 @@ class RefrigeratorRemoteDataSourceImpl : RefrigeratorRemoteDataSource {
 //                ?.distinct()
 //                ?.onEach { Log.i("DaumCrawling ingredientElement", it.trim()) }
 
-            ingredientsList.addAll( ingredientElementsText )
+            ingredientsList.addAll(ingredientElementsText)
             try {
-                val matcher = Pattern.compile("\\S+\\s?"+ingeredientUnitRegexList[0]).matcher(ingredientsElements.text())
-                while (matcher.find())
-                {
+                val matcher = Pattern.compile("\\S+\\s?" + ingeredientUnitRegexList[0])
+                    .matcher(ingredientsElements.text())
+                while (matcher.find()) {
                     Log.i("DaumCrawling finded", matcher.group())
                 }
-            }catch (e:Exception)
-            {
+            } catch (e: Exception) {
                 Log.i("DaumCrawling finded", e.toString())
             }
 
             ingredientsList.onEach { Log.i("DaumCrawling ingredientElement", it) }
 
-            if(ingredientsList.isEmpty())
-            {
+            if (ingredientsList.isEmpty()) {
                 Log.i("DaumCrawling ingredientError", "innerDocs:${innerDocs?.text()}")
-                Log.i("DaumCrawling ingredientError", "ownIngredientsElement:${ownIngredientsElement?.text()?:"null"}")
-                Log.i("DaumCrawling ingredientError", "ingredientsElements:${ingredientsElements.text()}")
-                Log.i("DaumCrawling ingredientError", "ingredientsElementsText:${ingredientElementsText}")
+                Log.i(
+                    "DaumCrawling ingredientError",
+                    "ownIngredientsElement:${ownIngredientsElement?.text() ?: "null"}"
+                )
+                Log.i(
+                    "DaumCrawling ingredientError",
+                    "ingredientsElements:${ingredientsElements.text()}"
+                )
+                Log.i(
+                    "DaumCrawling ingredientError",
+                    "ingredientsElementsText:${ingredientElementsText}"
+                )
             }
+            val dbDocs =
+                getJSoupDocument("http://211.237.50.150:7080/openapi//json/Grid_20171128000000000572_1/1/100/?PRDLST_NM=오이")
+
+            Log.i("dbDocs", dbDocs?.text() ?: "")
         }
     }
-
-    private fun isElementContainIngredientText(element: Element) =
-        isIngredientText(element.text())
 
     private fun isIngredientText(text: String): Boolean = text.run {
         length <= 20 &&

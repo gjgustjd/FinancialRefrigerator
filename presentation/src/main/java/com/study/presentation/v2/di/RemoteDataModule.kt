@@ -13,13 +13,14 @@ import retrofit2.converter.gson.GsonConverterFactory
 @Module
 @InstallIn(SingletonComponent::class)
 class RemoteDataModule {
-    private val AGRICULTURAL_API_PATH="http://211.237.50.150:7080/openapi/"
+    private val AGRICULTURAL_API_PATH = "http://211.237.50.150:7080/openapi"
+    private val API_KEY = BuildConfig.agriculturalAPIkey
 
     @Provides
     fun getRetrofitApi(): AgriculturalProductApi {
         val gson = GsonBuilder().setLenient().create()
         val retrofit = Retrofit.Builder()
-            .baseUrl("$AGRICULTURAL_API_PATH/openapi/${BuildConfig.agriculturalAPIkey}/")
+            .baseUrl("$AGRICULTURAL_API_PATH/$API_KEY/")
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
         return retrofit.create(AgriculturalProductApi::class.java)

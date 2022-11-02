@@ -1,7 +1,9 @@
 package com.study.domain.repository
 
 import com.study.domain.model.*
+import com.study.domain.model.agricultureAPI.SeasonlyAgricultureIAPItem
 import kotlinx.coroutines.flow.Flow
+import retrofit2.Response
 
 interface RefrigeratorRepository {
     suspend fun getIngredientById(id: Int): IngredientItem?
@@ -26,4 +28,5 @@ interface RefrigeratorRepository {
     suspend fun deleteMealWithId(mealId: Int)
 
     suspend fun getCrawlWebLinkItemFlow(keyword: String,endNum: Int, coroutineNum: Int): Flow<WebLinkItem>
+    suspend fun getAgriculturalProductData(productName:String):Response<SeasonlyAgricultureIAPItem>
 }

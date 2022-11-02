@@ -4,9 +4,11 @@ import com.study.data.mapper.*
 import com.study.data.repository.local.RefrigeratorLocalDataSource
 import com.study.data.repository.remote.RefrigeratorRemoteDataSource
 import com.study.domain.model.*
+import com.study.domain.model.agricultureAPI.SeasonlyAgricultureIAPItem
 import com.study.domain.repository.RefrigeratorRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import retrofit2.Response
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -87,4 +89,7 @@ class RefrigeratorRepositoryImpl @Inject constructor(
 
     override suspend fun getCrawlWebLinkItemFlow(keyword: String,endNum: Int, coroutineNum: Int): Flow<WebLinkItem> =
         remoteDataSource.getCrawlWebLinkItemFlow(keyword, endNum, coroutineNum)
+
+    override suspend fun getAgriculturalProductData(productName: String): Response<SeasonlyAgricultureIAPItem> =
+        remoteDataSource.getAgriculturalProductData(productName)
 }

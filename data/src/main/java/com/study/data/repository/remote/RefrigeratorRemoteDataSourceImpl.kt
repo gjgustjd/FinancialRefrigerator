@@ -3,6 +3,7 @@ package com.study.data.repository.remote
 import android.util.Log
 import com.study.data.repository.remote.api.AgriculturalProductApi
 import com.study.domain.model.WebLinkItem
+import com.study.domain.model.agricultureAPI.SeasonlyAgricultureIAPItem
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.*
@@ -10,6 +11,7 @@ import org.jsoup.Connection
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
+import retrofit2.Response
 import java.net.URLEncoder
 import java.util.regex.Pattern
 import javax.inject.Inject
@@ -18,8 +20,7 @@ import javax.inject.Singleton
 @Singleton
 class RefrigeratorRemoteDataSourceImpl @Inject constructor(
     private val agriculturalProductApi: AgriculturalProductApi
-) :
-    RefrigeratorRemoteDataSource {
+) : RefrigeratorRemoteDataSource {
     private val notIngredientsTextList =
         listOf(".", "?", "!", "레시피", "만드는법", "만드는 법", "먹는 법", "만들기", "요리", "재료", "조리", "순서")
     private val ingeredientUnitRegexList =
@@ -43,8 +44,8 @@ class RefrigeratorRemoteDataSourceImpl @Inject constructor(
         return flowOf(*flowArray).flattenMerge()
     }
 
-    override suspend fun getAgriculturalProductData(product_name: String) {
-        agriculturalProductApi.getProductItemData(product_name)
+    override suspend fun getAgriculturalProductData(product_name: String): Response<SeasonlyAgricultureIAPItem> {
+        return agriculturalProductApi.getProductItemData(product_name)
     }
 
     private fun getDividedProgressions(num: Int, dividend: Int) = (1..num step (num / dividend))

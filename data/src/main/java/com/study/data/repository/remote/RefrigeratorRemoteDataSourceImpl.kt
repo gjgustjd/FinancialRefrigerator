@@ -4,6 +4,7 @@ import android.util.Log
 import com.study.data.repository.remote.api.AgriculturalProductApi
 import com.study.domain.model.WebLinkItem
 import com.study.domain.model.agricultureAPI.SeasonlyAgricultureIAPItem
+import io.reactivex.Single
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.*
@@ -41,10 +42,11 @@ class RefrigeratorRemoteDataSourceImpl @Inject constructor(
         val flowArray = progression.map {
             runCrawler(keyword, it until it + progression.step)
         }.toTypedArray()
+
         return flowOf(*flowArray).flattenMerge()
     }
 
-    override suspend fun getAgriculturalProductData(product_name: String): Response<SeasonlyAgricultureIAPItem> {
+    override fun getAgriculturalProductData(product_name: String): Single<Response<SeasonlyAgricultureIAPItem>> {
         return agriculturalProductApi.getProductItemData(product_name)
     }
 

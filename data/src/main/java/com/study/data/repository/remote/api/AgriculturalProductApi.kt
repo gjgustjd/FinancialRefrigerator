@@ -1,6 +1,7 @@
 package com.study.data.repository.remote.api
 
 import com.study.domain.model.agricultureAPI.SeasonlyAgricultureIAPItem
+import io.reactivex.Single
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -12,7 +13,7 @@ interface AgriculturalProductApi {
     }
 
     @GET("$PATH/1/1")
-    suspend fun getProductItemData(
+    fun getProductItemData(
         @Query("PRDLST_NM") name: String
-    ): Response<SeasonlyAgricultureIAPItem>
+    ): Single<Response<SeasonlyAgricultureIAPItem>>
 }

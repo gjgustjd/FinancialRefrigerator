@@ -2,6 +2,7 @@ package com.study.domain.repository
 
 import com.study.domain.model.*
 import com.study.domain.model.agricultureAPI.SeasonlyAgricultureIAPItem
+import io.reactivex.Single
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 
@@ -28,5 +29,5 @@ interface RefrigeratorRepository {
     suspend fun deleteMealWithId(mealId: Int)
 
     suspend fun getCrawlWebLinkItemFlow(keyword: String,endNum: Int, coroutineNum: Int): Flow<WebLinkItem>
-    suspend fun getAgriculturalProductData(productName:String):Response<SeasonlyAgricultureIAPItem>
+    fun getAgriculturalProductData(productName:String): Single<Response<SeasonlyAgricultureIAPItem>>
 }

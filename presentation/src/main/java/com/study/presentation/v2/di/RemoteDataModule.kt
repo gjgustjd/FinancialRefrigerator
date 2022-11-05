@@ -8,6 +8,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 @Module
@@ -22,6 +23,7 @@ class RemoteDataModule {
         val retrofit = Retrofit.Builder()
             .baseUrl("$AGRICULTURAL_API_PATH/$API_KEY/")
             .addConverterFactory(GsonConverterFactory.create(gson))
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()
         return retrofit.create(AgriculturalProductApi::class.java)
     }

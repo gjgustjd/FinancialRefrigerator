@@ -6,6 +6,7 @@ import com.study.data.repository.remote.RefrigeratorRemoteDataSource
 import com.study.domain.model.*
 import com.study.domain.model.agricultureAPI.SeasonlyAgricultureIAPItem
 import com.study.domain.repository.RefrigeratorRepository
+import io.reactivex.Single
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import retrofit2.Response
@@ -90,6 +91,6 @@ class RefrigeratorRepositoryImpl @Inject constructor(
     override suspend fun getCrawlWebLinkItemFlow(keyword: String,endNum: Int, coroutineNum: Int): Flow<WebLinkItem> =
         remoteDataSource.getCrawlWebLinkItemFlow(keyword, endNum, coroutineNum)
 
-    override suspend fun getAgriculturalProductData(productName: String): Response<SeasonlyAgricultureIAPItem> =
+    override fun getAgriculturalProductData(productName: String): Single<Response<SeasonlyAgricultureIAPItem>> =
         remoteDataSource.getAgriculturalProductData(productName)
 }
